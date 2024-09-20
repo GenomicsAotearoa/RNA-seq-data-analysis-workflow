@@ -69,6 +69,8 @@ cat */summary.txt > ~/RNA_seq/QC/fastqc_summaries.txt
 
 Open the fastqc_summaries.txt file and search for any of the samples that have failed the QC statistical tests. 
 
+**Need to include an explanation of phred quality + 33**
+
 ## MultiQC - multi-sample analysis
 
 The MultiQC application will create a report based on all documents in a given directory. MultiQC will take inputs from many different software applications, including fastQC. The report is a concise, clear document that can be used to track samples as they progress through various stages of the analysis.
@@ -93,3 +95,70 @@ ls -F
 
 After each step in the analysis (*e.g.,* read cleaning, adaptor trimming) we will copy over new reports and summaries to the MultiQC directory and re-run the multiqc command. New information will be appended to the MultiQC report at each stage. 
 
+
+## Cleaning reads
+
+In the previous section, we took a high-level look at the quality of each of our samples using FastQC. We visualized per-base quality graphs showing the distribution of read quality at each base across all reads in a sample and extracted information about which samples fail which quality checks. Some of our samples failed quite a few quality metrics used by FastQC. This doesn’t mean that our samples should be thrown out! It’s very common to have some quality metrics fail, and this may or may not be a problem for your downstream application.
+
+In this section we will perform read cleaning using Cutadapt. Cutadapt will trim poor quality bases in a threshold-specific manner and will filter out poor quality reads. Cutadapt can be used to remove primers, poly-A tails, and adapter sequences (discussed below). See the full [User guide](https://cutadapt.readthedocs.io/en/stable/guide.html) to learn more about Cutadapt.
+
+### Cutadapt: Adapter trimming
+
+Adapters are short, known sequences that become embedded in your reads as part of the sequencing process. Before we work with our reads we want to remove these adaptors. Because adapters are manually added to the sequencing reaction, we should know exactly what these sequences are. In our example, we know that the adapter sequences are AACCGGTT. If you do not have access to information about what adapters were used in your sequence, some software can detect certain adaptors (*e.g.,* [Trimmomatic](http://www.usadellab.org/cms/?page=trimmomatic), which has a library of Illumina adapter sequences - these will be screened against reads and if a match is detected, those adapters will be trimmed). 
+
+
+We will perform adapter trimming simultaneously with quality trimming, done below. 
+
+### Cutadapt: Quality trimming
+
+[Quality trimming](https://cutadapt.readthedocs.io/en/stable/guide.html#quality-trimming) is the process of removing low-quality bases from the end of reads. Usually during sequencing it is the end (or start) of the read which has the lowest quality (**Can I find an example image of this from our FastQC?**). By trimming only the low-quality ends of the reads, we improve our overall sequence quality without sacrificing too much data. 
+
+Here we will use Cutadapt and the -q flag to specify the lower threshold of quality we are willing to accept at the 3' end of our reads. Two things to note are that a) we can apply the threshold cutoff to both the 5' and the 3' end, but for Illumina sequencing the 5' end is usually high quality, and b) this requires our per-based quality scores are encoded as phred quality + 33. 
+
+To begin, navigate to the RNA_seq directory and create a new directory called Trimmed which we will use to store our modified files. We will then use cutadapt and the "-q" flag to remove bases from the 3' end of our reads *if* they have a phred quality score below 20. Simultaneously we will use the "-a" flag to remove our adaptors (supplied as AACCGGTT). 
+
+Cutadapt will produce a trimmed file as well as a summary in the form of a log file. 
+
+As a reminder, you should never modify your raw data (and should ideally have raw data backed up in a remote and secure location).
+```{bash}
+cd ~/RNA_seq
+
+mkdir Trimmed
+
+cutadapt -q 20 -a AACCGGTT -o Trimmed/SRR014335-chr1_cutadapt.fastq Raw/SRR014335-chr1.fastq > Trimmed/SRR014335-chr1.log
+
+less Trimmed/SRR014335-chr1.log
+```
+
+Now trim all samples in the Raw directory:
+```{bash}
+for filename in *.fastq
+do 
+base=$(basename ${filename} .fastq)
+cutadapt -q 20 -a AACCGGTT -o ../Trimmed/${base}.trimmed.fastq ${filename} > ../Trimmed/${base}.log
+done
+```
+
+### Cutadapt: Filtering reads
+
+Cutadapt can also filter reads. That is, reads which meet (or more often, fail to meet) a specific criteria are either discarded or redirected to a separate output file. 
+
+Examples of read filtering include using the -m flag to specify a minimum length. If reads are below a certain length, they will be discarded or redirected. This can be a useful way to remove reads that have a length of zero. The user guide for Cutadapt has many other ways in which you can filter reads. 
+
+## MultiQC update
+
+We can now copy the log files from Cutadapt into our MultiQC directory and re-run the multiqc command to generate an updated report which includes our read cleaning information. 
+
+Navigate to the MultiQC directory, copy over the log files from the Trimmed directory and rerun the multiqc command. 
+
+```{bash}
+cd ../MultiQC
+
+cp ../Trimmed/*log .
+
+multiqc .
+```
+
+![Updated MultiQC report](images/MQC2.png)
+
+We can now see the Cutadapt metrics have been added to the report. 

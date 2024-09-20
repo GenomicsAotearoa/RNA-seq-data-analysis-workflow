@@ -1,0 +1,95 @@
+---
+title: "Episode 2: Quality Assessment - FastQC and MultiQC"
+---
+
+In this episode we will look at quality assessment of the sequencing data. We will begin with FastQC, a free program which will analyse raw sequence data and output a visual summary. Then we will introduce MultiQC, a useful tool which can be used to combine results from different software packages into a single, coherent report. 
+
+
+
+## Quality Assessment with FastQC
+
+Quality assessment of high throughput sequencing data has been covered in depth and involves measurements of a number of sequence traits. FastQC is one of many options available for assessing the quality and is the one we will look at today. The output of FastQC is a visual representation of sequence quality which, if required, can then be used to investigate certain traits in more depth. FastQC provides a handy three colour binning system: green ticks for high quality, orange exclamation marks for middling quality that may require a manual investigation, and red crosses for low quality. 
+
+If a sample has low quality scores in one or more aspects, this does not necessarily mean we need to remove this sample from our analysis. The next steps of the workflow involve performing some sequence cleaning and trimming which may increase the overall quality of the sequence. However, it is still worth performing QC initially and comparing this to the post-cleaning sequence. 
+
+### Generating FastQC reports
+
+In a terminal window navigate to your RNA-seq directory. Ensure you have a sub-directory that contains your raw sequence files (name this Raw), and separate sub-directory in which to store quality control outputs (name this QC).
+
+```{bash}
+# While in the RNA-seq directory containing the directories Raw and QC:
+fastqc -o QC/ Raw/*
+```
+
+The FastQC tool will generate reports on all files within the directory Raw, and output them into the QC directory. You will see an output similar to:
+
+```
+    Started analysis of SRR014335-chr1.fastq
+    Approx 5% complete for SRR014335-chr1.fastq
+    Approx 10% complete for SRR014335-chr1.fastq
+    Approx 15% complete for SRR014335-chr1.fastq
+    Approx 20% complete for SRR014335-chr1.fastq
+    Approx 25% complete for SRR014335-chr1.fastq
+    Approx 30% complete for SRR014335-chr1.fastq
+    Approx 35% complete for SRR014335-chr1.fastq
+```
+
+If we now look within the QC directory, we should see two types of files for each of our six samples. These should be called **"sampleName_fastqc.html"** and **"sampleName_fastqc.zip"**. 
+
+### Viewing the FastQC results
+
+The html file outputs from FastQC can be opened in a browser for viewing. For each sample we have an overview of the quality for different metrics. On the left hand side of the report is a navigation bar that works as a broad summary. An ideal sample would have green tick marks for every measurement, while a terrible sample would have red crosses for every measurement. Most samples will fall somewhere in between and there is an element of interpretation. 
+
+![FastQC html summary](images/fastQC_htmlView.png)
+
+### FastQC text output
+
+FastQC outputs text files into a zipped directory. The text files contain detailed results of the various statistical tests done during QC. We might want to examine one or more of our QC reports in more detail, and here we will concatenate the QC reports from each of the six samples into a single text file called fastqc_summaries.txt.
+
+Navigate to the QC directory containing the sampleName_fastqc.zip outputs for each sample. Unzip the files and use the ls command to see what files are created for each sample, then use the less command to preview the summary.txt file for the first sample (SRR014335-chr1_fastqc).
+```{bash}
+for filename in *.zip
+do
+unzip $filename
+done
+
+ls SRR014335-chr1_fastqc
+# Should contain the files:
+# fastqc_data.txt  fastqc.fo  fastqc_report.html  Icons/  Images/  summary.txt
+
+
+less SRR014335-chr1_fastqc/summary.txt
+# Use "q" to quit out of the window when you are done. 
+```
+
+Create a single document that contains the information from summary.txt from all six samples, and name that document fastqc_summaries.txt
+```{bash}
+cat */summary.txt > ~/RNA_seq/QC/fastqc_summaries.txt
+```
+
+Open the fastqc_summaries.txt file and search for any of the samples that have failed the QC statistical tests. 
+
+## MultiQC - multi-sample analysis
+
+The MultiQC application will create a report based on all documents in a given directory. MultiQC will take inputs from many different software applications, including fastQC. The report is a concise, clear document that can be used to track samples as they progress through various stages of the analysis.
+
+To generate the MultiQC report first create a new output directory called MultiQC, then copy all target files to that directory (initially target files will be the FastQC documents generated above). Finally, execute the multiqc command. 
+
+```{bash}
+mkdir MultiQC
+
+cd MultiQC
+
+cp ../QC* ./
+
+multiqc .
+
+ls -F
+
+# ls -F will show multiqc_data/ and multiqc_report.html
+```
+
+![MultiQC report](images/MQC1.png)
+
+After each step in the analysis (*e.g.,* read cleaning, adaptor trimming) we will copy over new reports and summaries to the MultiQC directory and re-run the multiqc command. New information will be appended to the MultiQC report at each stage. 
+

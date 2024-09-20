@@ -9,3 +9,5 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - href: episode_1.qmd
+        text: Episode 1 - Overview of the workflow  

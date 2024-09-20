@@ -58,3 +58,8 @@ Does gene length matter? You might be aware that if a gene is longer, it is more
 However, gene length does need to be taken into account when we carry out over-representation analysis!
 
 
+## Introduction to the dataset
+
+The example data in this workshop are from [Lee et al.,](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1000299) and include a set of six *Saccharomyces cerevisiae* samples in two groups: three wild-type samples and three RNA-degradation mutants. Note that these particular mutants are signifcantly different from the wildtype and we expect large differences between our two sample groups. 
+
+The data is a subset of an RNA-sequencing experiment which used single end sequencing. 

@@ -43,6 +43,13 @@ This workshop runs over two mornings, from 9am - 1pm. We will take one 15 minute
 #### Over-representation analysis
 
 
+## A note on software
+
+During the workshop, code will be run in real-time to demonstrate the analysis. This will be run on the NeSI OpenOnDemand platform which already has all the required software and R packages loaded. 
+
+Where you are working will dictate what you need to install and how you will need to go about it, therefore this document does not include instructions to install software. 
+
+
 ### Attribution notice
 
 This workshop was produced based on an earlier version of RNA-seq data analysis by Genomics Aotearoa and NeSI [linkedHere](). It incorporates, and takes inspiration from, various training materials produced by the Harvard Bioinformatics Core: [visit their github](https://github.com/hbctraining). 

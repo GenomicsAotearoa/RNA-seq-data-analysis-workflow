@@ -9,4 +9,8 @@ The first approach to read quantification involves aligning reads to the genome 
 The second approach we will introduce involves creating 'pseudocounts'. In this method, reads are *not* aligned to the genome. Instead, they are pseudoaligned to kmers within the transcriptome and their abundance is estimated. 
 **This explanation needs work, researching Salmon's methods currently**
 
+In today's workflow we will demonstrate genome alignment and counting, and will provide examples of other workflows that use pseudocounting and abundance estimation. 
+
+**Can copy over our existing workshop material into this section without needing to modify much**
+
 

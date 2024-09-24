@@ -1,0 +1,133 @@
+---
+title: Exploratory Analysis
+---
+
+Exploratory analysis is a new section in this workflow, and will cover basic visualisations and characterisations of the data, then any initial transformations (e.g., library size) required before DGE. The decision to add this as a standalone section is based on both the Carpentries Incubator workshop and the HBC training workshop.
+
+## What is exploratory analysis and why is it necessary?
+
+Exploratory analysis is looking at the data. You are attempting to get a sense of what the data looks like, to notice outliers or issues (e.g., hey isn't it weird that one of my wt samples groups with all the mt samples, and one of the mut samples groups with the wt samples? I wonder what's happening there?).
+
+If your data set was a physical problem (like a squeeky wheel or a well wrapped present) you'd physically explore it (pick it up, is it heavy, do I shake it?). Exploratory analysis is the data science equivalent.
+
+## Exploratory analysis
+
+Use the import data set or read.delim() function to import the file yeast_counts_all_chr, and name the object fcData. Also, load the dplyr library. We will look at some of the basic stats and features of our data object with View(), dim(), and names()
+
+```{r}
+library(dplyr)
+fcData <- read.delim("~/RNA_seq/yeast_counts_all_chr.txt", comment.char="#")
+
+View(fcData)
+fcData %>% head()
+
+names(fcData)
+```
+
+```{r}
+# [1] "Geneid"                           
+# [2] "Chr"                              
+# [3] "Start"                            
+# [4] "End"                              
+# [5] "Strand"                           
+# [6] "Length"                           
+# [7] "...STAR.SRR014335.Aligned.out.sam"
+# [8] "...STAR.SRR014336.Aligned.out.sam"
+# [9] "...STAR.SRR014337.Aligned.out.sam"
+# [10] "...STAR.SRR014339.Aligned.out.sam"
+# [11] "...STAR.SRR014340.Aligned.out.sam"
+# [12] "...STAR.SRR014341.Aligned.out.sam"
+```
+
+To help with our future data analysis, let's rename the column names for the samples.
+
+```{r}
+names(fcData)[7:12] <- c("WT1", "WT2", "WT3", "MT1", "MT2", "MT3")
+
+fcData %>% head()
+```
+
+That already looks much better. Now, let's split out the count data, removing the annotation (e.g., Chr, Start, End) columns and adding Geneid back into the object as the row names. Having the geneid as rownames is much easier than having that data as a column.
+
+```{r}
+counts = fcData[,7:12]
+rownames(counts) <- fcData$Geneid
+counts %>% head()
+```
+
+This is a very basic, very 'clean' R object. We can see our sample names, gene names and counts easily. It is entirely possible to use this object for the rest of our analysis - and that's what we will do today, for the sake of simplicity. This object is easy to interact with and is easy to mentally visualise and conceptualise.
+
+However, it's worth noting that many newer R packages and workflows will require (or at least strongly encourage) you to use a "summarised experiment object". If a vector is a one-dimensional data storage object, and a matrix is a two-dimensional data storage object, you can think of a summarised experiment object as a three-dimensional way of storing data. In a summarised experiment object where you have the genes on the y axis and the samples on the x axis with counts as the observations, the z axis could be a second matrix storing different observations. Summarised experiment objecst can stack multiple data types in this way and build up a complex (but tidy) array of data. Summarised experiment objects are powerful but can be harder to mentally conceptualise and require more complex code to interact with the data they store.
+
+[Summarised experiment objects](https://carpentries-incubator.github.io/bioc-intro/60-next-steps.html#next-steps) are covered in the Carpentries Introduction to Data Analysis with R workshop.
+
+![The summarised experiment object, image from the Carpentries Incubator Introduction to Data Analysis with R workshop.](images/carpentriesSummarisedExperiment.svg)
+
+## Remove non-expressed genes (optional)
+
+If you are working in a complex organism, many genes will not be expressed in all tissue types. It can be worth checking to see how many genes have zero (or e.g., \< 5) counts and opting to remove these from your data object.
+
+How many genes have counts of zero? How many genes have fewer than e.g., 5 counts?
+
+```{r}
+colSums(counts == 0)
+```
+
+Because our zeros are not a massive part of the data (i.e., here they are \< 10% of the data), we will not remove them. However, they are worth noting because later we will consider logging our data, and zeros will cause an issue.
+
+## Visualising our data set
+
+```{r}
+boxplot(as.matrix(counts) ~ col(counts), 
+        ylab = "Counts", xlab = "Samples", names = colnames(counts))
+```
+
+![Raw counts are highly skewed](images/rawCountsSkewed.png) This figure indicates we should consider logging our data (for the purpose of visualisations).
+
+Log transform the data, adding 0.5 to avoid log(0) errors.
+
+```{r}
+logCounts = log2(as.matrix(counts)+ 0.5)
+
+boxplot(as.matrix(logCounts) ~ col(counts), 
+        ylab = "Counts", xlab = "Samples", names = colnames(counts), main = "Log counts of samples")
+```
+
+![Log counts are easier to visualise](images/logCounts.png)
+
+The log count boxplots reveal a difference between our wt and mutant samples. As a reminder, these two strains of yeast are very different and we would not normally expect this level of difference (although that might vary depending on your experiment).
+
+We can use density plots as another way to visualise differences between our two sample groups. First, create an object called lineColour which will colour our wt samples blue and our mutant samples red. Then create a density plot for the first sample, and use a loop to density lines for the remaining samples onto the plot.
+
+```{r}
+lineColour = c("blue", "blue", "blue", "red", "red", "red")
+lineColour
+
+plot(density(logCounts[,1]), ylim=c(0,0.3), col=lineColour[1], xlab = "log Counts", main = "Density plot")
+for(i in 2:ncol(logCounts)) lines(density(logCounts[,i]), col=lineColour[i])
+```
+
+![Density plot](images/densityPlot.png)
+
+
+A common question to ask at this point is, are the differences we can see between our two sample groups a true biological effect, or is this an experimental artifact? Often, we will not know the answer to this question. For now, it is enough to be aware of these differences and to keep them in mind moving forward.
+
+## Library size
+
+Library size refers to the total number of reads for the entire sample. If two samples have vastly different library sizes, genes would look differentially expressed between samples e.g., if one library was twice as large as another, all genes would look to be upregulated in the larger library sample. Before we compare counts across samples we need to check whether the library sizes are approximately similar, and if they are not, make a correction to account for the size differences.
+
+```{r}
+colSums(counts) %>% barplot(., ylab = "Reads mapped per sample", xlab = "Sample", main = "Library size")
+```
+
+![Library size are approximately similar across samples](images/librarySizeColour.png)
+
+Library sizes are approximately equal across the samples. They are slightly lower in the mutants compared to the wt, but the difference is low (i.e., mean \~ 4.6 million and 4.8 million reads in mutant and wt respectively).
+
+If we needed to correct for library size, we would use a two-step method. In the first step we calculate a sample-specific value called a size factor. If we take the raw read counts and divide by the size factor for each sample, the resulting values would be similar for all samples. The way in which size factors are implemented will differ depending on the analysis method used. For some methods the size factor must be manually used to correct for library sizes. For other methods (e.g., DESeq2, which we will use shortly) automatically estimates size factors and implements them into the differential gene expression analysis workflow.
+
+## Heteroskedasticity
+
+RNA-seq data has a property that can negatively impact the accuracy of certain statistical methods. This is a property called "heteroskedasticity": as the average expression level of a gene increases, so too does the standard deviation. In other words, the more highly expressed a gene is, the greater the variance we can expect to observe. Many statistical techniques assume that for most of the data the variance is independent on the mean.
+
+Shortly we will use two different methods to identify differentially expressed genes, and each one will take a different approach to correct or adjust for heteroskedasticity. It is much more practical to look at these approaches while we identify differentially expressed genes, but it is worth noting early that heteroskedasticity is an issue that needs to be addressed. **This needs work**

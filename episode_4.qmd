@@ -87,7 +87,7 @@ boxplot(as.matrix(counts) ~ col(counts),
 Log transform the data, adding 0.5 to avoid log(0) errors.
 
 ```{r}
-logCounts = log2(as.matrix(counts)+ 0.5)
+logCounts = log2(as.matrix(counts) + 0.5)
 
 boxplot(as.matrix(logCounts) ~ col(counts), 
         ylab = "Counts", xlab = "Samples", names = colnames(counts), main = "Log counts of samples")

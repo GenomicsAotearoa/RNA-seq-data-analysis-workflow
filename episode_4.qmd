@@ -73,6 +73,11 @@ How many genes have counts of zero? How many genes have fewer than e.g., 5 count
 colSums(counts == 0)
 ```
 
+```{r}
+# WT1 WT2 WT3 MT1 MT2 MT3 
+# 562 563 573 437 425 435 
+```
+
 Because our zeros are not a massive part of the data (i.e., here they are \< 10% of the data), we will not remove them. However, they are worth noting because later we will consider logging our data, and zeros will cause an issue.
 
 ## Visualising our data set
@@ -109,7 +114,6 @@ for(i in 2:ncol(logCounts)) lines(density(logCounts[,i]), col=lineColour[i])
 
 ![Density plot](images/densityPlot.png)
 
-
 A common question to ask at this point is, are the differences we can see between our two sample groups a true biological effect, or is this an experimental artifact? Often, we will not know the answer to this question. For now, it is enough to be aware of these differences and to keep them in mind moving forward.
 
 ## Library size
@@ -128,6 +132,16 @@ If we needed to correct for library size, we would use a two-step method. In the
 
 ## Heteroskedasticity
 
-RNA-seq data has a property that can negatively impact the accuracy of certain statistical methods. This is a property called "heteroskedasticity": as the average expression level of a gene increases, so too does the standard deviation. In other words, the more highly expressed a gene is, the greater the variance we can expect to observe. Many statistical techniques assume that for most of the data the variance is independent on the mean.
+Heteroskedasticity is "heterogeneity of variance". If the variance we observe is non-uniform across a range of values, we can describe the dataset as heteroskedastic. In RNA-seq, this means that variance depends on the mean expression of the gene. Wikipedia has a useful example:
 
-Shortly we will use two different methods to identify differentially expressed genes, and each one will take a different approach to correct or adjust for heteroskedasticity. It is much more practical to look at these approaches while we identify differentially expressed genes, but it is worth noting early that heteroskedasticity is an issue that needs to be addressed. **This needs work**
+"A classic example of heteroscedasticity is that of income versus expenditure on meals. A wealthy person may eat inexpensive food sometimes and expensive food at other times. A poor person will almost always eat inexpensive food. Therefore, people with higher incomes exhibit greater variability in expenditures on food." - https://en.wikipedia.org/wiki/Homoscedasticity_and_heteroscedasticity
+
+**Exercise:** Given the above example, do you expect genes with higher expression to have higher or lower variance than genes with low expression? That is, which will have higher variance - genes with high average expression or genes with low average expression?
+
+This can be a surprisingly complex question to answer, and depends on how we think about variance. If a gene has a high mean expression (e.g., say 1000), then we can expect that the standard deviation will be a reasonably high number (e.g., let's say 20). If a gene has low mean expression (e.g., 10), then the standard deviation will be small (e.g., 2). So, it is true to say that for genes with higher average expression, the standard deviation is greater.
+
+However, we also need to think about magnitude of variance, which we can do using the numbers from our above imaginary examples. For the gene with a mean expression of 1000 and sd of 20, going from 1000 to 1020 is not a big change. For the gene with the low mean expression, going from 10 to 12 *is* a large change.
+
+This [write-up](https://github.com/friedue/Notes/blob/master/RNA_heteroskedasticity.md) gives an in-depth explanation of heteroskedasticity and how we can think about it.
+
+We will look more at heteroskedasticity when we begin to identify differentially expressed genes, but for now it is important to be aware of the concept.

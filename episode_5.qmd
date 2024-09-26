@@ -76,7 +76,7 @@ head(logCPM, 3)
 
 ### The design matrix
 
-We use the design matrix to specify our different groups. Initially we will just look at a simple design, where we will specify wt and mutant. However, you can also include other information *e.g.,* if your two sample groups were comprised of male and females and you had reason to suspect there might be sex-dependent factors involved. 
+We use the design matrix to specify our different groups. Initially we will just look at a simple design, where we will specify wt and mutant. However, you can also include other information *e.g.,* if your two sample groups were comprised of male and females and you had reason to suspect there might be sex-dependent factors involved.
 
 ```{r}
 conds = c("WT","WT","WT","MT","MT","MT")
@@ -86,11 +86,9 @@ design = model.matrix(~conds)
 design
 ```
 
-
-
 ### Addressing heteroskedasticity with Limma
 
-Limma has a function called voom which we can use to address heteroskedasticity (a correlation between mean expression and variance). Voom will estimate the strength of the relationship between mean and variance and calculate "precision weights" for each gene. These are then used to normalise the data during the identification of differentially expressed genes. 
+Limma has a function called voom which we can use to address heteroskedasticity (a correlation between mean expression and variance). Voom will estimate the strength of the relationship between mean and variance and calculate "precision weights" for each gene. These are then used to normalise the data during the identification of differentially expressed genes.
 
 Create an object, v, that can be used in later analysis by calling the voom function on the Digital Gene Expression (dge) object. We will add information about our experimental setup by specifying the design object, and we will also call plot = TRUE to generate a plot showing the heteroskedasticity.
 
@@ -98,9 +96,19 @@ Create an object, v, that can be used in later analysis by calling the voom func
 v = voom(dge, design, plot = TRUE)
 ```
 
+This plot highlights an earlier point about heteroskedasticity. For genes with low expression, the variance (here the square root of the standard deviation) is highly variable. Because the variance is dependent on the mean, we describe this data as heteroskedastic. Our v (voom) object contains information relating to the curve line (red) and makes an adjustment factor, so that the data will have a uniform relationship between the mean and variance.
 
+Importantly, other than changing the mean-variance relationship, voom does not cause significant changes to the underlying data.
 
+#### The impacts of voom
 
+```{r}
+boxplot(v$E ~ col(v$E), ylab = "Counts", xlab = "Samples", main = "Log counts after voom")
+```
+
+![Log counts after voom](images/logCountsAfterVoom.png)
+
+We can see that log counts in the voom object (that is, counts after voom has been applied to create a stable mean-variance relationship) have not drastically changed from when we plotted them earlier.
 
 
 ## Identifying differentially expressed genes using DESeq2

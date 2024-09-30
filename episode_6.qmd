@@ -1,3 +1,21 @@
 ---
 title: Functional analysis
 ---
+
+Functional analysis is the process of taking a list of genes and distilling information that we as researchers can interpret. There are different approaches to functional analsis e.g.,
+
+- **Over-representation analysis**: are certain processes, pathways or biological functions over-represented in a list of differentially expressed genes relative to the background genome (often called Gene Ontology analysis).
+
+- **Functional class scoring (Gene Set Enrichment Analysis (GSEA))**: Rather than taking a list of differentially expressed genes (which are themselves based on thresholds and cutoffs defined by a user), GSEA takes the ranked position of all genes to see how pathways and processes are perturbed. 
+
+- **Pathway topology**: Pathway topology analysis takes a higher level approach, compiling information on up- and down-regulation at the level of the pathway rather than the level of the gene. 
+
+
+Today we will cover Over-representation analysis and functional class scoring. Links to pathway topology workflows are provided. 
+
+## Annotation
+
+The basis of this stage of the analysis is to take individual genes, associate them with a function, and then to identify whether there are common themes of function in genes which have undergone changes in gene expression. This first requires that our genes are annotated - we must be able to associate some type of function or process with a given gene. 
+
+## Over-representation Analysis
+

@@ -59,6 +59,8 @@ Load the libraries required for running limma, create a dge object where we spec
 ```{r}
 library(limma)
 library(edgeR)
+library(dplyr)
+load("counts.RData")
 
 dge = DGEList(counts=counts)
 dge = calcNormFactors(dge)
@@ -137,7 +139,7 @@ fit = lmFit(v, design)
 fit = (eBayes(fit))
 ```
 
-The fit object is complex to look at. We will use the topTable function to retrieve the useful information (gene name, logFC, adjusted p values), and then filter for significant genes only.
+The fit object is complex to look at. We will use the topTable function to retrieve the useful information (gene name, logFC, adjusted p values), and then filter for significant genes only. We will also save the topTable object (tt) for use in the next episode.
 
 ```{r}
 tt = topTable(fit, coef=ncol(design), n=nrow(counts))
@@ -149,6 +151,8 @@ sum(tt$adj.P.Val < 0.05)
 
 sum(tt$adj.P.Val < 0.01)
 # 4566 genes with an adjusted p-value less than 0.01.
+
+save(tt, file="tt.RData")
 ```
 
 #### Exercise

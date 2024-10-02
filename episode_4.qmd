@@ -16,7 +16,12 @@ Use the import data set or read.delim() function to import the file yeast_counts
 
 ```{r}
 library(dplyr)
-fcData <- read.delim("~/RNA_seq/yeast_counts_all_chr.txt", comment.char="#")
+
+# If you are completing this workshop on the NeSI OpenOnDemand platform, run the code below to load the file. 
+# fcData <- read.delim("~/RNA_seq/yeast_counts_all_chr.txt", comment.char="#")
+
+## I'm loading from my own local machine, so my filepath is different:
+fcData <- read.delim("~/Library/CloudStorage/OneDrive-UniversityofOtago/Documents/Training Coordinator 2022/GitHub/RNA-seq-data-analysis-workflow/data/yeast_counts_all_chr.txt", comment.char="#")
 
 View(fcData)
 fcData %>% head()
@@ -47,12 +52,13 @@ names(fcData)[7:12] <- c("WT1", "WT2", "WT3", "MT1", "MT2", "MT3")
 fcData %>% head()
 ```
 
-That already looks much better. Now, let's split out the count data, removing the annotation (e.g., Chr, Start, End) columns and adding Geneid back into the object as the row names. Having the geneid as rownames is much easier than having that data as a column.
+That already looks much better. Now, let's split out the count data, removing the annotation (e.g., Chr, Start, End) columns and adding Geneid back into the object as the row names. Having the geneid as rownames is much easier than having that data as a column. Save a copy of this counts object for loading later.
 
 ```{r}
 counts = fcData[,7:12]
 rownames(counts) <- fcData$Geneid
 counts %>% head()
+save(counts, file = "counts.RData")
 ```
 
 This is a very basic, very 'clean' R object. We can see our sample names, gene names and counts easily. It is entirely possible to use this object for the rest of our analysis - and that's what we will do today, for the sake of simplicity. This object is easy to interact with and is easy to mentally visualise and conceptualise.

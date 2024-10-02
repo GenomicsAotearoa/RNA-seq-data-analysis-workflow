@@ -125,6 +125,8 @@ Note #2: the tt object was created when we used limma to identify differentially
 tt is 7,127 rows, and has genes stored as row names, includes the logFC, and adj.P.Val columns.
 
 ```{r}
+load("tt.RData")
+
 genes <- ifelse(tt$adj.P.Val <= 0.05, 1, 0)
 
 names(genes) <- rownames(tt)

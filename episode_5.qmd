@@ -20,7 +20,7 @@ Once we have a test statistic we will calculate a p-value. The p-value is an ind
 
 ### Interpreting p-values
 
-How do we interpret the p-value? We will specify a threshold (usually 0.05), and say that if a p value is less than this threshold we will consider it a significant result. If the p-value is lower than the threshold we set, we will reject the null hypothesis (that the groups are identical) and accept the alternative (that there is a difference between the groups). The threshold we set is our level of "risk" that this event happened by chance alone.
+How do we interpret the p-value? We will specify a threshold (usually 0.05), and say that if a p-value is less than this threshold we will consider it a significant result. If the p-value is lower than the threshold we set, we will reject the null hypothesis (that the groups are identical) and accept the alternative (that there is a difference between the groups). The threshold we set is our level of "risk" that this event happened by chance alone.
 
 When we declare that a result with a p-value of less than 0.05 is significant, we are saying that *we believe the difference to be true* since, if there was truly **no** difference, **such a result would happen less than 5% of the time**.
 
@@ -112,7 +112,7 @@ We can see that log counts in the voom object (that is, counts after voom has be
 
 We can also visualise the data in the form of density plots:
 ```{r}
-lineColour = ifelse(conds=="MT", "red", "blue")
+lineColour <- ifelse(conds=="MT", "red", "blue")
 lineColour
 
 plot(density(v$E[,1]), ylim=c(0,0.3), col=lineColour[1])
@@ -153,7 +153,7 @@ sum(tt$adj.P.Val < 0.01)
 
 #### Exercise
 
-Our output includes an adjusted p value. Use the help function (type a ? in front of any function name) to learn what method was used to adjust for multiple testing. Using information from the help menu, change the correction method to something different. How does this impact your results? 
+Our output includes an adjusted p-value. Use the help function (type a ? in front of any function name) to learn what method was used to adjust for multiple testing. Using information from the help menu, change the correction method to something different. How does this impact your results? 
 
 
 ### Volcano plots

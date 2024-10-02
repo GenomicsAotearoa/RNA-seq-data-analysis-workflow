@@ -2,13 +2,13 @@
 title: Exploratory Analysis
 ---
 
-Exploratory analysis is a new section in this workflow, and will cover basic visualisations and characterisations of the data, then any initial transformations (e.g., library size) required before DGE. The decision to add this as a standalone section is based on both the Carpentries Incubator workshop and the HBC training workshop.
+Exploratory analysis is a new section in this workflow, and will cover basic visualisations and characterisations of the data, then any initial transformations (*e.g.,* library size) required before DGE. 
 
 ## What is exploratory analysis and why is it necessary?
 
-Exploratory analysis is looking at the data. You are attempting to get a sense of what the data looks like, to notice outliers or issues (e.g., hey isn't it weird that one of my wt samples groups with all the mt samples, and one of the mut samples groups with the wt samples? I wonder what's happening there?).
+Exploratory analysis is looking at the data. You are attempting to get a sense of what the data looks like, to notice outliers or issues (*e.g.,* hey isn't it weird that one of my wt samples groups with all the mutant samples, and one of the mut samples groups with the wt samples? I wonder what's happening there?).
 
-If your data set was a physical problem (like a squeeky wheel or a well wrapped present) you'd physically explore it (pick it up, is it heavy, do I shake it?). Exploratory analysis is the data science equivalent.
+If your data set was a physical problem (like a squeaky wheel or a well wrapped present) you'd physically explore it (pick it up, is it heavy, do I shake it?). Exploratory analysis is the data science equivalent.
 
 ## Exploratory analysis
 
@@ -78,7 +78,7 @@ colSums(counts == 0)
 # 562 563 573 437 425 435 
 ```
 
-Because our zeros are not a massive part of the data (i.e., here they are \< 10% of the data), we will not remove them. However, they are worth noting because later we will consider logging our data, and zeros will cause an issue.
+Because our zeros are not a massive part of the data (*i.e.,* here they are \< 10% of the data), we will not remove them. However, they are worth noting because later we will consider logging our data, and zeros will cause an issue.
 
 ## Visualising our data set
 
@@ -126,19 +126,21 @@ colSums(counts) %>% barplot(., ylab = "Reads mapped per sample", xlab = "Sample"
 
 ![Library size are approximately similar across samples](images/librarySizeColour.png)
 
-Library sizes are approximately equal across the samples. They are slightly lower in the mutants compared to the wt, but the difference is low (i.e., mean \~ 4.6 million and 4.8 million reads in mutant and wt respectively).
+Library sizes are approximately equal across the samples. They are slightly lower in the mutants compared to the wt, but the difference is low (*i.e.,* mean \~ 4.6 million and 4.8 million reads in mutant and wt respectively).
 
-If we needed to correct for library size, we would use a two-step method. In the first step we calculate a sample-specific value called a size factor. If we take the raw read counts and divide by the size factor for each sample, the resulting values would be similar for all samples. The way in which size factors are implemented will differ depending on the analysis method used. For some methods the size factor must be manually used to correct for library sizes. For other methods (e.g., DESeq2, which we will use shortly) automatically estimates size factors and implements them into the differential gene expression analysis workflow.
+If we needed to correct for library size, we would use a two-step method. In the first step we calculate a sample-specific value called a size factor. If we take the raw read counts and divide by the size factor for each sample, the resulting values would be similar for all samples. The way in which size factors are implemented will differ depending on the analysis method used. For some methods the size factor must be manually used to correct for library sizes. For other methods (*e.g.,* DESeq2, which we will use shortly) automatically estimates size factors and implements them into the differential gene expression analysis workflow.
 
 ## Heteroskedasticity
 
 Heteroskedasticity is "heterogeneity of variance". If the variance we observe is non-uniform across a range of values, we can describe the dataset as heteroskedastic. In RNA-seq, this means that variance depends on the mean expression of the gene. Wikipedia has a useful example:
 
-"A classic example of heteroscedasticity is that of income versus expenditure on meals. A wealthy person may eat inexpensive food sometimes and expensive food at other times. A poor person will almost always eat inexpensive food. Therefore, people with higher incomes exhibit greater variability in expenditures on food." - https://en.wikipedia.org/wiki/Homoscedasticity_and_heteroscedasticity
+"A classic example of heteroscedasticity is that of income versus expenditure on meals. A wealthy person may eat inexpensive food sometimes and expensive food at other times. A poor person will almost always eat inexpensive food. Therefore, people with higher incomes exhibit greater variability in expenditures on food." 
+
+- [Heteroskedasticity](https://en.wikipedia.org/wiki/Homoscedasticity_and_heteroscedasticity)
 
 **Exercise:** Given the above example, do you expect genes with higher expression to have higher or lower variance than genes with low expression? That is, which will have higher variance - genes with high average expression or genes with low average expression?
 
-This can be a surprisingly complex question to answer, and depends on how we think about variance. If a gene has a high mean expression (e.g., say 1000), then we can expect that the standard deviation will be a reasonably high number (e.g., let's say 20). If a gene has low mean expression (e.g., 10), then the standard deviation will be small (e.g., 2). So, it is true to say that for genes with higher average expression, the standard deviation is greater.
+This can be a surprisingly complex question to answer, and depends on how we think about variance. If a gene has a high mean expression (*e.g.,* say 1000), then we can expect that the standard deviation will be a reasonably high number (*e.g.,* let's say 20). If a gene has low mean expression (e.g., 10), then the standard deviation will be small (*e.g.,* 2). So, it is true to say that for genes with higher average expression, the standard deviation is greater.
 
 However, we also need to think about magnitude of variance, which we can do using the numbers from our above imaginary examples. For the gene with a mean expression of 1000 and sd of 20, going from 1000 to 1020 is not a big change. For the gene with the low mean expression, going from 10 to 12 *is* a large change.
 

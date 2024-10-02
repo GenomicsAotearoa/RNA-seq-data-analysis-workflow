@@ -205,12 +205,11 @@ GO.wall = goseq(pwf, "sacCer1", "ensGene")
 GO.wall %>% head()
 ```
 
+We will want to filter for only those categories with an adjusted p-value \< 0.05, and save that information to a new object for easy browsing.
 
-We will want to filter for only those categories with an adjusted p-value < 0.05, and save that information to a new object for easy browsing. 
+You might have noticed that the GO.wall object doesn't automatically perform an adjustment for multiple testing, so we will use the p.adjust() function to generate corrected p-values.
 
-You might have noticed that the GO.wall object doesn't automatically perform an adjustment for multiple testing, so we will use the p.adjust() function to generate corrected p-values. 
-
-We will then use the adjusted p-values as a filtering criteria, and include the columns that correspond to category, term, and ontology (using the colnames() function, we can see that these are columns 1, 6 and 7). 
+We will then use the adjusted p-values as a filtering criteria, and include the columns that correspond to category, term, and ontology (using the colnames() function, we can see that these are columns 1, 6 and 7).
 
 ```{r}
 GO.wall.padj = p.adjust(GO.wall$over_represented_pvalue, method="fdr")
@@ -224,9 +223,12 @@ GO.wall.sig %>% dim()
 GO.wall.sig %>% head()
 ```
 
-An optional filtering step can be applied here, which is to remove categories that have a large number of genes. Categories which have a large number of genes tend to be very broad terms, which are not very informative *e.g.,* the categories "organelle", "biological_process", and "protein localization". 
+An optional filtering step can be applied here, which is to remove categories that have a large number of genes.
+Categories which have a large number of genes tend to be very broad terms, which are not very informative *e.g.,* the categories "organelle", "biological_process", and "protein localization".
 
-If you choose to apply this filter, re-make the GO.wall.sig object. Here we are filtering 
+If you choose to apply this filter, re-make the GO.wall.sig object.
+Here we are filtering
+
 ```{r}
 GO.wall.sig <- GO.wall[GO.wall.padj < 0.05 & GO.wall$numInCat < 500, c(1,6,7)]
 
@@ -235,7 +237,9 @@ GO.wall.sig %>% dim()
 GO.wall.sig %>% head()
 ```
 
-This is a very useful way of getting a broad overview of what processes our differentially expressed genes are involved in. The final step we will take here is to use the GO.db package to retrieve more detailed information about the categories we have identified. GO.db will use the unique identifier in the category column and provide more information. 
+This is a very useful way of getting a broad overview of what processes our differentially expressed genes are involved in.
+The final step we will take here is to use the GO.db package to retrieve more detailed information about the categories we have identified.
+GO.db will use the unique identifier in the category column and provide more information.
 
 ```{r}
 library(GO.db)

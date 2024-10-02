@@ -1,5 +1,5 @@
 ---
-title: "Episode 2: Sequence Quality - FastQC, MultiQC and Cutadapt"
+title: Episode 2: Sequence Quality - FastQC, MultiQC and Cutadapt
 ---
 
 In this episode we will look at quality assessment of the sequencing data. We will begin with FastQC, a free program which will analyse raw sequence data and output a visual summary. Then we will introduce MultiQC, a useful tool which can be used to combine results from different software packages into a single, coherent report. Finally we will look at read cleaning. 
@@ -75,14 +75,16 @@ Open the fastqc_summaries.txt file and search for any of the samples that have f
 
 The MultiQC application will create a report based on all documents in a given directory. MultiQC will take inputs from many different software applications, including fastQC. The report is a concise, clear document that can be used to track samples as they progress through various stages of the analysis.
 
-To generate the MultiQC report first create a new output directory called MultiQC, then copy all target files to that directory (initially target files will be the FastQC documents generated above). Finally, execute the multiqc command. 
+To generate the MultiQC report first navigate to the RNA_seq directory and create a new output directory called MultiQC, then copy all target files to that directory (initially target files will be the FastQC documents generated above). Finally, execute the multiqc command. 
 
 ```{bash}
+cd ~/RNA_seq/
+
 mkdir MultiQC
 
 cd MultiQC
 
-cp ../QC* ./
+cp -r ../QC/* ./
 
 multiqc .
 
@@ -113,7 +115,7 @@ We will perform adapter trimming simultaneously with quality trimming, done belo
 
 [Quality trimming](https://cutadapt.readthedocs.io/en/stable/guide.html#quality-trimming) is the process of removing low-quality bases from the end of reads. Usually during sequencing it is the end (or start) of the read which has the lowest quality (**Can I find an example image of this from our FastQC?**). By trimming only the low-quality ends of the reads, we improve our overall sequence quality without sacrificing too much data. 
 
-Here we will use Cutadapt and the -q flag to specify the lower threshold of quality we are willing to accept at the 3' end of our reads. Two things to note are that a) we can apply the threshold cutoff to both the 5' and the 3' end, but for Illumina sequencing the 5' end is usually high quality, and b) this requires our per-based quality scores are encoded as phred quality + 33. 
+Here we will use Cutadapt and the -q flag to specify the lower threshold of quality we are willing to accept at the 3' end of our reads. Two things to note are that a) we can apply the threshold cutoff to both the 5' and the 3' end, but for Illumina sequencing the 5' end is usually high quality, and b) this requires our per-based quality scores to be encoded as phred quality + 33. 
 
 To begin, navigate to the RNA_seq directory and create a new directory called Trimmed which we will use to store our modified files. We will then use cutadapt and the "-q" flag to remove bases from the 3' end of our reads *if* they have a phred quality score below 20. Simultaneously we will use the "-a" flag to remove our adaptors (supplied as AACCGGTT). 
 
@@ -132,6 +134,7 @@ less Trimmed/SRR014335-chr1.log
 
 Now trim all samples in the Raw directory:
 ```{bash}
+cd ~/RNA_seq/Raw
 for filename in *.fastq
 do 
 base=$(basename ${filename} .fastq)

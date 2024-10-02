@@ -10,4 +10,16 @@ website:
       - href: index.qmd
         text: Home
       - href: episode_1.qmd
-        text: Episode 1 - Overview of the workflow  
+        text: Episode 1 - Overview of the workflow
+      - href: episode_2.qmd
+        text: Episode 2 - Sequence Quality
+      - href: episode_3.qmd
+        text: Episode 3 - Quantifying Gene Expression
+      - href: episode_4.qmd
+        text: Episode 4 - Exploratory Analysis
+      - href: episode_5.qmd
+        text: Episode 5 - Identify Differentially Expressed Genes
+      - href: episode_6.qmd
+        text: Episode 6 - Functional analysis
+      - href: supplementary_1.qmd
+        text: Supplementary 1 - Quantile Normalisation

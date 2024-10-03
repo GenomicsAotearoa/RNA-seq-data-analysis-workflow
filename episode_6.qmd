@@ -229,7 +229,7 @@ An optional filtering step can be applied here, which is to remove categories th
 Categories which have a large number of genes tend to be very broad terms, which are not very informative *e.g.,* the categories "organelle", "biological_process", and "protein localization".
 
 If you choose to apply this filter, re-make the GO.wall.sig object.
-Here we are filtering
+Here we are filtering with a requirement that the category contains fewer than 500 genes. 
 
 ```{r}
 GO.wall.sig <- GO.wall[GO.wall.padj < 0.05 & GO.wall$numInCat < 500, c(1,6,7)]
@@ -249,4 +249,16 @@ library(GO.db)
 GOTERM[[GO.wall.sig$category[1]]]
 ```
 
-## 
+### Closing thoughts on GOseq
+
+
+
+
+<footer class="navigation-buttons">
+  <a href="episode_5.qmd">
+    <button class="nav-button prev-button">Previous Page</button>
+  </a>
+  <a href="next-page.qmd">
+    <button class="nav-button next-button">Next Page</button>
+  </a>
+</footer>

@@ -182,3 +182,11 @@ We have now generated counts! We can now take these through to the next stage of
 
 
 
+<footer class="navigation-buttons">
+  <a href="episode_2.qmd">
+    <button class="nav-button prev-button">Previous Page</button>
+  </a>
+  <a href="episode_4.qmd">
+    <button class="nav-button next-button">Next Page</button>
+  </a>
+</footer>

@@ -153,3 +153,12 @@ However, we also need to think about magnitude of variance, which we can do usin
 This [write-up](https://github.com/friedue/Notes/blob/master/RNA_heteroskedasticity.md) gives an in-depth explanation of heteroskedasticity and how we can think about it.
 
 We will look more at heteroskedasticity when we begin to identify differentially expressed genes, but for now it is important to be aware of the concept.
+
+<footer class="navigation-buttons">
+  <a href="episode_3.qmd">
+    <button class="nav-button prev-button">Previous Page</button>
+  </a>
+  <a href="episode_5.qmd">
+    <button class="nav-button next-button">Next Page</button>
+  </a>
+</footer>

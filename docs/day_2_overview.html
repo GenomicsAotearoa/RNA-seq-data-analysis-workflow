@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Quantifying Gene Expression – RNA-seq data analysis workflow</title>
+<title>Day Two Overview – RNA-seq data analysis workflow</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -68,7 +68,6 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="nav-sidebar docked fullcontent">
@@ -80,7 +79,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./episode_1.html">Day One</a></li><li class="breadcrumb-item"><a href="./episode_3.html">Quantifying Gene Expression</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./day_2_overview.html">Day Two</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -128,7 +127,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_3.html" class="sidebar-item-text sidebar-link active">
+  <a href="./episode_3.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Quantifying Gene Expression</span></a>
   </div>
 </li>
@@ -142,7 +141,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./day_2_overview.html" class="sidebar-item-text sidebar-link">
+            <a href="./day_2_overview.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Day Two</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -189,9 +188,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./episode_1.html">Day One</a></li><li class="breadcrumb-item"><a href="./episode_3.html">Quantifying Gene Expression</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Quantifying Gene Expression</h1>
+<h1 class="title">Day Two Overview</h1>
 </div>
 
 
@@ -208,132 +207,9 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>In order to draw conclusions about gene expression from our reads, we need to first identify which region of the genome reads originated from and then quantify the number of reads from that region. There are many tools available to carry out quantification, and we will not cover the arguments for and against each tool. We encourage you to carry out a literature search, and discuss with experienced individuals in your field, before committing to a particular quantification procedure. Here we will give a brief overview of two approaches with considerably different underlying methodology, give an example tool for each, and then demonstrate one tool for the purpose of progressing to the next stage of our workflow.</p>
-<p>The first approach to read quantification involves aligning reads to the genome and then counting the number of reads that are aligned to certain genomic features (<em>e.g.,</em> exons).</p>
-<p>The second approach we will introduce involves creating ‘pseudocounts’. In this method, reads are <em>not</em> aligned to the genome. Instead, they are pseudoaligned to kmers within the transcriptome and their abundance is estimated.</p>
-<p>In today’s workflow we will demonstrate genome alignment and counting, and will provide examples of other workflows that use pseudocounting and abundance estimation.</p>
-<section id="alignment-with-hisat2" class="level2">
-<h2 class="anchored" data-anchor-id="alignment-with-hisat2">Alignment with HISAT2</h2>
-<section id="preparation-of-the-genome" class="level3">
-<h3 class="anchored" data-anchor-id="preparation-of-the-genome">Preparation of the genome</h3>
-<p>When carrying out alignment, the first requirement is a genome which has been indexed. Indexing is a process to organise the genome so that our alignment algorithms can match reads to the genome easily, without having to scan the entire genome.</p>
-<p>Navigate to the Genome directory and view the contents. You should see two files, a .gtf and a .fa file. We will use the .gtf file towards the end of this episode.</p>
-<pre class="{bash}"><code>cd ~/RNA_seq/Genome
-
-ls </code></pre>
-<p>The .gtf file (General Transfer Format) contains information about the genome, such as gene names <em>etc.,</em> all stored in a one-line-per-feature format, while the .fa (FASTA) file contains sequence.</p>
-<p>We will now use hisat2 to index the genome using the hisat2-build command. We will specify the number of threads (-p 4), and specify the input file (-f for FASTA file type).</p>
-<pre class="{bash}"><code># index file:
-hisat2-build -p 4 -f Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa Saccharomyces_cerevisiae.R64-1-1.dna.toplevel
-
-ls</code></pre>
-<p>We can now see many new .ht2 files, which make up the indexed version of the genome.</p>
-</section>
-<section id="alignment-on-the-genome" class="level3">
-<h3 class="anchored" data-anchor-id="alignment-on-the-genome">Alignment on the genome</h3>
-<p>Now that we have an indexed genome, we can align our sequences. To do this we will need to know:</p>
-<ul>
-<li><p>Where the sequence information is stored (<em>e.g.,</em> fastq files).</p></li>
-<li><p>What kind of sequencing file we have (<em>e.g.,</em> Single end or Paired end).</p></li>
-<li><p>Where the indexes and genome are stored.</p></li>
-<li><p>Where the mapping files will be stored.</p></li>
-</ul>
-<p>Once we have that information we are ready to align our sequences. First, navigate to the RNA_seq directory, and run hisat2 on the first sample. We will use the -x flag to specify the basename of the index, the -U flag to specify the comma-separated list of files containing unpaired reads to be aligned, and the -S flag to write SAM alignment output files.</p>
-<pre class="{bash}"><code>cd ~/RNA_seq
-
-hisat2 -x Genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel -U Raw/SRR014335-chr1.fastq -S SRR014335.sam</code></pre>
-<p>Output should look something like this:</p>
-<pre><code>125090 reads; of these:
-
-  125090 (100.00%) were unpaired; of these:
-
-    15108 (12.08%) aligned 0 times
-
-    88991 (71.14%) aligned exactly 1 time
-
-    20991 (16.78%) aligned &gt;1 times
-
-87.92% overall alignment rate</code></pre>
-<p>Now that we have confirmed this code works for our first sample, we will use a loop to align the rest of the samples. We will make a new directory called Mapping, which we will use to store all of our mapping output files. Then navigate to the Trimmed directory and execute the for loop to align all samples.</p>
-<pre class="{bash}"><code>mkdir Mapping
-
-cd ~/RNA_seq/Trimmed
-
-for filename in *
-do
-base=$(basename ${filename} .trimmed.fastq)
-hisat2 -p 4 -x ../Genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel -U $filename -S ../Mapping/${base}.sam --summary-file ../Mapping/${base}_summary.txt
-done</code></pre>
-<p>Check the output directory (Mapping) and see the different files that have been produced. You should see both .sam and _summary.txt files for each sample.</p>
-<p>Let’s look at the SAM file format.</p>
-<pre class="{bash}"><code>less SRR014335-chr1.sam</code></pre>
-<p>The file begins with an optional header which is used to include human-readable metadata such as the source of the data, reference sequence, method of alignment <em>etc.,</em>. Following the header is the alignment section. Each line contains information corresponding to the alignment of a single read. Each alignment line has 11 mandatory fields for essential mapping information and a variable number of other fields for aligner-specific information.</p>
-</section>
-<section id="converting-sam-to-bam" class="level3">
-<h3 class="anchored" data-anchor-id="converting-sam-to-bam">Converting SAM to BAM</h3>
-<p>SAM files are tab-delimited text files containing information for each individual read and it’s alignment to the genome. SAM files are large, so the first thing we do with them is convert them to BAM files: compressed, binary versions of the file which reduce time and can themselves be indexed for efficiency when we interact with them.</p>
-<p>We will convert the SAM file to the BAM format using the samtools program with the view command. Use the -S flag to specify the input is a SAM file, and the -b flag to specify BAM as the output.</p>
-<p>Note that you will see a warning “fail to read the header from…”, this is normal.</p>
-<pre class="{bash}"><code>for filename in *.sam
-do
-base=$(basename ${filename} .sam)
-samtools view -S -b ${filename} -o ${base}.bam
-done
-
-ls</code></pre>
-<p>Next we will sort the BAM files, which will mean our future steps are more efficient. From the samtools program we will use the sort command, with the -o flag to specify where the output file should go.</p>
-<pre class="{bash}"><code>for filename in *.bam
-do
-base=$(basename ${filename} .bam)
-samtools sort -o ${base}_sorted.bam ${filename}
-done</code></pre>
-</section>
-<section id="mapping-statistics" class="level3">
-<h3 class="anchored" data-anchor-id="mapping-statistics">Mapping statistics</h3>
-<p>Using the sorted BAM file, you can now easily calculate some basic mapping statistics using the samtools flagstat command.</p>
-<pre class="{bash}"><code>samtools flagstat SRR014335-chr1_sorted.bam</code></pre>
-<p>Basic statistics shown by flagstat will be slightly different from those in the summary file generated by HISAT2 due to different “totals” that are used for comparisons. flagstat compares the number of alignments while HISAT2 compares the number of reads mapped. This is because reads can be mapped/aligned to more than one reference location, and these reads have a “primary” and “secondary” alignment (see section 1.2 of the <a href="https://github.com/samtools/hts-specs/blob/master/SAMv1.pdf">SAM specifications</a>). For example, the percent overall alignment in the HISAT2 summary will be equivalent to the percent primary mapped evaluated by flagstat. To get the number of reads that aligned 0 times (summary file), the equivalent statistic from flagstat would be subtracting the number of mapped reads from the number of total alignments.</p>
-</section>
-<section id="multiqc" class="level3">
-<h3 class="anchored" data-anchor-id="multiqc">MultiQC</h3>
-<p>HISAT2 output data can be incorporated into the MultiQC report. Copy the summary files generated by HISAT2 into the MultiQC directory and re-run multiqc.</p>
-<p>Navigate to the updated report and view it in your browser.</p>
-<pre class="{bash}"><code>cd ~/RNA_seq/MultiQC
-cp ../Mapping/*summary* ./
-multiqc .</code></pre>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/MQC_hisat2.png" class="img-fluid figure-img"></p>
-<figcaption>MultiQC after alignment</figcaption>
-</figure>
-</div>
-<p>You might notice that the report labels the summary files as “Bowtie2”. This is because the outputs are identical to those generated by Bowtie2, and MultiQC recognises them as Bowtie2.</p>
-</section>
-</section>
-<section id="read-summarisation" class="level2">
-<h2 class="anchored" data-anchor-id="read-summarisation">Read summarisation</h2>
-<p>Sequencing reads often need to be assigned to genomic features of interest after they are mapped to the reference genome. This process is often called read summarisation or read quantification. Read summarisation is required by a number of downstream analyses such as gene expression analysis and histone modification analysis. The output of read summarisation is a count table, in which the number of reads assigned to each feature in each library is recorded. In our case each feature is an exon. To carry out counting we will use the featureCounts tool from the Subread package.</p>
-<p>Navigate to the RNA_seq directory, create a new directory called Counts and cd into that directory. From there run the featureCounts command which will require five different flags. We will use the -a flag to specify the annotation file, in this case the .gtf file we noticed earlier. The -o flag names the output file (which we will call yeast_counts.txt), while the -T flag specifies the number of threads/CPUs used for mapping. The -t flag is used to control the feature type in the GTF annotation file, we will use exon (which is also the default). Finally, the -g flag specifies the attribute type in the GTF file. We will use the gene_id option (again, the default).</p>
-<pre class="{bash}"><code>cd ~/RNA_seq
-
-mkdir Counts
-
-cd Counts
-
-featureCounts -a ../Genome/Saccharomyces_cerevisiae.R64-1-1.99.gtf -o ./yeast_counts.txt -T 2 -t exon -g gene_id ../Mapping/*sorted.bam</code></pre>
-<p>Update the MultiQC report by copying over the output data in Counts.</p>
-<pre class="{bash}"><code>cd ~/RNA_seq/MultiQC
-
-cp ../Counts/* .
-
-multiqc .</code></pre>
-<p>We have now generated counts! We can now take these through to the next stage of our analysis: preparing to identify differentially expressed genes.</p>
-<footer class="navigation-buttons">
-<a href="./episode_2.html"> <button class="nav-button prev-button">Previous Page</button> </a> <a href="./episode_4.html"> <button class="nav-button next-button">Next Page</button> </a>
-</footer>
+<p>Plan for day 2</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

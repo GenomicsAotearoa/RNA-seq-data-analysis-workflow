@@ -258,7 +258,6 @@ less SRR014335-chr1_fastqc/summary.txt
 <p>Create a single document that contains the information from summary.txt from all six samples, and name that document fastqc_summaries.txt</p>
 <pre class="{bash}"><code>cat */summary.txt &gt; ~/RNA_seq/QC/fastqc_summaries.txt</code></pre>
 <p>Open the fastqc_summaries.txt file and search for any of the samples that have failed the QC statistical tests.</p>
-<p><strong>Need to include an explanation of phred quality + 33</strong></p>
 </section>
 </section>
 <section id="multiqc---multi-sample-analysis" class="level2">
@@ -297,7 +296,7 @@ ls -F
 </section>
 <section id="cutadapt-quality-trimming" class="level3">
 <h3 class="anchored" data-anchor-id="cutadapt-quality-trimming">Cutadapt: Quality trimming</h3>
-<p><a href="https://cutadapt.readthedocs.io/en/stable/guide.html#quality-trimming">Quality trimming</a> is the process of removing low-quality bases from the end of reads. Usually during sequencing it is the end (or start) of the read which has the lowest quality (<strong>Can I find an example image of this from our FastQC?</strong>). By trimming only the low-quality ends of the reads, we improve our overall sequence quality without sacrificing too much data.</p>
+<p><a href="https://cutadapt.readthedocs.io/en/stable/guide.html#quality-trimming">Quality trimming</a> is the process of removing low-quality bases from the end of reads. Usually during sequencing it is the end (or start) of the read which has the lowest quality. By trimming only the low-quality ends of the reads, we improve our overall sequence quality without sacrificing too much data.</p>
 <p>Here we will use Cutadapt and the -q flag to specify the lower threshold of quality we are willing to accept at the 3’ end of our reads. Two things to note are that a) we can apply the threshold cutoff to both the 5’ and the 3’ end, but for Illumina sequencing the 5’ end is usually high quality, and b) this requires our per-based quality scores to be encoded as phred quality + 33.</p>
 <p>To begin, navigate to the RNA_seq directory and create a new directory called Trimmed which we will use to store our modified files. We will then use cutadapt and the “-q” flag to remove bases from the 3’ end of our reads <em>if</em> they have a phred quality score below 20. Simultaneously we will use the “-a” flag to remove our adaptors (supplied as AACCGGTT).</p>
 <p>Cutadapt will produce a trimmed file as well as a summary in the form of a log file.</p>

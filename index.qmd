@@ -26,7 +26,7 @@ This workshop runs over two mornings, from 9am - 1pm. We will take one 15 minute
 #### Adaptor trimming and filtering
 
 #### Mapping and counting methods
-(this section will be an overview of techniques and approaches, and will not be executed in depth)
+
 
 #### Exploratory analysis
 
@@ -43,14 +43,14 @@ This workshop runs over two mornings, from 9am - 1pm. We will take one 15 minute
 
 ## A note on software
 
-During the workshop, code will be run in real-time to demonstrate the analysis. This will be run on the NeSI OpenOnDemand platform which already has all the required software and R packages loaded. 
+During the workshop, code will be run in real-time to demonstrate the analysis. This will be run on the NeSI OpenOnDemand platform which already has all the required software and R packages installed. 
 
 Where you are working will dictate what you need to install and how you will need to go about it, therefore this document does not include instructions to install software. We will include notes about loading R packages, and 
 
 
 ### Attribution notice
 
-This workshop is an overhauled version on an existing version of [RNA-seq data analysis by Genomics Aotearoa and NeSI](https://genomicsaotearoa.github.io/RNA-seq-workshop-on-demand/). It incorporates, and takes inspiration from, various training materials produced by the Harvard Bioinformatics Core: [visit their github](https://github.com/hbctraining) and from The Carpentries, specifically their [RNA-seq analysis with Bioconductor workshop](https://carpentries-incubator.github.io/bioc-rnaseq/index.html). 
+This workshop is an updated version on an existing version of [RNA-seq data analysis by Genomics Aotearoa and NeSI](https://genomicsaotearoa.github.io/RNA-seq-workshop-on-demand/). It incorporates, and takes inspiration from, various training materials produced by the [Harvard Bioinformatics Core](https://github.com/hbctraining) and from The Carpentries, specifically their [RNA-seq analysis with Bioconductor workshop](https://carpentries-incubator.github.io/bioc-rnaseq/index.html). 
 
 <footer class="navigation-buttons">
   <a href="episode_1.qmd">

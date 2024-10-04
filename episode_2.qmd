@@ -69,7 +69,7 @@ cat */summary.txt > ~/RNA_seq/QC/fastqc_summaries.txt
 
 Open the fastqc_summaries.txt file and search for any of the samples that have failed the QC statistical tests. 
 
-**Need to include an explanation of phred quality + 33**
+
 
 ## MultiQC - multi-sample analysis
 
@@ -113,7 +113,7 @@ We will perform adapter trimming simultaneously with quality trimming, done belo
 
 ### Cutadapt: Quality trimming
 
-[Quality trimming](https://cutadapt.readthedocs.io/en/stable/guide.html#quality-trimming) is the process of removing low-quality bases from the end of reads. Usually during sequencing it is the end (or start) of the read which has the lowest quality (**Can I find an example image of this from our FastQC?**). By trimming only the low-quality ends of the reads, we improve our overall sequence quality without sacrificing too much data. 
+[Quality trimming](https://cutadapt.readthedocs.io/en/stable/guide.html#quality-trimming) is the process of removing low-quality bases from the end of reads. Usually during sequencing it is the end (or start) of the read which has the lowest quality. By trimming only the low-quality ends of the reads, we improve our overall sequence quality without sacrificing too much data. 
 
 Here we will use Cutadapt and the -q flag to specify the lower threshold of quality we are willing to accept at the 3' end of our reads. Two things to note are that a) we can apply the threshold cutoff to both the 5' and the 3' end, but for Illumina sequencing the 5' end is usually high quality, and b) this requires our per-based quality scores to be encoded as phred quality + 33. 
 

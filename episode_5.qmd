@@ -16,6 +16,8 @@ Here we are taking the difference between the means of the two groups and then d
 
 If the difference in means is **LARGE** relative to the variance, the test statistic will be large (indicating significance). If the difference between the means is **small** relative to the variance, the test statistic will be small, indicating the difference is probably not significant (*i.e.,* the difference we observe is in-line with the variance we observe).
 
+#### Exercise: With the above formula in mind, what impact would heteroskedasticity have when you are attempting to identify differentially expressed genes? 
+
 Once we have a test statistic we will calculate a p-value. The p-value is an indication of how likely we were to observe the given difference in means (or a more extreme difference) *if there is truly no difference between the means*. That is, how likely are we to see this difference due to random chance?
 
 ### Interpreting p-values
@@ -69,12 +71,6 @@ logCPM = cpm(dge, log=TRUE, prior.count=3)
 head(logCPM, 3)
 ```
 
-```{r}
-#                  WT1        WT2        WT3        MT1        MT2        MT3
-# YDL248W    3.7199528  3.5561232  3.2538405  3.6446399  3.7156488  3.9155366
-# YDL247W-A -0.6765789 -0.6765789 -0.6765789 -0.6765789 -0.3140297 -0.6765789
-# YDL247W    0.1484688  0.6727144  0.1645731  0.7843936  1.0395626  0.6349276
-```
 
 ### The design matrix
 
@@ -108,7 +104,6 @@ Importantly, other than changing the mean-variance relationship, voom does not c
 boxplot(v$E ~ col(v$E), ylab = "Counts", xlab = "Samples", main = "Log counts after voom")
 ```
 
-![Log counts after voom](images/logCountsAfterVoom.png)
 
 We can see that log counts in the voom object (that is, counts after voom has been applied to create a stable mean-variance relationship) have not drastically changed from when we plotted them earlier.
 
@@ -121,7 +116,7 @@ plot(density(v$E[,1]), ylim=c(0,0.3), col=lineColour[1])
 for(i in 2:ncol(logCPM)) lines(density(v$E[,i]), col=lineColour[i])
 ```
 
-![Count density plots after voom](images/countDensityAfterVoom.png)
+
 
 We can see that voom has not removed the differences between our sample groups. 
 
@@ -191,7 +186,6 @@ volcanoplot(fit, coef=2, ylab = "P-value (-log10 scale)", main = "Significantly 
 points(tt$logFC[sigGenesLimma], -log10(tt$P.Value[sigGenesLimma]), col='red', pch=16, cex=0.5)
 ```
 
-![Significantly differentially expressed genes with Limma](images/limmaSigDiffExpressed.png)
 
 This plot is an important "sanity check". We can logically check that our significant genes (in red) are those with both a p-value < 0.05 and a log2 fold change greater than 1 (which is equivalent to a doubling or halving of gene expression). If we observe red marked dots in the center or bottom of the plot, we could recognise an error has occurred. 
 
@@ -210,7 +204,7 @@ sigGenesLimma <- tt[sigGenesLimma, ]
 
 ## Identifying differentially expressed genes using DESeq2
 
-DESeq2 is a highly-regarded R package for analysing RNA-seq data. DESeq2 uses a [negative binomial](https://en.wikipedia.org/wiki/Negative_binomial_distribution) method to model the count data, and combines this with a generalised linear model (GLM) to identify differentially expressed genes. From a statistical point of view, a negative binomial distribution is  For more about the [DESeq2 package](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0550-8), you can read the original article. 
+DESeq2 is a highly-regarded R package for analysing RNA-seq data. DESeq2 uses a [negative binomial](https://en.wikipedia.org/wiki/Negative_binomial_distribution) method to model the count data, and combines this with a generalised linear model (GLM) to identify differentially expressed genes. For more about the [DESeq2 package](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0550-8), you can read the original article. 
 
 ### The DESeq2 object
 
@@ -220,8 +214,11 @@ Note that if your data is stored in another format the DESeq2 function we will u
 
 
 ```{r}
+#| output: false
 library(DESeq2)
+```
 
+```{r}
 dds = DESeqDataSetFromMatrix(countData = as.matrix(counts), 
                               colData = data.frame(conds=factor(conds)), 
                               design = formula(~conds))

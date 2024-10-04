@@ -2,7 +2,7 @@
 title: Exploratory Analysis
 ---
 
-Exploratory analysis is a new section in this workflow, and will cover basic visualisations and characterisations of the data, then any initial transformations (*e.g.,* library size) required before DGE. 
+Exploratory analysis is will cover basic visualisations and characterisations of the data as well as any initial transformations (*e.g.,* library size) required before we move on to identifying differentially expressed genes. 
 
 ## What is exploratory analysis and why is it necessary?
 
@@ -29,20 +29,6 @@ fcData %>% head()
 names(fcData)
 ```
 
-```{r}
-# [1] "Geneid"                           
-# [2] "Chr"                              
-# [3] "Start"                            
-# [4] "End"                              
-# [5] "Strand"                           
-# [6] "Length"                           
-# [7] "...STAR.SRR014335.Aligned.out.sam"
-# [8] "...STAR.SRR014336.Aligned.out.sam"
-# [9] "...STAR.SRR014337.Aligned.out.sam"
-# [10] "...STAR.SRR014339.Aligned.out.sam"
-# [11] "...STAR.SRR014340.Aligned.out.sam"
-# [12] "...STAR.SRR014341.Aligned.out.sam"
-```
 
 To help with our future data analysis, let's rename the column names for the samples.
 
@@ -93,7 +79,7 @@ boxplot(as.matrix(counts) ~ col(counts),
         ylab = "Counts", xlab = "Samples", names = colnames(counts))
 ```
 
-![Raw counts are highly skewed](images/rawCountsSkewed.png) This figure indicates we should consider logging our data (for the purpose of visualisations).
+This figure indicates we should consider logging our data (for the purpose of visualisations).
 
 Log transform the data, adding 0.5 to avoid log(0) errors.
 
@@ -104,7 +90,7 @@ boxplot(as.matrix(logCounts) ~ col(counts),
         ylab = "Counts", xlab = "Samples", names = colnames(counts), main = "Log counts of samples")
 ```
 
-![Log counts are easier to visualise](images/logCounts.png)
+
 
 The log count boxplots reveal a difference between our wt and mutant samples. As a reminder, these two strains of yeast are very different and we would not normally expect this level of difference (although that might vary depending on your experiment).
 
@@ -118,7 +104,7 @@ plot(density(logCounts[,1]), ylim=c(0,0.3), col=lineColour[1], xlab = "log Count
 for(i in 2:ncol(logCounts)) lines(density(logCounts[,i]), col=lineColour[i])
 ```
 
-![Density plot](images/densityPlot.png)
+
 
 A common question to ask at this point is, are the differences we can see between our two sample groups a true biological effect, or is this an experimental artifact? Often, we will not know the answer to this question. For now, it is enough to be aware of these differences and to keep them in mind moving forward.
 
@@ -130,7 +116,6 @@ Library size refers to the total number of reads for the entire sample. If two s
 colSums(counts) %>% barplot(., ylab = "Reads mapped per sample", xlab = "Sample", main = "Library size")
 ```
 
-![Library size are approximately similar across samples](images/librarySizeColour.png)
 
 Library sizes are approximately equal across the samples. They are slightly lower in the mutants compared to the wt, but the difference is low (*i.e.,* mean \~ 4.6 million and 4.8 million reads in mutant and wt respectively).
 

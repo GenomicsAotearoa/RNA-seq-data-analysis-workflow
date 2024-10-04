@@ -8,7 +8,7 @@ editor:
 Functional analysis is the process of taking a list of genes which we cannot meaningfully interact with and distilling information that we as researchers can then interpret.
 Generally, this involves grouping genes based on functions or processes, and determining which processes or functions appear to be different between your experimental groups.
 
-There are different approaches to functional analysis e.g.,
+There are different approaches to functional analysis *e.g.,*:
 
 -   **Over-representation analysis**: are certain processes, pathways or biological functions over-represented in a list of differentially expressed genes relative to the background genome (often called Gene Ontology analysis).
 
@@ -28,7 +28,9 @@ There are now many databases that maintain information and annotation on genes, 
 Annotation and databases is an entire area in itself, and not something we can cover today.
 For now, we will retrieve annotation information from different sources and attach the annotation to genes.
 
-## Over-representation Analysis - the hypergeometric distribution
+## Over-representation Analysis
+
+### The hypergeometric distribution
 
 Let's say you have a list of 100 differentially expressed genes and, after annotation, you notice that 10 of these genes are involved in apoptosis.
 Is this a significant finding?
@@ -109,7 +111,9 @@ The code for *Saccharomyces cerevisiae* is sacCer.
 ```{r}
 library(dplyr)
 library(goseq)
-
+```
+```{r}
+#| output: false
 supportedOrganisms() %>% View()
 ```
 
@@ -251,6 +255,36 @@ GOTERM[[GO.wall.sig$category[1]]]
 
 ### Closing thoughts on GOseq
 
+GOSeq is a powerful tool that corrects for an important bias in RNA-seq data. There are other options when it comes to over-representation analysis, and functional analysis in general. Some of these tools might help with generating better visualisations, or claim to have more up-to-date databases. 
+
+
+## Gene set enrichment analysis and clusterProfiler
+
+We will not complete a full demonstration of gene set enrichment analysis (GSEA) and clusterProfiler, but we will give an overview of these techniques and tools. 
+
+In particular we strongly recommend The Carpentries workshop [RNA-sq analysis with Bioconductor](https://carpentries-incubator.github.io/bioc-rnaseq/instructor/07-gene-set-analysis.html#ora-with-clusterprofiler) section on GSEA. 
+
+
+### GSEA
+
+GSEA takes an alternative approach to the previous section in that it does not take as input a list of differentially expressed genes. GSEA moves away from the binary "differentially expressed or not" approach and considers the state, or position, of all genes in the list. 
+
+This approach has the advantage of not relying on our somewhat arbitrary cutoff thresholds (*e.g.,* a gene with a p-value 0.0501 probably should still contribute to what we think is happening to a pathway). 
+
+### ClusterProfiler
+
+ClusterProfiler is a widely used package with the support to create *excellent* figures ([check these out](https://carpentries-incubator.github.io/bioc-rnaseq/instructor/07-gene-set-analysis.html#visualization)). 
+
+### GSEA, clusterProfiler and length correction
+
+GSEA and clusterProfiler do not implement a gene length correction. Does this invalidate them as options? We argue that it does not. Even without length correction, GSEA is implementing a powerful and logical approach and the visualisations made with clusterProfiler should not be under-valued. 
+
+In any situation where there are multiple tools, methods, or decision points (*e.g.,* thresholds, removal of outliers *etc.,*) it is recommended that you complete the analyses and compare the outcomes. It is possible to run GOSeq *without* the length correction implemention (shown below) and compare the over-represented categories. If the difference is large, then you should be cautious when interpreting GSEA results or the output of clusterProfiler. 
+
+```{r}
+GO.nobias=goseq(pwf, "sacCer1", "ensGene", method="Hypergeometric")
+```
+
 
 
 
@@ -258,7 +292,7 @@ GOTERM[[GO.wall.sig$category[1]]]
   <a href="episode_5.qmd">
     <button class="nav-button prev-button">Previous Page</button>
   </a>
-  <a href="next-page.qmd">
+  <a href="episode_7.qmd">
     <button class="nav-button next-button">Next Page</button>
-  </a>
+  </a>  
 </footer>

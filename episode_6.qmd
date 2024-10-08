@@ -294,5 +294,5 @@ GO.nobias=goseq(pwf, "sacCer1", "ensGene", method="Hypergeometric")
   </a>
   <a href="episode_7.qmd">
     <button class="nav-button next-button">Next Page</button>
-  </a>  
+  </a>
 </footer>

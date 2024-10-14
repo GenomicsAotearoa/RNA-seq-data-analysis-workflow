@@ -157,47 +157,115 @@ Our output includes an adjusted p-value. Use the help function (type a ? in fron
 
 ### Volcano plots
 
-Volcano plots are a useful and commonly used method to visualise differentially expressed genes within your data set. We will produce the plot over multiple steps,
-but in practice you would jump straight to the final plot. 
+Volcano plots are a useful and commonly used method to visualise differentially expressed genes within your data set. 
 
-In the following code we will first produce the volcano plot itself, which shows the distribution of all genes according to p-value and log2 fold change. We will then add a horizontal line indicating the threshold of a p-value < 0.05. 
+In the following code we will first produce the volcano plot itself, which shows the distribution of all genes according to p-value and log2 fold change. 
 
+Statistical significance is often not the only measure we will use to call genes differentially expressed. It is common to apply an additional threshold of gene expression needing to double or halve to be considered differentially expressed. On the log2FC scale, this is log2(2) (*i.e.,* a value > 1 or < -1).
+
+Genes will be coloured based on whether they are up (red) or down (blue) regulated. 
+
+This plot is an important "sanity check". We can logically check that our significant genes (in red) are those with both a p-value < 0.05 and a log2 fold change greater than 1 (which is equivalent to a doubling or halving of gene expression). If we observe red marked dots in the center or bottom of the plot, we could recognise an error has occurred. 
 
 ```{r}
-volcanoplot(fit, coef=2) 
+library(dplyr)
+library(limma)
+library(edgeR)
+library(dplyr)
+library(ggplot2)
+install.packages("ggiraph")
+library(ggiraph)
+install.packages("plotly")
+library(plotly)
 
-abline(h=-log10(0.05))
+# Define significance thresholds
+pval_threshold <- 0.05
+fc_threshold <- 1  # log2 fold change threshold
 
-sigGenesLimmaPval = which(tt$adj.P.Val <= 0.05)
-length(sigGenesLimmaPval)
+# Create a data frame for plotting
+plot_data <- data.frame(
+  logFC = tt$logFC,
+  negLogPval = -log10(tt$P.Value),
+  adj.P.Val = tt$adj.P.Val,
+  ID = rownames(tt)  # Assuming row names are gene IDs
+)
 
-volcanoplot(fit, coef=2)
-points(tt$logFC[sigGenesLimmaPval], -log10(tt$P.Value[sigGenesLimmaPval]), col='red', pch=16, cex=0.5)
+# Add a column to categorize genes
+plot_data$category <- ifelse(plot_data$adj.P.Val <= pval_threshold,
+                             ifelse(plot_data$logFC >= fc_threshold, "Upregulated",
+                                    ifelse(plot_data$logFC <= -fc_threshold, "Downregulated", "Not Significant")),
+                             "Not Significant")
+
+
+# Create the volcano plot using ggplot2
+ggplot(plot_data, aes(x = logFC, y = negLogPval, color = category)) +
+  geom_point(alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("Upregulated" = "red", "Downregulated" = "blue", "Not Significant" = "grey")) +
+  geom_vline(xintercept = c(-fc_threshold, fc_threshold), linetype = "dashed") +
+  geom_hline(yintercept = -log10(pval_threshold), linetype = "dashed") +
+  labs(
+    title = "Volcano Plot of Differential Gene Expression",
+    subtitle = paste("Thresholds: |log2FC| >", fc_threshold, "and adjusted p-value <", pval_threshold),
+    x = "log2 Fold Change",
+    y = "-log10(p-value)",
+    color = "Differential Expression"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "right",
+    plot.title = element_text(hjust = 0.5, size = 16),
+    plot.subtitle = element_text(hjust = 0.5, size = 12)
+  )
+
+# Save the plot (optional)
+ggsave("volcano_plot.png", width = 10, height = 8, dpi = 300)
 ```
 
-Statistical significance is often not the only measure we will use to call genes differentially expressed. It is common to apply an additional threshold of gene expression needing to double or halve to be considered differentially expressed. On the log2FC scale, this is log2(2). Re-plot the volcano plot and when calling significant genes, apply both the adjusted p-value < 0.05 and log2FC > 1 thresholds. 
+We can also produce an interactive volcano plot with the ggigraph package.
+```{r}
+# Create the ggplot object
+p <- ggplot(plot_data, aes(x = logFC, y = negLogPval, color = category, text = ID)) +
+  geom_point(alpha = 0.6, size = 2) +
+  scale_color_manual(values = c("Upregulated" = "red", "Downregulated" = "blue", "Not Significant" = "grey")) +
+  geom_vline(xintercept = c(-fc_threshold, fc_threshold), linetype = "dashed") +
+  geom_hline(yintercept = -log10(pval_threshold), linetype = "dashed") +
+  labs(
+    title = "Interactive Volcano Plot of Differential Gene Expression",
+    subtitle = paste("Thresholds: |log2FC| >", fc_threshold, "and adjusted p-value <", pval_threshold),
+    x = "log2 Fold Change",
+    y = "-log10(p-value)",
+    color = "Differential Expression"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "right",
+    plot.title = element_text(hjust = 0.5, size = 16),
+    plot.subtitle = element_text(hjust = 0.5, size = 12)
+  )
+
+# Convert ggplot to an interactive plotly object
+interactive_plot <- ggplotly(p, tooltip = c("text", "x", "y", "color"))
+
+# Customize hover text
+interactive_plot <- interactive_plot %>% 
+  layout(hoverlabel = list(bgcolor = "white"),
+         hovermode = "closest")
+
+# Display the interactive plot
+interactive_plot
+
+```
+
+
+### Differentially expressed genes stored
+
+Let's make an object to store all the information for our list of significantly differentially expressed genes. We will use a threshold of an adjusted p-value < 0.05 and a logFC > 1. We will return to this object later, but for now we will move on and identify differentially expressed genes using a different method. 
 
 ```{r}
 sigGenesLimma = which(tt$adj.P.Val <= 0.05 & (abs(tt$logFC) > log2(2)))
 length(sigGenesLimma)
 # 1891
 
-volcanoplot(fit, coef=2, ylab = "P-value (-log10 scale)", main = "Significantly differentially expressed genes")
-points(tt$logFC[sigGenesLimma], -log10(tt$P.Value[sigGenesLimma]), col='red', pch=16, cex=0.5)
-```
-
-
-This plot is an important "sanity check". We can logically check that our significant genes (in red) are those with both a p-value < 0.05 and a log2 fold change greater than 1 (which is equivalent to a doubling or halving of gene expression). If we observe red marked dots in the center or bottom of the plot, we could recognise an error has occurred. 
-
-
-
-### Differentially expressed genes stored
-
-We now have an object, sigGenesLimma, that shows *which* genes meet our criteria for differentially expressed. Due to a quirk of how we have made our objects, this object only contains the numbers of the rows with significant genes. Let's update our object to include all the information for our list of significantly differentially expressed genes. We will return to this object later, but for now we will move on and identify differentially expressed genes using a different method. 
-
-* Note: it's not normally a good idea to over-write an object as I'm doing here, but for the purposes of the workshop, it's easiest to keep this object name.
-
-```{r}
 sigGenesLimma <- tt[sigGenesLimma, ]
 ```
 

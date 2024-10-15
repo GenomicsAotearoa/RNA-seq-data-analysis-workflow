@@ -173,9 +173,9 @@ library(limma)
 library(edgeR)
 library(dplyr)
 library(ggplot2)
-install.packages("ggiraph")
+BiocManager::install("ggiraph")
 library(ggiraph)
-install.packages("plotly")
+BiocManager::install("plotly")
 library(plotly)
 
 # Define significance thresholds

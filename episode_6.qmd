@@ -202,8 +202,6 @@ We can now carry out our Fishers Exact test using the pwf value instead of the r
 We will use the goseq() function to perform this test, and output the over-representation data into an object.
 
 ```{r}
-# BiocManager::install("org.Sc.sgd.db")
-# BiocManager::install("AnnotationDbi")
 library(org.Sc.sgd.db)
 
 GO.wall = goseq(pwf, "sacCer1", "ensGene")

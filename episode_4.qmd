@@ -1,5 +1,6 @@
 ---
 title: Exploratory Analysis
+code-overflow: wrap
 ---
 
 Exploratory analysis is will cover basic visualisations and characterisations of the data as well as any initial transformations (*e.g.,* library size) required before we move on to identifying differentially expressed genes. 
@@ -13,6 +14,7 @@ If your data set was a physical problem (like a squeaky wheel or a well wrapped 
 ## Exploratory analysis
 
 Use the import data set or read.delim() function to import the file yeast_counts_all_chr, and name the object fcData. Also, load the dplyr library. We will look at some of the basic stats and features of our data object with View(), dim(), and names()
+
 
 ```{r}
 library(dplyr)
@@ -87,7 +89,10 @@ Log transform the data, adding 0.5 to avoid log(0) errors.
 logCounts = log2(as.matrix(counts) + 0.5)
 
 boxplot(as.matrix(logCounts) ~ col(counts), 
-        ylab = "Counts", xlab = "Samples", names = colnames(counts), main = "Log counts of samples")
+        ylab = "Counts", 
+        xlab = "Samples", 
+        names = colnames(counts), 
+        main = "Log counts of samples")
 ```
 
 

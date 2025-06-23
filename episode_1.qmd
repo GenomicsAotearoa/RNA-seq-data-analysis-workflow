@@ -1,5 +1,6 @@
 ---
 title: The RNA-seq workflow
+code-overflow: wrap
 ---
 
 What are the key steps in an RNA-seq data analysis workflow? 

@@ -1,5 +1,6 @@
 ---
 title: Functional analysis
+code-overflow: wrap
 editor: 
   markdown: 
     wrap: sentence
@@ -109,6 +110,8 @@ Load the goseq package, the dplyr package (if you haven't already), and use the 
 The code for *Saccharomyces cerevisiae* is sacCer.
 
 ```{r}
+# BiocManager::install("goseq")
+
 library(dplyr)
 library(goseq)
 ```
@@ -202,6 +205,10 @@ We can now carry out our Fishers Exact test using the pwf value instead of the r
 We will use the goseq() function to perform this test, and output the over-representation data into an object.
 
 ```{r}
+
+# BiocManager::install("org.Sc.sgd.db")
+# BiocManager::install("AnnotationDbi")
+c96cb67 (updated with soft wrap in code blocks)
 library(org.Sc.sgd.db)
 
 GO.wall = goseq(pwf, "sacCer1", "ensGene")

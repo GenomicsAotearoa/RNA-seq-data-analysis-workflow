@@ -4,6 +4,7 @@ project:
 
 website:
   title: "RNA-seq data analysis workflow"
+  favicon: figures/socialImage.png
   sidebar:
     style: "docked"
     contents:

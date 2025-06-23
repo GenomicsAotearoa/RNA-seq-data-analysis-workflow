@@ -1,5 +1,6 @@
 ---
 title: Identify Differentially Expressed Genes
+code-overflow: wrap
 ---
 
 Are those two groups *significantly different* from one another is a challenging question to answer. We can start by specifically asking our question as a statistical question: Are the differences we *observe* between the two groups **greater than the differences** we would *expect* to see by chance?
@@ -59,6 +60,10 @@ Limma will create one of the special objects mentioned earlier in this workshop 
 Load the libraries required for running limma, create a dge object where we specify counts (here you specify the matrix that contains your counts, in our case our object is already called counts). Then calculate normalisation factors, which will be used to adjust for library size differences, and calculate the log CPM. logCPM is, for each gene, how many counts there were per million reads. Because we are taking the log of this value, we will use the prior.counts=3 argument to add 3 to all read counts. This prevents any errors due to attempting to take the log of 0.
 
 ```{r}
+# BiocManager::install("limma")
+# BiocManager::install("edgeR")
+# BiocManager::install("DESeq2")
+
 library(limma)
 library(edgeR)
 library(dplyr)
@@ -344,6 +349,7 @@ To recap, we've now produced two lists of differentially expressed genes - one p
 These numbers are very similar, but what's the actual overlap between these two groups? A venn diagram is an easy way to visualise the relationship between the two groups. First, load the gplots library which we will use for making venn diagrams. Create an object, which we will call setlist, that lists the two gene sets (in our case, this will be the rownames of the objects we created with Limma and DESeq2). Finally, use the venn() function to create a venn diagram. 
 
 ```{r}
+# BiocManager::install("gplots")
 library(gplots)
 
 setlist <- list(Limma = rownames(sigGenesLimma), 

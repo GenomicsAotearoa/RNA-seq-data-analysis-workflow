@@ -208,7 +208,6 @@ We will use the goseq() function to perform this test, and output the over-repre
 
 # BiocManager::install("org.Sc.sgd.db")
 # BiocManager::install("AnnotationDbi")
-c96cb67 (updated with soft wrap in code blocks)
 library(org.Sc.sgd.db)
 
 GO.wall = goseq(pwf, "sacCer1", "ensGene")

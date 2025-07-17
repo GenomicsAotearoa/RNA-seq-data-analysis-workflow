@@ -23,7 +23,7 @@ library(dplyr)
 # fcData <- read.delim("~/RNA_seq/yeast_counts_all_chr.txt", comment.char="#")
 
 ## I'm loading from my own local machine, so my filepath is different:
-fcData <- read.delim("~/Library/CloudStorage/OneDrive-UniversityofOtago/Documents/Training Coordinator 2022/GitHub/RNA-seq-data-analysis-workflow/data/yeast_counts_all_chr.txt", comment.char="#")
+fcData <- read.delim("~/Library/CloudStorage/OneDrive-UniversityofOtago/GenomicsAotearoa/Github_local_repos/RNA-seq-data-analysis-workflow/data/yeast_counts_all_chr.txt", comment.char="#")
 
 View(fcData)
 fcData %>% head()

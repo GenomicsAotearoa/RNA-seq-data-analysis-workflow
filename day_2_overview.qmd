@@ -1,5 +1,3 @@
 ---
-title: Day Two Overview
+title: Day Two
 ---
-
-Plan for day 2

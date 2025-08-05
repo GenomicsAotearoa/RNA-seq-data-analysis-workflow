@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Quantifying Gene Expression – RNA-seq data analysis workflow</title>
+<title>Exploratory Analysis – RNA-seq data analysis workflow</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -73,7 +108,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar docked fullcontent quarto-light">
+<body class="nav-sidebar docked quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -82,7 +117,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./episode_1.html">Day One</a></li><li class="breadcrumb-item"><a href="./episode_3.html">Quantifying Gene Expression</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./day_1_overview.html">Day One</a></li><li class="breadcrumb-item"><a href="./episode_3.html">Exploratory Analysis</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -110,12 +145,18 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introduction</span></a>
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Background</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./episode_1.html" class="sidebar-item-text sidebar-link">
+            <a href="./day_1_overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Day One</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -124,19 +165,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_2.html" class="sidebar-item-text sidebar-link">
+  <a href="./episode_1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Sequence Quality - FastQC, MultiQC and Cutadapt</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_3.html" class="sidebar-item-text sidebar-link active">
+  <a href="./episode_2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Quantifying Gene Expression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_4.html" class="sidebar-item-text sidebar-link">
+  <a href="./episode_3.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Exploratory Analysis</span></a>
   </div>
 </li>
@@ -153,37 +194,20 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_5.html" class="sidebar-item-text sidebar-link">
+  <a href="./episode_4.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Identify Differentially Expressed Genes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_6.html" class="sidebar-item-text sidebar-link">
+  <a href="./episode_5.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Functional analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_7.html" class="sidebar-item-text sidebar-link">
+  <a href="./episode_6.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Conclusions</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Supplementary</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./supplementary_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Supplementary 1 - Quantile Normalisation</span></a>
   </div>
 </li>
       </ul>
@@ -193,13 +217,26 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#what-is-exploratory-analysis-and-why-is-it-necessary" id="toc-what-is-exploratory-analysis-and-why-is-it-necessary" class="nav-link active" data-scroll-target="#what-is-exploratory-analysis-and-why-is-it-necessary">What is exploratory analysis and why is it necessary?</a></li>
+  <li><a href="#exploratory-analysis" id="toc-exploratory-analysis" class="nav-link" data-scroll-target="#exploratory-analysis">Exploratory analysis</a></li>
+  <li><a href="#remove-non-expressed-genes-optional" id="toc-remove-non-expressed-genes-optional" class="nav-link" data-scroll-target="#remove-non-expressed-genes-optional">Remove non-expressed genes (optional)</a></li>
+  <li><a href="#visualising-our-data-set" id="toc-visualising-our-data-set" class="nav-link" data-scroll-target="#visualising-our-data-set">Visualising our data set</a></li>
+  <li><a href="#library-size" id="toc-library-size" class="nav-link" data-scroll-target="#library-size">Library size</a></li>
+  <li><a href="#heteroskedasticity" id="toc-heteroskedasticity" class="nav-link" data-scroll-target="#heteroskedasticity">Heteroskedasticity</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./episode_1.html">Day One</a></li><li class="breadcrumb-item"><a href="./episode_3.html">Quantifying Gene Expression</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./day_1_overview.html">Day One</a></li><li class="breadcrumb-item"><a href="./episode_3.html">Exploratory Analysis</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Quantifying Gene Expression</h1>
+<h1 class="title">Exploratory Analysis</h1>
 </div>
 
 
@@ -216,126 +253,216 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>In order to draw conclusions about gene expression from our reads, we need to first identify which region of the genome reads originated from and then quantify the number of reads from that region. There are many tools available to carry out quantification, and we will not cover the arguments for and against each tool. We encourage you to carry out a literature search, and discuss with experienced individuals in your field, before committing to a particular quantification procedure. Here we will give a brief overview of two approaches with considerably different underlying methodology, give an example tool for each, and then demonstrate one tool for the purpose of progressing to the next stage of our workflow.</p>
-<p>The first approach to read quantification involves aligning reads to the genome and then counting the number of reads that are aligned to certain genomic features (<em>e.g.,</em> exons).</p>
-<p>The second approach we will introduce involves creating ‘pseudocounts’. In this method, reads are <em>not</em> aligned to the genome. Instead, they are pseudoaligned to kmers within the transcriptome and their abundance is estimated.</p>
-<p>In today’s workflow we will demonstrate genome alignment and counting, and will provide examples of other workflows that use pseudocounting and abundance estimation.</p>
-<section id="alignment-with-hisat2" class="level2">
-<h2 class="anchored" data-anchor-id="alignment-with-hisat2">Alignment with HISAT2</h2>
-<section id="preparation-of-the-genome" class="level3">
-<h3 class="anchored" data-anchor-id="preparation-of-the-genome">Preparation of the genome</h3>
-<p>When carrying out alignment, the first requirement is a genome which has been indexed. Indexing is a process to organise the genome so that our alignment algorithms can match reads to the genome easily, without having to scan the entire genome.</p>
-<p>Navigate to the Genome directory and view the contents. You should see two files, a .gtf and a .fa file. We will use the .gtf file towards the end of this episode.</p>
-<pre class="{bash}"><code>cd ~/RNA_seq/Genome
-
-ls </code></pre>
-<p>The .gtf file (General Transfer Format) contains information about the genome, such as gene names <em>etc.,</em> all stored in a one-line-per-feature format, while the .fa (FASTA) file contains sequence.</p>
-<p>We will now use hisat2 to index the genome using the hisat2-build command. We will specify the number of threads (-p 4), and specify the input file (-f for FASTA file type).</p>
-<pre class="{bash}"><code># index file:
-hisat2-build -p 4 -f Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa Saccharomyces_cerevisiae.R64-1-1.dna.toplevel
-
-ls</code></pre>
-<p>We can now see many new .ht2 files, which make up the indexed version of the genome.</p>
+<p>Exploratory analysis is will cover basic visualisations and characterisations of the data as well as any initial transformations (<em>e.g.,</em> library size) required before we move on to identifying differentially expressed genes.</p>
+<section id="what-is-exploratory-analysis-and-why-is-it-necessary" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-exploratory-analysis-and-why-is-it-necessary">What is exploratory analysis and why is it necessary?</h2>
+<p>Exploratory analysis is looking at the data. You are attempting to get a sense of what the data looks like, to notice outliers or issues (<em>e.g.,</em> hey isn’t it weird that one of my wt samples groups with all the mutant samples, and one of the mut samples groups with the wt samples? I wonder what’s happening there?).</p>
+<p>If your data set was a physical problem (like a squeaky wheel or a well wrapped present) you’d physically explore it (pick it up, is it heavy, do I shake it?). Exploratory analysis is the data science equivalent.</p>
 </section>
-<section id="alignment-on-the-genome" class="level3">
-<h3 class="anchored" data-anchor-id="alignment-on-the-genome">Alignment on the genome</h3>
-<p>Now that we have an indexed genome, we can align our sequences. To do this we will need to know:</p>
-<ul>
-<li><p>Where the sequence information is stored (<em>e.g.,</em> fastq files).</p></li>
-<li><p>What kind of sequencing file we have (<em>e.g.,</em> Single end or Paired end).</p></li>
-<li><p>Where the indexes and genome are stored.</p></li>
-<li><p>Where the mapping files will be stored.</p></li>
-</ul>
-<p>Once we have that information we are ready to align our sequences. First, navigate to the RNA_seq directory, and run hisat2 on the first sample. We will use the -x flag to specify the basename of the index, the -U flag to specify the comma-separated list of files containing unpaired reads to be aligned, and the -S flag to write SAM alignment output files.</p>
-<pre class="{bash}"><code>cd ~/RNA_seq
+<section id="exploratory-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="exploratory-analysis">Exploratory analysis</h2>
+<p>Use the import data set or read.delim() function to import the file yeast_counts_all_chr, and name the object fcData. Also, load the dplyr library. We will look at some of the basic stats and features of our data object with View(), dim(), and names()</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
 
-hisat2 -x Genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel -U Raw/SRR014335-chr1.fastq -S SRR014335.sam</code></pre>
-<p>Output should look something like this:</p>
-<pre><code>125090 reads; of these:
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
 
-  125090 (100.00%) were unpaired; of these:
-
-    15108 (12.08%) aligned 0 times
-
-    88991 (71.14%) aligned exactly 1 time
-
-    20991 (16.78%) aligned &gt;1 times
-
-87.92% overall alignment rate</code></pre>
-<p>Now that we have confirmed this code works for our first sample, we will use a loop to align the rest of the samples. We will make a new directory called Mapping, which we will use to store all of our mapping output files. Then navigate to the Trimmed directory and execute the for loop to align all samples.</p>
-<pre class="{bash}"><code>mkdir Mapping
-
-cd ~/RNA_seq/Trimmed
-
-for filename in *
-do
-base=$(basename ${filename} .trimmed.fastq)
-hisat2 -p 4 -x ../Genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel -U $filename -S ../Mapping/${base}.sam --summary-file ../Mapping/${base}_summary.txt
-done</code></pre>
-<p>Check the output directory (Mapping) and see the different files that have been produced. You should see both .sam and _summary.txt files for each sample.</p>
-<p>Let’s look at the SAM file format.</p>
-<pre class="{bash}"><code>less SRR014335-chr1.sam</code></pre>
-<p>The file begins with an optional header which is used to include human-readable metadata such as the source of the data, reference sequence, method of alignment <em>etc.,</em>. Following the header is the alignment section. Each line contains information corresponding to the alignment of a single read. Each alignment line has 11 mandatory fields for essential mapping information and a variable number of other fields for aligner-specific information.</p>
-</section>
-<section id="converting-sam-to-bam" class="level3">
-<h3 class="anchored" data-anchor-id="converting-sam-to-bam">Converting SAM to BAM</h3>
-<p>SAM files are tab-delimited text files containing information for each individual read and it’s alignment to the genome. SAM files are large, so the first thing we do with them is convert them to BAM files: compressed, binary versions of the file which reduce time and can themselves be indexed for efficiency when we interact with them.</p>
-<p>We will convert the SAM file to the BAM format using the samtools program with the view command. Use the -S flag to specify the input is a SAM file, and the -b flag to specify BAM as the output.</p>
-<p>Note that you will see a warning “fail to read the header from…”, this is normal.</p>
-<pre class="{bash}"><code>for filename in *.sam
-do
-base=$(basename ${filename} .sam)
-samtools view -S -b ${filename} -o ${base}.bam
-done
-
-ls</code></pre>
-<p>Next we will sort the BAM files, which will mean our future steps are more efficient. From the samtools program we will use the sort command, with the -o flag to specify where the output file should go.</p>
-<pre class="{bash}"><code>for filename in *.bam
-do
-base=$(basename ${filename} .bam)
-samtools sort -o ${base}_sorted.bam ${filename}
-done</code></pre>
-</section>
-<section id="mapping-statistics" class="level3">
-<h3 class="anchored" data-anchor-id="mapping-statistics">Mapping statistics</h3>
-<p>Using the sorted BAM file, you can now easily calculate some basic mapping statistics using the samtools flagstat command.</p>
-<pre class="{bash}"><code>samtools flagstat SRR014335-chr1_sorted.bam</code></pre>
-<p>Basic statistics shown by flagstat will be slightly different from those in the summary file generated by HISAT2 due to different “totals” that are used for comparisons. flagstat compares the number of alignments while HISAT2 compares the number of reads mapped. This is because reads can be mapped/aligned to more than one reference location, and these reads have a “primary” and “secondary” alignment (see section 1.2 of the <a href="https://github.com/samtools/hts-specs/blob/master/SAMv1.pdf">SAM specifications</a>). For example, the percent overall alignment in the HISAT2 summary will be equivalent to the percent primary mapped evaluated by flagstat. To get the number of reads that aligned 0 times (summary file), the equivalent statistic from flagstat would be subtracting the number of mapped reads from the number of total alignments.</p>
-</section>
-<section id="multiqc" class="level3">
-<h3 class="anchored" data-anchor-id="multiqc">MultiQC</h3>
-<p>HISAT2 output data can be incorporated into the MultiQC report. Copy the summary files generated by HISAT2 into the MultiQC directory and re-run multiqc.</p>
-<p>Navigate to the updated report and view it in your browser.</p>
-<pre class="{bash}"><code>cd ~/RNA_seq/MultiQC
-cp ../Mapping/*summary* ./
-multiqc .</code></pre>
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you are completing this workshop on the NeSI OpenOnDemand platform, run the code below to load the file. </span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># fcData &lt;- read.delim("~/RNA_seq/yeast_counts_all_chr.txt", comment.char="#")</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="do">## I'm loading from my own local machine, so my filepath is different:</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>fcData <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">"~/Library/CloudStorage/OneDrive-UniversityofOtago/GenomicsAotearoa/Github_local_repos/RNA-seq-data-analysis-workflow/data/yeast_counts_all_chr.txt"</span>, <span class="at">comment.char=</span><span class="st">"#"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(fcData)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>fcData <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Geneid Chr Start   End Strand Length ...STAR.SRR014335.Aligned.out.sam
+1   YDL248W  IV  1802  2953      +   1152                                52
+2 YDL247W-A  IV  3762  3836      +     75                                 0
+3   YDL247W  IV  5985  7814      +   1830                                 2
+4   YDL246C  IV  8683  9756      -   1074                                 0
+5   YDL245C  IV 11657 13360      -   1704                                 0
+6   YDL244W  IV 16204 17226      +   1023                                 6
+  ...STAR.SRR014336.Aligned.out.sam ...STAR.SRR014337.Aligned.out.sam
+1                                46                                36
+2                                 0                                 0
+3                                 4                                 2
+4                                 0                                 1
+5                                 3                                 0
+6                                 6                                 5
+  ...STAR.SRR014339.Aligned.out.sam ...STAR.SRR014340.Aligned.out.sam
+1                                65                                70
+2                                 0                                 1
+3                                 6                                 8
+4                                 1                                 2
+5                                 5                                 7
+6                                20                                30
+  ...STAR.SRR014341.Aligned.out.sam
+1                                78
+2                                 0
+3                                 5
+4                                 0
+5                                 4
+6                                19</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fcData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Geneid"                            "Chr"                              
+ [3] "Start"                             "End"                              
+ [5] "Strand"                            "Length"                           
+ [7] "...STAR.SRR014335.Aligned.out.sam" "...STAR.SRR014336.Aligned.out.sam"
+ [9] "...STAR.SRR014337.Aligned.out.sam" "...STAR.SRR014339.Aligned.out.sam"
+[11] "...STAR.SRR014340.Aligned.out.sam" "...STAR.SRR014341.Aligned.out.sam"</code></pre>
+</div>
+</div>
+<p>To help with our future data analysis, let’s rename the column names for the samples.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fcData)[<span class="dv">7</span><span class="sc">:</span><span class="dv">12</span>] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"WT1"</span>, <span class="st">"WT2"</span>, <span class="st">"WT3"</span>, <span class="st">"MT1"</span>, <span class="st">"MT2"</span>, <span class="st">"MT3"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>fcData <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Geneid Chr Start   End Strand Length WT1 WT2 WT3 MT1 MT2 MT3
+1   YDL248W  IV  1802  2953      +   1152  52  46  36  65  70  78
+2 YDL247W-A  IV  3762  3836      +     75   0   0   0   0   1   0
+3   YDL247W  IV  5985  7814      +   1830   2   4   2   6   8   5
+4   YDL246C  IV  8683  9756      -   1074   0   0   1   1   2   0
+5   YDL245C  IV 11657 13360      -   1704   0   3   0   5   7   4
+6   YDL244W  IV 16204 17226      +   1023   6   6   5  20  30  19</code></pre>
+</div>
+</div>
+<p>That already looks much better. Now, let’s split out the count data, removing the annotation (e.g., Chr, Start, End) columns and adding Geneid back into the object as the row names. Having the geneid as rownames is much easier than having that data as a column. Save a copy of this counts object for loading later.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">=</span> fcData[,<span class="dv">7</span><span class="sc">:</span><span class="dv">12</span>]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(counts) <span class="ot">&lt;-</span> fcData<span class="sc">$</span>Geneid</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>counts <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          WT1 WT2 WT3 MT1 MT2 MT3
+YDL248W    52  46  36  65  70  78
+YDL247W-A   0   0   0   0   1   0
+YDL247W     2   4   2   6   8   5
+YDL246C     0   0   1   1   2   0
+YDL245C     0   3   0   5   7   4
+YDL244W     6   6   5  20  30  19</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(counts, <span class="at">file =</span> <span class="st">"counts.RData"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This is a very basic, very ‘clean’ R object. We can see our sample names, gene names and counts easily. It is entirely possible to use this object for the rest of our analysis - and that’s what we will do today, for the sake of simplicity. This object is easy to interact with and is easy to mentally visualise and conceptualise.</p>
+<p>However, it’s worth noting that many newer R packages and workflows will require (or at least strongly encourage) you to use a “summarised experiment object”. If a vector is a one-dimensional data storage object, and a matrix is a two-dimensional data storage object, you can think of a summarised experiment object as a three-dimensional way of storing data. In a summarised experiment object where you have the genes on the y axis and the samples on the x axis with counts as the observations, the z axis could be a second matrix storing different observations. Summarised experiment objects can stack multiple data types in this way and build up a complex (but tidy) array of data. Summarised experiment objects are powerful but can be harder to mentally conceptualise and require more complex code to interact with the data they store.</p>
+<p><a href="https://carpentries-incubator.github.io/bioc-intro/60-next-steps.html#next-steps">Summarised experiment objects</a> are covered in the Carpentries Introduction to Data Analysis with R workshop.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/MQC_hisat2.png" class="img-fluid figure-img"></p>
-<figcaption>MultiQC after alignment</figcaption>
+<p><img src="images/carpentriesSummarisedExperiment.svg" class="img-fluid figure-img"></p>
+<figcaption>The summarised experiment object, image from the Carpentries Incubator Introduction to Data Analysis with R workshop.</figcaption>
 </figure>
 </div>
-<p>You might notice that the report labels the summary files as “Bowtie2”. This is because the outputs are identical to those generated by Bowtie2, and MultiQC recognises them as Bowtie2.</p>
 </section>
+<section id="remove-non-expressed-genes-optional" class="level2">
+<h2 class="anchored" data-anchor-id="remove-non-expressed-genes-optional">Remove non-expressed genes (optional)</h2>
+<p>If you are working in a complex organism, many genes will not be expressed in all tissue types. It can be worth checking to see how many genes have zero (or e.g., &lt; 5) counts and opting to remove these from your data object.</p>
+<p>How many genes have counts of zero? How many genes have fewer than e.g., 5 counts?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(counts <span class="sc">==</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>WT1 WT2 WT3 MT1 MT2 MT3 
+562 563 573 437 425 435 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># WT1 WT2 WT3 MT1 MT2 MT3 </span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 562 563 573 437 425 435 </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Because our zeros are not a massive part of the data (<em>i.e.,</em> here they are &lt; 10% of the data), we will not remove them. However, they are worth noting because later we will consider logging our data, and zeros will cause an issue.</p>
 </section>
-<section id="read-summarisation" class="level2">
-<h2 class="anchored" data-anchor-id="read-summarisation">Read summarisation</h2>
-<p>Sequencing reads often need to be assigned to genomic features of interest after they are mapped to the reference genome. This process is often called read summarisation or read quantification. Read summarisation is required by a number of downstream analyses such as gene expression analysis and histone modification analysis. The output of read summarisation is a count table, in which the number of reads assigned to each feature in each library is recorded. In our case each feature is an exon. To carry out counting we will use the featureCounts tool from the Subread package.</p>
-<p>Navigate to the RNA_seq directory, create a new directory called Counts and cd into that directory. From there run the featureCounts command which will require five different flags. We will use the -a flag to specify the annotation file, in this case the .gtf file we noticed earlier. The -o flag names the output file (which we will call yeast_counts.txt), while the -T flag specifies the number of threads/CPUs used for mapping. The -t flag is used to control the feature type in the GTF annotation file, we will use exon (which is also the default). Finally, the -g flag specifies the attribute type in the GTF file. We will use the gene_id option (again, the default).</p>
-<pre class="{bash}"><code>cd ~/RNA_seq
-
-mkdir Counts
-
-cd Counts
-
-featureCounts -a ../Genome/Saccharomyces_cerevisiae.R64-1-1.99.gtf -o ./yeast_counts.txt -T 2 -t exon -g gene_id ../Mapping/*sorted.bam</code></pre>
-<p>Update the MultiQC report by copying over the output data in Counts.</p>
-<pre class="{bash}"><code>cd ~/RNA_seq/MultiQC
-
-cp ../Counts/* .
-
-multiqc .</code></pre>
-<p>We have now generated counts! We can now take these through to the next stage of our analysis: preparing to identify differentially expressed genes.</p>
+<section id="visualising-our-data-set" class="level2">
+<h2 class="anchored" data-anchor-id="visualising-our-data-set">Visualising our data set</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">as.matrix</span>(counts) <span class="sc">~</span> <span class="fu">col</span>(counts), </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Counts"</span>, <span class="at">xlab =</span> <span class="st">"Samples"</span>, <span class="at">names =</span> <span class="fu">colnames</span>(counts))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="episode_3_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This figure indicates we should consider logging our data (for the purpose of visualisations).</p>
+<p>Log transform the data, adding 0.5 to avoid log(0) errors.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>logCounts <span class="ot">=</span> <span class="fu">log2</span>(<span class="fu">as.matrix</span>(counts) <span class="sc">+</span> <span class="fl">0.5</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">as.matrix</span>(logCounts) <span class="sc">~</span> <span class="fu">col</span>(counts), </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Counts"</span>, </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Samples"</span>, </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">names =</span> <span class="fu">colnames</span>(counts), </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Log counts of samples"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="episode_3_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The log count boxplots reveal a difference between our wt and mutant samples. As a reminder, these two strains of yeast are very different and we would not normally expect this level of difference (although that might vary depending on your experiment).</p>
+<p>We can use density plots as another way to visualise differences between our two sample groups. First, create an object called lineColour which will colour our wt samples blue and our mutant samples red. Then create a density plot for the first sample, and use a loop to density lines for the remaining samples onto the plot.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>lineColour <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"blue"</span>, <span class="st">"blue"</span>, <span class="st">"red"</span>, <span class="st">"red"</span>, <span class="st">"red"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>lineColour</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "blue" "blue" "blue" "red"  "red"  "red" </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(logCounts[,<span class="dv">1</span>]), <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.3</span>), <span class="at">col=</span>lineColour[<span class="dv">1</span>], <span class="at">xlab =</span> <span class="st">"log Counts"</span>, <span class="at">main =</span> <span class="st">"Density plot"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(logCounts)) <span class="fu">lines</span>(<span class="fu">density</span>(logCounts[,i]), <span class="at">col=</span>lineColour[i])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="episode_3_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A common question to ask at this point is, are the differences we can see between our two sample groups a true biological effect, or is this an experimental artifact? Often, we will not know the answer to this question. For now, it is enough to be aware of these differences and to keep them in mind moving forward.</p>
+</section>
+<section id="library-size" class="level2">
+<h2 class="anchored" data-anchor-id="library-size">Library size</h2>
+<p>Library size refers to the total number of reads for the entire sample. If two samples have vastly different library sizes, genes would look differentially expressed between samples e.g., if one library was twice as large as another, all genes would look to be upregulated in the larger library sample. Before we compare counts across samples we need to check whether the library sizes are approximately similar, and if they are not, make a correction to account for the size differences.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(counts) <span class="sc">%&gt;%</span> <span class="fu">barplot</span>(., <span class="at">ylab =</span> <span class="st">"Reads mapped per sample"</span>, <span class="at">xlab =</span> <span class="st">"Sample"</span>, <span class="at">main =</span> <span class="st">"Library size"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="episode_3_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Library sizes are approximately equal across the samples. They are slightly lower in the mutants compared to the wt, but the difference is low (<em>i.e.,</em> mean ~ 4.6 million and 4.8 million reads in mutant and wt respectively).</p>
+<p>If we needed to correct for library size, we would use a two-step method. In the first step we calculate a sample-specific value called a size factor. If we take the raw read counts and divide by the size factor for each sample, the resulting values would be similar for all samples. The way in which size factors are implemented will differ depending on the analysis method used. For some methods the size factor must be manually used to correct for library sizes. For other methods (<em>e.g.,</em> DESeq2, which we will use shortly) automatically estimates size factors and implements them into the differential gene expression analysis workflow.</p>
+</section>
+<section id="heteroskedasticity" class="level2">
+<h2 class="anchored" data-anchor-id="heteroskedasticity">Heteroskedasticity</h2>
+<p>Heteroskedasticity is “heterogeneity of variance”. If the variance we observe is non-uniform across a range of values, we can describe the dataset as heteroskedastic. In RNA-seq, this means that variance depends on the mean expression of the gene. Wikipedia has a useful example:</p>
+<p>“A classic example of heteroscedasticity is that of income versus expenditure on meals. A wealthy person may eat inexpensive food sometimes and expensive food at other times. A poor person will almost always eat inexpensive food. Therefore, people with higher incomes exhibit greater variability in expenditures on food.”</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Homoscedasticity_and_heteroscedasticity">Heteroskedasticity</a></li>
+</ul>
+<p><strong>Exercise:</strong> Given the above example, do you expect genes with higher expression to have higher or lower variance than genes with low expression? That is, which will have higher variance - genes with high average expression or genes with low average expression?</p>
+<p>This can be a surprisingly complex question to answer, and depends on how we think about variance. If a gene has a high mean expression (<em>e.g.,</em> say 1000), then we can expect that the standard deviation will be a reasonably high number (<em>e.g.,</em> let’s say 20). If a gene has low mean expression (e.g., 10), then the standard deviation will be small (<em>e.g.,</em> 2). So, it is true to say that for genes with higher average expression, the standard deviation is greater.</p>
+<p>However, we also need to think about magnitude of variance, which we can do using the numbers from our above imaginary examples. For the gene with a mean expression of 1000 and sd of 20, going from 1000 to 1020 is not a big change. For the gene with the low mean expression, going from 10 to 12 <em>is</em> a large change.</p>
+<p>This <a href="https://github.com/friedue/Notes/blob/master/RNA_heteroskedasticity.md">write-up</a> gives an in-depth explanation of heteroskedasticity and how we can think about it.</p>
+<p>We will look more at heteroskedasticity when we begin to identify differentially expressed genes, but for now it is important to be aware of the concept.</p>
 <footer class="navigation-buttons">
 <a href="./episode_2.html"> <button class="nav-button prev-button">Previous Page</button> </a> <a href="./episode_4.html"> <button class="nav-button next-button">Next Page</button> </a>
 </footer>

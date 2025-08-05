@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Conclusions – RNA-seq data analysis workflow</title>
+<title>The RNA-seq workflow – RNA-seq data analysis workflow</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -40,7 +40,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-e12d7696102c29682f72ea5f3865928a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-c6bb7273373c097b27b844e2ff5a3201.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -73,7 +73,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar docked fullcontent quarto-light">
+<body class="nav-sidebar docked quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -82,7 +82,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./day_2_overview.html">Day Two</a></li><li class="breadcrumb-item"><a href="./episode_7.html">Conclusions</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Overview.html">Background</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -110,12 +110,18 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introduction</span></a>
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Overview.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Background</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./episode_1.html" class="sidebar-item-text sidebar-link">
+            <a href="./day_1_overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Day One</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -124,19 +130,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_2.html" class="sidebar-item-text sidebar-link">
+  <a href="./episode_1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Sequence Quality - FastQC, MultiQC and Cutadapt</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_3.html" class="sidebar-item-text sidebar-link">
+  <a href="./episode_2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Quantifying Gene Expression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_4.html" class="sidebar-item-text sidebar-link">
+  <a href="./episode_3.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Exploratory Analysis</span></a>
   </div>
 </li>
@@ -153,37 +159,20 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_5.html" class="sidebar-item-text sidebar-link">
+  <a href="./episode_4.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Identify Differentially Expressed Genes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_6.html" class="sidebar-item-text sidebar-link">
+  <a href="./episode_5.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Functional analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_7.html" class="sidebar-item-text sidebar-link active">
+  <a href="./episode_6.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Conclusions</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Supplementary</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./supplementary_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Supplementary 1 - Quantile Normalisation</span></a>
   </div>
 </li>
       </ul>
@@ -193,13 +182,32 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#the-rna-seq-workflow-overview" id="toc-the-rna-seq-workflow-overview" class="nav-link active" data-scroll-target="#the-rna-seq-workflow-overview">The RNA-seq workflow overview</a>
+  <ul class="collapse">
+  <li><a href="#core-steps-in-a-common-workflow" id="toc-core-steps-in-a-common-workflow" class="nav-link" data-scroll-target="#core-steps-in-a-common-workflow">Core steps in a common workflow:</a></li>
+  </ul></li>
+  <li><a href="#what-are-the-main-challenges-or-decision-points" id="toc-what-are-the-main-challenges-or-decision-points" class="nav-link" data-scroll-target="#what-are-the-main-challenges-or-decision-points">What are the main challenges or decision points?</a>
+  <ul class="collapse">
+  <li><a href="#counting-or-quantifying" id="toc-counting-or-quantifying" class="nav-link" data-scroll-target="#counting-or-quantifying">Counting or quantifying</a></li>
+  <li><a href="#library-sizes-and-composition" id="toc-library-sizes-and-composition" class="nav-link" data-scroll-target="#library-sizes-and-composition">Library sizes and composition</a></li>
+  <li><a href="#heteroskedasticity" id="toc-heteroskedasticity" class="nav-link" data-scroll-target="#heteroskedasticity">Heteroskedasticity</a></li>
+  <li><a href="#gene-length" id="toc-gene-length" class="nav-link" data-scroll-target="#gene-length">Gene length</a></li>
+  </ul></li>
+  <li><a href="#introduction-to-the-dataset" id="toc-introduction-to-the-dataset" class="nav-link" data-scroll-target="#introduction-to-the-dataset">Introduction to the dataset</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./day_2_overview.html">Day Two</a></li><li class="breadcrumb-item"><a href="./episode_7.html">Conclusions</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Conclusions</h1>
+<h1 class="title">The RNA-seq workflow</h1>
 </div>
 
 
@@ -216,15 +224,57 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Here we have presented the typical workflow in an RNA-seq analysis. The expectation is that the major steps we have highlighted are always required, and for each step we have demonstrated a single method.</p>
-<p>The most important takeway from this workshop is that each tool or method has underlying assumptions or processes which are often hidden from view. This is especially true for those of us who have a strong background in biology and are less well-grounded in statistics or computational data science. It will often be the case that you need to invest a significant amount of time in understanding and choosing the tools that are fit for your scientific purpose. In many cases it is not a case of choosing ‘the best’ method and is more a case of being aware of what sacrifices you are making a choice.</p>
-<p>We strongly recommend that analyses should be repeated with different tools or options and you take the time to assess the impact of these choices. In some cases, as was the case when we compared DESeq2 and Limma, results will be very similar and you gain confidence. In other cases you will need to decide which path to take, but you will be aware of the impact of your decisions.</p>
-<p>Finally, the most useful thing you can do is to connect with other people carrying out similar analyses or people in your area (physically, or field of research) who are knowledgeable.</p>
+<p>What are the key steps in an RNA-seq data analysis workflow?</p>
+<p>What are the peculiar features of RNA-seq data, and how do we address these features to make sure our analysis is unbiased and accurate?</p>
+<p>What methods are available to handle RNA-seq data analysis?</p>
+<section id="the-rna-seq-workflow-overview" class="level2">
+<h2 class="anchored" data-anchor-id="the-rna-seq-workflow-overview">The RNA-seq workflow overview</h2>
+<p>We will assume that the aim of our RNA-seq experiment is to identify a set of genes which are differentially expressed between two or more groups, and to derive biologically meaningful information from our gene list(s).</p>
+<p>Assuming this is the case, there are many methods that can be applied to this type of analysis and this can be overwhelming. Here we will look at what we call the core workflow - the major steps that you will take to go from the raw FASTA files (the output from an RNA-seq experiment) to an informative list of differentially expressed genes.</p>
+<section id="core-steps-in-a-common-workflow" class="level3">
+<h3 class="anchored" data-anchor-id="core-steps-in-a-common-workflow">Core steps in a common workflow:</h3>
+<p>Quality assessment of the raw data</p>
+<p>Adapter removal and cleanup</p>
+<p>Quantification of gene expression</p>
+<p>Identifying differentially expressed genes</p>
+<p>Over-representation analysis</p>
+<p>As you will see, for some steps there are multiple tools that take a functionally similar approach (<em>e.g.,</em> quality assessment and adapter removal). For other steps, especially for quantification and identification of differentially expressed genes, there are different methodologies available. These methodologies take different routes to address complex biological, computational and statistical questions. A key takeaway from this workshop is that it is not always possible to identify a “best” tool - <em>you must be willing and able to identify the strengths and weaknesses of available tools and decide, based on your question and experiment, which tool is most appropriate for you</em>.</p>
+<p>Let’s look at some peculiar features of RNA-seq data and identify the challenges these raise for us as data analysts.</p>
+</section>
+</section>
+<section id="what-are-the-main-challenges-or-decision-points" class="level2">
+<h2 class="anchored" data-anchor-id="what-are-the-main-challenges-or-decision-points">What are the main challenges or decision points?</h2>
+<section id="counting-or-quantifying" class="level3">
+<h3 class="anchored" data-anchor-id="counting-or-quantifying">Counting or quantifying</h3>
+<p>This is not an exhaustive overview of RNA-seq data, but as a reminder, the raw data we receive in the form of FASTA files is a series of reads from <em>somewhere</em> in the genome. Each read is an indication, or measurement, of gene expression. We must take these reads, identify where in the genome they originated from and then make a measurement of how frequently we observed those reads. The more reads that are mapped back to a specific location in the genome, the more highly expressed that region (gene) is.</p>
+<p>There are two major approaches to measure gene expression from reads: in the first method reads are aligned to a reference genome and are then ‘counted’, while in the second method reads are ‘quantified’ without the need to align to a reference (these are sometimes referred to as ‘pseudocounts’). There are arguments for each of these types, as well as other approaches, but a full discussion is beyond the scope of this workshop. We will point you towards some examples for each approach.</p>
+</section>
+<section id="library-sizes-and-composition" class="level3">
+<h3 class="anchored" data-anchor-id="library-sizes-and-composition">Library sizes and composition</h3>
+<p>Due to myriad biological and technical effects, each sample will have differing numbers of total reads (different library sizes). When we attempt to compare gene expression across samples, these different library sizes can cause genes to be over- or under-expressed. Before we can compare samples we must correct for library size differences.</p>
+<p>Additionally, we need to be aware of library composition. If a library has one (or a few) genes that are very highly expressed, they can be thought of as ‘taking up’ a high proportion of the total library of reads. If we compare this skewed library with another library, some genes may look down-regulated in the skewed library.</p>
+</section>
+<section id="heteroskedasticity" class="level3">
+<h3 class="anchored" data-anchor-id="heteroskedasticity">Heteroskedasticity</h3>
+<p>Heteroskedasticity describes a situation where variance changes with the mean. In RNA-seq data the level of variance associated with each gene is somewhat dependent on the mean expression level of the gene. This is an issue since some statistical approaches (specifically, the Poisson distribution) assume homoskedasticity (that is, that variance is not associated with the mean).</p>
+<p>Two approaches to dealing with heteroskedasticity are common in the literature: transform the data to reduce (or remove) the mean-variance association or use a method that is robust to the mean-variance association (DESeq2 with the Negative Binomial distribution).</p>
+</section>
+<section id="gene-length" class="level3">
+<h3 class="anchored" data-anchor-id="gene-length">Gene length</h3>
+<p>Does gene length matter? You might be aware that if a gene is longer, it is more likely to have reads mapped to it. This is important to be aware of, but when we are identifying differentially expressed genes we are always comparing genes to themselves. Therefore, gene length is not a factor when identifying differentially expressed genes.</p>
+<p>However, gene length does need to be taken into account when we carry out over-representation analysis.</p>
+</section>
+</section>
+<section id="introduction-to-the-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-the-dataset">Introduction to the dataset</h2>
+<p>The example data in this workshop are from <a href="https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1000299">Lee et al.,</a> and include a set of six <em>Saccharomyces cerevisiae</em> samples in two groups: three wild-type samples and three RNA-degradation mutants. Note that these particular mutants are signifcantly different from the wildtype and we expect large differences between our two sample groups.</p>
+<p>The data is a subset of an RNA-sequencing experiment which used single end sequencing.</p>
 <footer class="navigation-buttons">
-<a href="./episode_6.html"> <button class="nav-button prev-button">Previous Page</button> </a>
+<a href="./index.html"> <button class="nav-button prev-button">Previous Page</button> </a> <a href="./episode_1.html"> <button class="nav-button next-button">Next Page</button> </a>
 </footer>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

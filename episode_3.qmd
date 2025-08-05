@@ -1,187 +1,148 @@
 ---
-title: Quantifying Gene Expression
+title: Exploratory Analysis
 code-overflow: wrap
 ---
 
-In order to draw conclusions about gene expression from our reads, we need to first identify which region of the genome reads originated from and then quantify the number of reads from that region. There are many tools available to carry out quantification, and we will not cover the arguments for and against each tool. We encourage you to carry out a literature search, and discuss with experienced individuals in your field, before committing to a particular quantification procedure. Here we will give a brief overview of two approaches with considerably different underlying methodology, give an example tool for each, and then demonstrate one tool for the purpose of progressing to the next stage of our workflow.
+Exploratory analysis is will cover basic visualisations and characterisations of the data as well as any initial transformations (*e.g.,* library size) required before we move on to identifying differentially expressed genes. 
 
-The first approach to read quantification involves aligning reads to the genome and then counting the number of reads that are aligned to certain genomic features (*e.g.,* exons).
+## What is exploratory analysis and why is it necessary?
 
-The second approach we will introduce involves creating 'pseudocounts'. In this method, reads are *not* aligned to the genome. Instead, they are pseudoaligned to kmers within the transcriptome and their abundance is estimated.
+Exploratory analysis is looking at the data. You are attempting to get a sense of what the data looks like, to notice outliers or issues (*e.g.,* hey isn't it weird that one of my wt samples groups with all the mutant samples, and one of the mut samples groups with the wt samples? I wonder what's happening there?).
 
-In today's workflow we will demonstrate genome alignment and counting, and will provide examples of other workflows that use pseudocounting and abundance estimation.
+If your data set was a physical problem (like a squeaky wheel or a well wrapped present) you'd physically explore it (pick it up, is it heavy, do I shake it?). Exploratory analysis is the data science equivalent.
 
-## Alignment with HISAT2
+## Exploratory analysis
 
-### Preparation of the genome
-
-When carrying out alignment, the first requirement is a genome which has been indexed. Indexing is a process to organise the genome so that our alignment algorithms can match reads to the genome easily, without having to scan the entire genome.
-
-Navigate to the Genome directory and view the contents. You should see two files, a .gtf and a .fa file. We will use the .gtf file towards the end of this episode. 
-
-```{bash}
-cd ~/RNA_seq/Genome
-
-ls 
-```
-
-The .gtf file (General Transfer Format) contains information about the genome, such as gene names *etc.,* all stored in a one-line-per-feature format, while the .fa (FASTA) file contains sequence.
-
-We will now use hisat2 to index the genome using the hisat2-build command. We will specify the number of threads (-p 4), and specify the input file (-f for FASTA file type).
-
-```{bash}
-# index file:
-hisat2-build -p 4 -f Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa Saccharomyces_cerevisiae.R64-1-1.dna.toplevel
-
-ls
-```
-
-We can now see many new .ht2 files, which make up the indexed version of the genome.
-
-### Alignment on the genome
-
-Now that we have an indexed genome, we can align our sequences. To do this we will need to know:
-
--   Where the sequence information is stored (*e.g.,* fastq files).
-
--   What kind of sequencing file we have (*e.g.,* Single end or Paired end).
-
--   Where the indexes and genome are stored.
-
--   Where the mapping files will be stored.
-
-Once we have that information we are ready to align our sequences. First, navigate to the RNA_seq directory, and run hisat2 on the first sample. We will use the -x flag to specify the basename of the index, the -U flag to specify the comma-separated list of files containing unpaired reads to be aligned, and the -S flag to write SAM alignment output files. 
-
-```{bash}
-cd ~/RNA_seq
-
-hisat2 -x Genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel -U Raw/SRR014335-chr1.fastq -S SRR014335.sam
-```
-
-Output should look something like this:
-
-```         
-125090 reads; of these:
-
-  125090 (100.00%) were unpaired; of these:
-
-    15108 (12.08%) aligned 0 times
-
-    88991 (71.14%) aligned exactly 1 time
-
-    20991 (16.78%) aligned >1 times
-
-87.92% overall alignment rate
-```
-
-Now that we have confirmed this code works for our first sample, we will use a loop to align the rest of the samples. We will make a new directory called Mapping, which we will use to store all of our mapping output files. Then navigate to the Trimmed directory and execute the for loop to align all samples. 
-
-```{bash}
-mkdir Mapping
-
-cd ~/RNA_seq/Trimmed
-
-for filename in *
-do
-base=$(basename ${filename} .trimmed.fastq)
-hisat2 -p 4 -x ../Genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel -U $filename -S ../Mapping/${base}.sam --summary-file ../Mapping/${base}_summary.txt
-done
-```
-
-Check the output directory (Mapping) and see the different files that have been produced. You should see both .sam and _summary.txt files for each sample. 
-
-Let's look at the SAM file format.
-```{bash}
-less SRR014335-chr1.sam
-```
-
-The file begins with an optional header which is used to include human-readable metadata such as the source of the data, reference sequence, method of alignment *etc.,*. Following the header is the alignment section. Each line contains information corresponding to the alignment of a single read. Each alignment line has 11 mandatory fields for essential mapping information and a variable number of other fields for aligner-specific information. 
+Use the import data set or read.delim() function to import the file yeast_counts_all_chr, and name the object fcData. Also, load the dplyr library. We will look at some of the basic stats and features of our data object with View(), dim(), and names()
 
 
-### Converting SAM to BAM 
+```{r}
+library(dplyr)
 
-SAM files are tab-delimited text files containing information for each individual read and it's alignment to the genome. SAM files are large, so the first thing we do with them is convert them to BAM files: compressed, binary versions of the file which reduce time and can themselves be indexed for efficiency when we interact with them.
+# If you are completing this workshop on the NeSI OpenOnDemand platform, run the code below to load the file. 
+# fcData <- read.delim("~/RNA_seq/yeast_counts_all_chr.txt", comment.char="#")
 
-We will convert the SAM file to the BAM format using the samtools program with the view command. Use the -S flag to specify the input is a SAM file, and the -b flag to specify BAM as the output. 
+## I'm loading from my own local machine, so my filepath is different:
+fcData <- read.delim("~/Library/CloudStorage/OneDrive-UniversityofOtago/GenomicsAotearoa/Github_local_repos/RNA-seq-data-analysis-workflow/data/yeast_counts_all_chr.txt", comment.char="#")
 
-Note that you will see a warning "fail to read the header from...", this is normal.
-```{bash}
-for filename in *.sam
-do
-base=$(basename ${filename} .sam)
-samtools view -S -b ${filename} -o ${base}.bam
-done
+View(fcData)
+fcData %>% head()
 
-ls
-```
-
-Next we will sort the BAM files, which will mean our future steps are more efficient. From the samtools program we will use the sort command, with the -o flag to specify where the output file should go.
-
-```{bash}
-for filename in *.bam
-do
-base=$(basename ${filename} .bam)
-samtools sort -o ${base}_sorted.bam ${filename}
-done
-```
-
-### Mapping statistics
-
-Using the sorted BAM file, you can now easily calculate some basic mapping statistics using the samtools flagstat command. 
-
-```{bash}
-samtools flagstat SRR014335-chr1_sorted.bam
-```
-
-Basic statistics shown by flagstat will be slightly different from those in the summary file generated by HISAT2 due to different "totals" that are used for comparisons. flagstat compares the number of alignments while HISAT2 compares the number of reads mapped. This is because reads can be mapped/aligned to more than one reference location, and these reads have a "primary" and "secondary" alignment (see section 1.2 of the [SAM specifications](https://github.com/samtools/hts-specs/blob/master/SAMv1.pdf)). For example, the percent overall alignment in the HISAT2 summary will be equivalent to the percent primary mapped evaluated by flagstat. To get the number of reads that aligned 0 times (summary file), the equivalent statistic from flagstat would be subtracting the number of mapped reads from the number of total alignments.
-
-### MultiQC 
-
-HISAT2 output data can be incorporated into the MultiQC report. Copy the summary files generated by HISAT2 into the MultiQC directory and re-run multiqc.
-
-Navigate to the updated report and view it in your browser.
-```{bash}
-cd ~/RNA_seq/MultiQC
-cp ../Mapping/*summary* ./
-multiqc .
-```
-![MultiQC after alignment](images/MQC_hisat2.png)
-
-You might notice that the report labels the summary files as "Bowtie2". This is because the outputs are identical to those generated by Bowtie2, and MultiQC recognises them as Bowtie2. 
-
-
-## Read summarisation
-
-Sequencing reads often need to be assigned to genomic features of interest after they are mapped to the reference genome. This process is often called read summarisation or read quantification. Read summarisation is required by a number of downstream analyses such as gene expression analysis and histone modification analysis. The output of read summarisation is a count table, in which the number of reads assigned to each feature in each library is recorded. In our case each feature is an exon. To carry out counting we will use the featureCounts tool from the Subread package.
-
-Navigate to the RNA_seq directory, create a new directory called Counts and cd into that directory. From there run the featureCounts command which will require five different flags. We will use the -a flag to specify the annotation file, in this case the .gtf file we noticed earlier. The -o flag names the output file (which we will call yeast_counts.txt), while the -T flag specifies the number of threads/CPUs used for mapping. The -t flag is used to control the feature type in the GTF annotation file, we will use exon (which is also the default). Finally, the -g flag specifies the attribute type in the GTF file. We will use the gene_id option (again, the default). 
-```{bash}
-cd ~/RNA_seq
-
-mkdir Counts
-
-cd Counts
-
-featureCounts -a ../Genome/Saccharomyces_cerevisiae.R64-1-1.99.gtf -o ./yeast_counts.txt -T 2 -t exon -g gene_id ../Mapping/*sorted.bam
+names(fcData)
 ```
 
 
-Update the MultiQC report by copying over the output data in Counts.
+To help with our future data analysis, let's rename the column names for the samples.
 
-```{bash}
-cd ~/RNA_seq/MultiQC
+```{r}
+names(fcData)[7:12] <- c("WT1", "WT2", "WT3", "MT1", "MT2", "MT3")
 
-cp ../Counts/* .
+fcData %>% head()
+```
 
-multiqc .
+That already looks much better. Now, let's split out the count data, removing the annotation (e.g., Chr, Start, End) columns and adding Geneid back into the object as the row names. Having the geneid as rownames is much easier than having that data as a column. Save a copy of this counts object for loading later.
+
+```{r}
+counts = fcData[,7:12]
+rownames(counts) <- fcData$Geneid
+counts %>% head()
+save(counts, file = "counts.RData")
+```
+
+This is a very basic, very 'clean' R object. We can see our sample names, gene names and counts easily. It is entirely possible to use this object for the rest of our analysis - and that's what we will do today, for the sake of simplicity. This object is easy to interact with and is easy to mentally visualise and conceptualise.
+
+However, it's worth noting that many newer R packages and workflows will require (or at least strongly encourage) you to use a "summarised experiment object". If a vector is a one-dimensional data storage object, and a matrix is a two-dimensional data storage object, you can think of a summarised experiment object as a three-dimensional way of storing data. In a summarised experiment object where you have the genes on the y axis and the samples on the x axis with counts as the observations, the z axis could be a second matrix storing different observations. Summarised experiment objects can stack multiple data types in this way and build up a complex (but tidy) array of data. Summarised experiment objects are powerful but can be harder to mentally conceptualise and require more complex code to interact with the data they store.
+
+[Summarised experiment objects](https://carpentries-incubator.github.io/bioc-intro/60-next-steps.html#next-steps) are covered in the Carpentries Introduction to Data Analysis with R workshop.
+
+![The summarised experiment object, image from the Carpentries Incubator Introduction to Data Analysis with R workshop.](images/carpentriesSummarisedExperiment.svg)
+
+## Remove non-expressed genes (optional)
+
+If you are working in a complex organism, many genes will not be expressed in all tissue types. It can be worth checking to see how many genes have zero (or e.g., \< 5) counts and opting to remove these from your data object.
+
+How many genes have counts of zero? How many genes have fewer than e.g., 5 counts?
+
+```{r}
+colSums(counts == 0)
+```
+
+```{r}
+# WT1 WT2 WT3 MT1 MT2 MT3 
+# 562 563 573 437 425 435 
+```
+
+Because our zeros are not a massive part of the data (*i.e.,* here they are \< 10% of the data), we will not remove them. However, they are worth noting because later we will consider logging our data, and zeros will cause an issue.
+
+## Visualising our data set
+
+```{r}
+boxplot(as.matrix(counts) ~ col(counts), 
+        ylab = "Counts", xlab = "Samples", names = colnames(counts))
+```
+
+This figure indicates we should consider logging our data (for the purpose of visualisations).
+
+Log transform the data, adding 0.5 to avoid log(0) errors.
+
+```{r}
+logCounts = log2(as.matrix(counts) + 0.5)
+
+boxplot(as.matrix(logCounts) ~ col(counts), 
+        ylab = "Counts", 
+        xlab = "Samples", 
+        names = colnames(counts), 
+        main = "Log counts of samples")
 ```
 
 
-We have now generated counts! We can now take these through to the next stage of our analysis: preparing to identify differentially expressed genes. 
+
+The log count boxplots reveal a difference between our wt and mutant samples. As a reminder, these two strains of yeast are very different and we would not normally expect this level of difference (although that might vary depending on your experiment).
+
+We can use density plots as another way to visualise differences between our two sample groups. First, create an object called lineColour which will colour our wt samples blue and our mutant samples red. Then create a density plot for the first sample, and use a loop to density lines for the remaining samples onto the plot.
+
+```{r}
+lineColour = c("blue", "blue", "blue", "red", "red", "red")
+lineColour
+
+plot(density(logCounts[,1]), ylim=c(0,0.3), col=lineColour[1], xlab = "log Counts", main = "Density plot")
+for(i in 2:ncol(logCounts)) lines(density(logCounts[,i]), col=lineColour[i])
+```
 
 
 
+A common question to ask at this point is, are the differences we can see between our two sample groups a true biological effect, or is this an experimental artifact? Often, we will not know the answer to this question. For now, it is enough to be aware of these differences and to keep them in mind moving forward.
 
+## Library size
+
+Library size refers to the total number of reads for the entire sample. If two samples have vastly different library sizes, genes would look differentially expressed between samples e.g., if one library was twice as large as another, all genes would look to be upregulated in the larger library sample. Before we compare counts across samples we need to check whether the library sizes are approximately similar, and if they are not, make a correction to account for the size differences.
+
+```{r}
+colSums(counts) %>% barplot(., ylab = "Reads mapped per sample", xlab = "Sample", main = "Library size")
+```
+
+
+Library sizes are approximately equal across the samples. They are slightly lower in the mutants compared to the wt, but the difference is low (*i.e.,* mean \~ 4.6 million and 4.8 million reads in mutant and wt respectively).
+
+If we needed to correct for library size, we would use a two-step method. In the first step we calculate a sample-specific value called a size factor. If we take the raw read counts and divide by the size factor for each sample, the resulting values would be similar for all samples. The way in which size factors are implemented will differ depending on the analysis method used. For some methods the size factor must be manually used to correct for library sizes. For other methods (*e.g.,* DESeq2, which we will use shortly) automatically estimates size factors and implements them into the differential gene expression analysis workflow.
+
+## Heteroskedasticity
+
+Heteroskedasticity is "heterogeneity of variance". If the variance we observe is non-uniform across a range of values, we can describe the dataset as heteroskedastic. In RNA-seq, this means that variance depends on the mean expression of the gene. Wikipedia has a useful example:
+
+"A classic example of heteroscedasticity is that of income versus expenditure on meals. A wealthy person may eat inexpensive food sometimes and expensive food at other times. A poor person will almost always eat inexpensive food. Therefore, people with higher incomes exhibit greater variability in expenditures on food." 
+
+- [Heteroskedasticity](https://en.wikipedia.org/wiki/Homoscedasticity_and_heteroscedasticity)
+
+**Exercise:** Given the above example, do you expect genes with higher expression to have higher or lower variance than genes with low expression? That is, which will have higher variance - genes with high average expression or genes with low average expression?
+
+This can be a surprisingly complex question to answer, and depends on how we think about variance. If a gene has a high mean expression (*e.g.,* say 1000), then we can expect that the standard deviation will be a reasonably high number (*e.g.,* let's say 20). If a gene has low mean expression (e.g., 10), then the standard deviation will be small (*e.g.,* 2). So, it is true to say that for genes with higher average expression, the standard deviation is greater.
+
+However, we also need to think about magnitude of variance, which we can do using the numbers from our above imaginary examples. For the gene with a mean expression of 1000 and sd of 20, going from 1000 to 1020 is not a big change. For the gene with the low mean expression, going from 10 to 12 *is* a large change.
+
+This [write-up](https://github.com/friedue/Notes/blob/master/RNA_heteroskedasticity.md) gives an in-depth explanation of heteroskedasticity and how we can think about it.
+
+We will look more at heteroskedasticity when we begin to identify differentially expressed genes, but for now it is important to be aware of the concept.
 
 <footer class="navigation-buttons">
   <a href="episode_2.qmd">

@@ -3,6 +3,9 @@ title: RNA-seq data analysis workflow
     
 ---
 
+![](theme_images/main_image.png){width=60% fig-align="center"}
+
+
 ## Getting started with RNA-seq data analysis
 
 This document aims to get you started with analysing your own RNA-seq data by providing an example workflow. At each of the major steps in the workflow we will examine issues that could confound your analysis and consider how different available methods address these issues. 

@@ -73,7 +73,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar docked fullcontent quarto-light">
+<body class="nav-sidebar docked quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -82,7 +82,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Home</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -110,12 +110,18 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Introduction</span></a>
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Background</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./episode_1.html" class="sidebar-item-text sidebar-link">
+            <a href="./day_1_overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Day One</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -124,19 +130,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_2.html" class="sidebar-item-text sidebar-link">
+  <a href="./episode_1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Sequence Quality - FastQC, MultiQC and Cutadapt</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_3.html" class="sidebar-item-text sidebar-link">
+  <a href="./episode_2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Quantifying Gene Expression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_4.html" class="sidebar-item-text sidebar-link">
+  <a href="./episode_3.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Exploratory Analysis</span></a>
   </div>
 </li>
@@ -153,37 +159,20 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_5.html" class="sidebar-item-text sidebar-link">
+  <a href="./episode_4.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Identify Differentially Expressed Genes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_6.html" class="sidebar-item-text sidebar-link">
+  <a href="./episode_5.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Functional analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_7.html" class="sidebar-item-text sidebar-link">
+  <a href="./episode_6.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Conclusions</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Supplementary</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./supplementary_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Supplementary 1 - Quantile Normalisation</span></a>
   </div>
 </li>
       </ul>
@@ -193,7 +182,22 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#getting-started-with-rna-seq-data-analysis" id="toc-getting-started-with-rna-seq-data-analysis" class="nav-link active" data-scroll-target="#getting-started-with-rna-seq-data-analysis">Getting started with RNA-seq data analysis</a></li>
+  <li><a href="#workshop-timeline" id="toc-workshop-timeline" class="nav-link" data-scroll-target="#workshop-timeline">Workshop timeline</a>
+  <ul class="collapse">
+  <li><a href="#day-1" id="toc-day-1" class="nav-link" data-scroll-target="#day-1">Day 1</a></li>
+  <li><a href="#day-2" id="toc-day-2" class="nav-link" data-scroll-target="#day-2">Day 2</a></li>
+  </ul></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#attribution-notice" id="toc-attribution-notice" class="nav-link" data-scroll-target="#attribution-notice">Attribution notice</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -259,19 +263,18 @@ ul.task-list li input[type="checkbox"] {
 </section>
 </section>
 </section>
-<section id="a-note-on-software" class="level2">
-<h2 class="anchored" data-anchor-id="a-note-on-software">A note on software</h2>
-<p>During the workshop, code will be run in real-time to demonstrate the analysis. This will be run on the NeSI OpenOnDemand platform which already has all the required software and R packages installed.</p>
-<p>Where you are working will dictate what you need to install and how you will need to go about it, therefore this document does not include instructions to install software. We will include notes about loading R packages, and</p>
-<section id="attribution-notice" class="level3">
-<h3 class="anchored" data-anchor-id="attribution-notice">Attribution notice</h3>
-<p>This workshop is an updated version on an existing version of <a href="https://genomicsaotearoa.github.io/RNA-seq-workshop-on-demand/">RNA-seq data analysis by Genomics Aotearoa and NeSI</a>. It incorporates, and takes inspiration from, various training materials produced by the <a href="https://github.com/hbctraining">Harvard Bioinformatics Core</a> and from The Carpentries, specifically their <a href="https://carpentries-incubator.github.io/bioc-rnaseq/index.html">RNA-seq analysis with Bioconductor workshop</a>.</p>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p>During the workshop, code will be run in real-time to demonstrate the analysis. This will be run on the REANNZ OpenOnDemand platform which already has all the required software and R packages installed.</p>
+</section>
+<section id="attribution-notice" class="level2">
+<h2 class="anchored" data-anchor-id="attribution-notice">Attribution notice</h2>
+<p>This workshop is an updated version on an existing version of <a href="https://genomicsaotearoa.github.io/RNA-seq-workshop-on-demand/">RNA-seq data analysis by Genomics Aotearoa and REANNZ (formerly NeSI)</a>. It incorporates, and takes inspiration from, various training materials produced by the <a href="https://github.com/hbctraining">Harvard Bioinformatics Core</a> and from The Carpentries, specifically their <a href="https://carpentries-incubator.github.io/bioc-rnaseq/index.html">RNA-seq analysis with Bioconductor workshop</a>.</p>
 <footer class="navigation-buttons">
-<a href="./episode_1.html"> <button class="nav-button next-button">Next Page</button> </a>
+<a href="./Overview.html"> <button class="nav-button next-button">Next Page</button> </a>
 </footer>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Sequence Quality - FastQC, MultiQC and Cutadapt – RNA-seq data analysis workflow</title>
+<title>Quantifying Gene Expression – RNA-seq data analysis workflow</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -73,7 +73,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar docked fullcontent quarto-light">
+<body class="nav-sidebar docked quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -82,7 +82,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./episode_1.html">Day One</a></li><li class="breadcrumb-item"><a href="./episode_2.html">Sequence Quality - FastQC, MultiQC and Cutadapt</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./day_1_overview.html">Day One</a></li><li class="breadcrumb-item"><a href="./episode_2.html">Quantifying Gene Expression</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -110,12 +110,18 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introduction</span></a>
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Background</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./episode_1.html" class="sidebar-item-text sidebar-link">
+            <a href="./day_1_overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Day One</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -124,19 +130,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_2.html" class="sidebar-item-text sidebar-link active">
+  <a href="./episode_1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Sequence Quality - FastQC, MultiQC and Cutadapt</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_3.html" class="sidebar-item-text sidebar-link">
+  <a href="./episode_2.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Quantifying Gene Expression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_4.html" class="sidebar-item-text sidebar-link">
+  <a href="./episode_3.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Exploratory Analysis</span></a>
   </div>
 </li>
@@ -153,37 +159,20 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_5.html" class="sidebar-item-text sidebar-link">
+  <a href="./episode_4.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Identify Differentially Expressed Genes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_6.html" class="sidebar-item-text sidebar-link">
+  <a href="./episode_5.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Functional analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_7.html" class="sidebar-item-text sidebar-link">
+  <a href="./episode_6.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Conclusions</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Supplementary</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./supplementary_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Supplementary 1 - Quantile Normalisation</span></a>
   </div>
 </li>
       </ul>
@@ -193,13 +182,29 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#alignment-with-hisat2" id="toc-alignment-with-hisat2" class="nav-link active" data-scroll-target="#alignment-with-hisat2">Alignment with HISAT2</a>
+  <ul class="collapse">
+  <li><a href="#preparation-of-the-genome" id="toc-preparation-of-the-genome" class="nav-link" data-scroll-target="#preparation-of-the-genome">Preparation of the genome</a></li>
+  <li><a href="#alignment-on-the-genome" id="toc-alignment-on-the-genome" class="nav-link" data-scroll-target="#alignment-on-the-genome">Alignment on the genome</a></li>
+  <li><a href="#converting-sam-to-bam" id="toc-converting-sam-to-bam" class="nav-link" data-scroll-target="#converting-sam-to-bam">Converting SAM to BAM</a></li>
+  <li><a href="#mapping-statistics" id="toc-mapping-statistics" class="nav-link" data-scroll-target="#mapping-statistics">Mapping statistics</a></li>
+  <li><a href="#multiqc" id="toc-multiqc" class="nav-link" data-scroll-target="#multiqc">MultiQC</a></li>
+  </ul></li>
+  <li><a href="#read-summarisation" id="toc-read-summarisation" class="nav-link" data-scroll-target="#read-summarisation">Read summarisation</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./episode_1.html">Day One</a></li><li class="breadcrumb-item"><a href="./episode_2.html">Sequence Quality - FastQC, MultiQC and Cutadapt</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./day_1_overview.html">Day One</a></li><li class="breadcrumb-item"><a href="./episode_2.html">Quantifying Gene Expression</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Sequence Quality - FastQC, MultiQC and Cutadapt</h1>
+<h1 class="title">Quantifying Gene Expression</h1>
 </div>
 
 
@@ -216,136 +221,126 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>In this episode we will look at quality assessment of the sequencing data. We will begin with FastQC, a free program which will analyse raw sequence data and output a visual summary. Then we will introduce MultiQC, a useful tool which can be used to combine results from different software packages into a single, coherent report. Finally we will look at read cleaning.</p>
-<section id="quality-assessment-with-fastqc" class="level2">
-<h2 class="anchored" data-anchor-id="quality-assessment-with-fastqc">Quality Assessment with FastQC</h2>
-<p>Quality assessment of high throughput sequencing data has been covered in depth and involves measurements of a number of sequence traits. FastQC is one of many options available for assessing the quality and is the one we will look at today. The output of FastQC is a visual representation of sequence quality which, if required, can then be used to investigate certain traits in more depth. FastQC provides a handy three colour binning system: green ticks for high quality, orange exclamation marks for middling quality that may require a manual investigation, and red crosses for low quality.</p>
-<p>If a sample has low quality scores in one or more aspects, this does not necessarily mean we need to remove this sample from our analysis. The next steps of the workflow involve performing some sequence cleaning and trimming which may increase the overall quality of the sequence. However, it is still worth performing QC initially and comparing this to the post-cleaning sequence.</p>
-<section id="generating-fastqc-reports" class="level3">
-<h3 class="anchored" data-anchor-id="generating-fastqc-reports">Generating FastQC reports</h3>
-<p>In a terminal window navigate to your RNA-seq directory. Ensure you have a sub-directory that contains your raw sequence files (name this Raw), and separate sub-directory in which to store quality control outputs (name this QC).</p>
-<pre class="{bash}"><code># While in the RNA-seq directory containing the directories Raw and QC:
-fastqc -o QC/ Raw/*</code></pre>
-<p>The FastQC tool will generate reports on all files within the directory Raw, and output them into the QC directory. You will see an output similar to:</p>
-<pre><code>    Started analysis of SRR014335-chr1.fastq
-    Approx 5% complete for SRR014335-chr1.fastq
-    Approx 10% complete for SRR014335-chr1.fastq
-    Approx 15% complete for SRR014335-chr1.fastq
-    Approx 20% complete for SRR014335-chr1.fastq
-    Approx 25% complete for SRR014335-chr1.fastq
-    Approx 30% complete for SRR014335-chr1.fastq
-    Approx 35% complete for SRR014335-chr1.fastq</code></pre>
-<p>If we now look within the QC directory, we should see two types of files for each of our six samples. These should be called <strong>“sampleName_fastqc.html”</strong> and <strong>“sampleName_fastqc.zip”</strong>.</p>
+<p>In order to draw conclusions about gene expression from our reads, we need to first identify which region of the genome reads originated from and then quantify the number of reads from that region. There are many tools available to carry out quantification, and we will not cover the arguments for and against each tool. We encourage you to carry out a literature search, and discuss with experienced individuals in your field, before committing to a particular quantification procedure. Here we will give a brief overview of two approaches with considerably different underlying methodology, give an example tool for each, and then demonstrate one tool for the purpose of progressing to the next stage of our workflow.</p>
+<p>The first approach to read quantification involves aligning reads to the genome and then counting the number of reads that are aligned to certain genomic features (<em>e.g.,</em> exons).</p>
+<p>The second approach we will introduce involves creating ‘pseudocounts’. In this method, reads are <em>not</em> aligned to the genome. Instead, they are pseudoaligned to kmers within the transcriptome and their abundance is estimated.</p>
+<p>In today’s workflow we will demonstrate genome alignment and counting, and will provide examples of other workflows that use pseudocounting and abundance estimation.</p>
+<section id="alignment-with-hisat2" class="level2">
+<h2 class="anchored" data-anchor-id="alignment-with-hisat2">Alignment with HISAT2</h2>
+<section id="preparation-of-the-genome" class="level3">
+<h3 class="anchored" data-anchor-id="preparation-of-the-genome">Preparation of the genome</h3>
+<p>When carrying out alignment, the first requirement is a genome which has been indexed. Indexing is a process to organise the genome so that our alignment algorithms can match reads to the genome easily, without having to scan the entire genome.</p>
+<p>Navigate to the Genome directory and view the contents. You should see two files, a .gtf and a .fa file. We will use the .gtf file towards the end of this episode.</p>
+<pre class="{bash}"><code>cd ~/RNA_seq/Genome
+
+ls </code></pre>
+<p>The .gtf file (General Transfer Format) contains information about the genome, such as gene names <em>etc.,</em> all stored in a one-line-per-feature format, while the .fa (FASTA) file contains sequence.</p>
+<p>We will now use hisat2 to index the genome using the hisat2-build command. We will specify the number of threads (-p 4), and specify the input file (-f for FASTA file type).</p>
+<pre class="{bash}"><code># index file:
+hisat2-build -p 4 -f Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa Saccharomyces_cerevisiae.R64-1-1.dna.toplevel
+
+ls</code></pre>
+<p>We can now see many new .ht2 files, which make up the indexed version of the genome.</p>
 </section>
-<section id="viewing-the-fastqc-results" class="level3">
-<h3 class="anchored" data-anchor-id="viewing-the-fastqc-results">Viewing the FastQC results</h3>
-<p>The html file outputs from FastQC can be opened in a browser for viewing. For each sample we have an overview of the quality for different metrics. On the left hand side of the report is a navigation bar that works as a broad summary. An ideal sample would have green tick marks for every measurement, while a terrible sample would have red crosses for every measurement. Most samples will fall somewhere in between and there is an element of interpretation.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/fastQC_htmlView.png" class="img-fluid figure-img"></p>
-<figcaption>FastQC html summary</figcaption>
-</figure>
-</div>
-</section>
-<section id="fastqc-text-output" class="level3">
-<h3 class="anchored" data-anchor-id="fastqc-text-output">FastQC text output</h3>
-<p>FastQC outputs text files into a zipped directory. The text files contain detailed results of the various statistical tests done during QC. We might want to examine one or more of our QC reports in more detail, and here we will concatenate the QC reports from each of the six samples into a single text file called fastqc_summaries.txt.</p>
-<p>Navigate to the QC directory containing the sampleName_fastqc.zip outputs for each sample. Unzip the files and use the ls command to see what files are created for each sample, then use the less command to preview the summary.txt file for the first sample (SRR014335-chr1_fastqc).</p>
-<pre class="{bash}"><code>for filename in *.zip
-do
-unzip $filename
-done
-
-ls SRR014335-chr1_fastqc
-# Should contain the files:
-# fastqc_data.txt  fastqc.fo  fastqc_report.html  Icons/  Images/  summary.txt
-
-
-less SRR014335-chr1_fastqc/summary.txt
-# Use "q" to quit out of the window when you are done. </code></pre>
-<p>Create a single document that contains the information from summary.txt from all six samples, and name that document fastqc_summaries.txt</p>
-<pre class="{bash}"><code>cat */summary.txt &gt; ~/RNA_seq/QC/fastqc_summaries.txt</code></pre>
-<p>Open the fastqc_summaries.txt file and search for any of the samples that have failed the QC statistical tests.</p>
-</section>
-</section>
-<section id="multiqc---multi-sample-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="multiqc---multi-sample-analysis">MultiQC - multi-sample analysis</h2>
-<p>The MultiQC application will create a report based on all documents in a given directory. MultiQC will take inputs from many different software applications, including fastQC. The report is a concise, clear document that can be used to track samples as they progress through various stages of the analysis.</p>
-<p>To generate the MultiQC report first navigate to the RNA_seq directory and create a new output directory called MultiQC, then copy all target files to that directory (initially target files will be the FastQC documents generated above). Finally, execute the multiqc command.</p>
-<pre class="{bash}"><code>cd ~/RNA_seq/
-
-mkdir MultiQC
-
-cd MultiQC
-
-cp -r ../QC/* ./
-
-multiqc .
-
-ls -F
-
-# ls -F will show multiqc_data/ and multiqc_report.html</code></pre>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/MQC1.png" class="img-fluid figure-img"></p>
-<figcaption>MultiQC report</figcaption>
-</figure>
-</div>
-<p>After each step in the analysis (<em>e.g.,</em> read cleaning, adaptor trimming) we will copy over new reports and summaries to the MultiQC directory and re-run the multiqc command. New information will be appended to the MultiQC report at each stage.</p>
-</section>
-<section id="cleaning-reads" class="level2">
-<h2 class="anchored" data-anchor-id="cleaning-reads">Cleaning reads</h2>
-<p>In the previous section, we took a high-level look at the quality of each of our samples using FastQC. We visualized per-base quality graphs showing the distribution of read quality at each base across all reads in a sample and extracted information about which samples fail which quality checks. Some of our samples failed quite a few quality metrics used by FastQC. This doesn’t mean that our samples should be thrown out! It’s very common to have some quality metrics fail, and this may or may not be a problem for your downstream application.</p>
-<p>In this section we will perform read cleaning using Cutadapt. Cutadapt will trim poor quality bases in a threshold-specific manner and will filter out poor quality reads. Cutadapt can be used to remove primers, poly-A tails, and adapter sequences (discussed below). See the full <a href="https://cutadapt.readthedocs.io/en/stable/guide.html">User guide</a> to learn more about Cutadapt.</p>
-<section id="cutadapt-adapter-trimming" class="level3">
-<h3 class="anchored" data-anchor-id="cutadapt-adapter-trimming">Cutadapt: Adapter trimming</h3>
-<p>Adapters are short, known sequences that become embedded in your reads as part of the sequencing process. Before we work with our reads we want to remove these adaptors. Because adapters are manually added to the sequencing reaction, we should know exactly what these sequences are. In our example, we know that the adapter sequences are AACCGGTT. If you do not have access to information about what adapters were used in your sequence, some software can detect certain adaptors (<em>e.g.,</em> <a href="http://www.usadellab.org/cms/?page=trimmomatic">Trimmomatic</a>, which has a library of Illumina adapter sequences - these will be screened against reads and if a match is detected, those adapters will be trimmed).</p>
-<p>We will perform adapter trimming simultaneously with quality trimming, done below.</p>
-</section>
-<section id="cutadapt-quality-trimming" class="level3">
-<h3 class="anchored" data-anchor-id="cutadapt-quality-trimming">Cutadapt: Quality trimming</h3>
-<p><a href="https://cutadapt.readthedocs.io/en/stable/guide.html#quality-trimming">Quality trimming</a> is the process of removing low-quality bases from the end of reads. Usually during sequencing it is the end (or start) of the read which has the lowest quality. By trimming only the low-quality ends of the reads, we improve our overall sequence quality without sacrificing too much data.</p>
-<p>Here we will use Cutadapt and the -q flag to specify the lower threshold of quality we are willing to accept at the 3’ end of our reads. Two things to note are that a) we can apply the threshold cutoff to both the 5’ and the 3’ end, but for Illumina sequencing the 5’ end is usually high quality, and b) this requires our per-based quality scores to be encoded as phred quality + 33.</p>
-<p>To begin, navigate to the RNA_seq directory and create a new directory called Trimmed which we will use to store our modified files. We will then use cutadapt and the “-q” flag to remove bases from the 3’ end of our reads <em>if</em> they have a phred quality score below 20. Simultaneously we will use the “-a” flag to remove our adaptors (supplied as AACCGGTT).</p>
-<p>Cutadapt will produce a trimmed file as well as a summary in the form of a log file.</p>
-<p>As a reminder, you should never modify your raw data (and should ideally have raw data backed up in a remote and secure location).</p>
+<section id="alignment-on-the-genome" class="level3">
+<h3 class="anchored" data-anchor-id="alignment-on-the-genome">Alignment on the genome</h3>
+<p>Now that we have an indexed genome, we can align our sequences. To do this we will need to know:</p>
+<ul>
+<li><p>Where the sequence information is stored (<em>e.g.,</em> fastq files).</p></li>
+<li><p>What kind of sequencing file we have (<em>e.g.,</em> Single end or Paired end).</p></li>
+<li><p>Where the indexes and genome are stored.</p></li>
+<li><p>Where the mapping files will be stored.</p></li>
+</ul>
+<p>Once we have that information we are ready to align our sequences. First, navigate to the RNA_seq directory, and run hisat2 on the first sample. We will use the -x flag to specify the basename of the index, the -U flag to specify the comma-separated list of files containing unpaired reads to be aligned, and the -S flag to write SAM alignment output files.</p>
 <pre class="{bash}"><code>cd ~/RNA_seq
 
-mkdir Trimmed
+hisat2 -x Genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel -U Raw/SRR014335-chr1.fastq -S SRR014335.sam</code></pre>
+<p>Output should look something like this:</p>
+<pre><code>125090 reads; of these:
 
-cutadapt -q 20 -a AACCGGTT -o Trimmed/SRR014335-chr1_cutadapt.fastq Raw/SRR014335-chr1.fastq &gt; Trimmed/SRR014335-chr1.log
+  125090 (100.00%) were unpaired; of these:
 
-less Trimmed/SRR014335-chr1.log</code></pre>
-<p>Now trim all samples in the Raw directory:</p>
-<pre class="{bash}"><code>cd ~/RNA_seq/Raw
-for filename in *.fastq
-do 
-base=$(basename ${filename} .fastq)
-cutadapt -q 20 -a AACCGGTT -o ../Trimmed/${base}.trimmed.fastq ${filename} &gt; ../Trimmed/${base}.log
+    15108 (12.08%) aligned 0 times
+
+    88991 (71.14%) aligned exactly 1 time
+
+    20991 (16.78%) aligned &gt;1 times
+
+87.92% overall alignment rate</code></pre>
+<p>Now that we have confirmed this code works for our first sample, we will use a loop to align the rest of the samples. We will make a new directory called Mapping, which we will use to store all of our mapping output files. Then navigate to the Trimmed directory and execute the for loop to align all samples.</p>
+<pre class="{bash}"><code>mkdir Mapping
+
+cd ~/RNA_seq/Trimmed
+
+for filename in *
+do
+base=$(basename ${filename} .trimmed.fastq)
+hisat2 -p 4 -x ../Genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel -U $filename -S ../Mapping/${base}.sam --summary-file ../Mapping/${base}_summary.txt
+done</code></pre>
+<p>Check the output directory (Mapping) and see the different files that have been produced. You should see both .sam and _summary.txt files for each sample.</p>
+<p>Let’s look at the SAM file format.</p>
+<pre class="{bash}"><code>less SRR014335-chr1.sam</code></pre>
+<p>The file begins with an optional header which is used to include human-readable metadata such as the source of the data, reference sequence, method of alignment <em>etc.,</em>. Following the header is the alignment section. Each line contains information corresponding to the alignment of a single read. Each alignment line has 11 mandatory fields for essential mapping information and a variable number of other fields for aligner-specific information.</p>
+</section>
+<section id="converting-sam-to-bam" class="level3">
+<h3 class="anchored" data-anchor-id="converting-sam-to-bam">Converting SAM to BAM</h3>
+<p>SAM files are tab-delimited text files containing information for each individual read and it’s alignment to the genome. SAM files are large, so the first thing we do with them is convert them to BAM files: compressed, binary versions of the file which reduce time and can themselves be indexed for efficiency when we interact with them.</p>
+<p>We will convert the SAM file to the BAM format using the samtools program with the view command. Use the -S flag to specify the input is a SAM file, and the -b flag to specify BAM as the output.</p>
+<p>Note that you will see a warning “fail to read the header from…”, this is normal.</p>
+<pre class="{bash}"><code>for filename in *.sam
+do
+base=$(basename ${filename} .sam)
+samtools view -S -b ${filename} -o ${base}.bam
+done
+
+ls</code></pre>
+<p>Next we will sort the BAM files, which will mean our future steps are more efficient. From the samtools program we will use the sort command, with the -o flag to specify where the output file should go.</p>
+<pre class="{bash}"><code>for filename in *.bam
+do
+base=$(basename ${filename} .bam)
+samtools sort -o ${base}_sorted.bam ${filename}
 done</code></pre>
 </section>
-<section id="cutadapt-filtering-reads" class="level3">
-<h3 class="anchored" data-anchor-id="cutadapt-filtering-reads">Cutadapt: Filtering reads</h3>
-<p>Cutadapt can also filter reads. That is, reads which meet (or more often, fail to meet) a specific criteria are either discarded or redirected to a separate output file.</p>
-<p>Examples of read filtering include using the -m flag to specify a minimum length. If reads are below a certain length, they will be discarded or redirected. This can be a useful way to remove reads that have a length of zero. The user guide for Cutadapt has many other ways in which you can filter reads.</p>
+<section id="mapping-statistics" class="level3">
+<h3 class="anchored" data-anchor-id="mapping-statistics">Mapping statistics</h3>
+<p>Using the sorted BAM file, you can now easily calculate some basic mapping statistics using the samtools flagstat command.</p>
+<pre class="{bash}"><code>samtools flagstat SRR014335-chr1_sorted.bam</code></pre>
+<p>Basic statistics shown by flagstat will be slightly different from those in the summary file generated by HISAT2 due to different “totals” that are used for comparisons. flagstat compares the number of alignments while HISAT2 compares the number of reads mapped. This is because reads can be mapped/aligned to more than one reference location, and these reads have a “primary” and “secondary” alignment (see section 1.2 of the <a href="https://github.com/samtools/hts-specs/blob/master/SAMv1.pdf">SAM specifications</a>). For example, the percent overall alignment in the HISAT2 summary will be equivalent to the percent primary mapped evaluated by flagstat. To get the number of reads that aligned 0 times (summary file), the equivalent statistic from flagstat would be subtracting the number of mapped reads from the number of total alignments.</p>
 </section>
-</section>
-<section id="multiqc-update" class="level2">
-<h2 class="anchored" data-anchor-id="multiqc-update">MultiQC update</h2>
-<p>We can now copy the log files from Cutadapt into our MultiQC directory and re-run the multiqc command to generate an updated report which includes our read cleaning information.</p>
-<p>Navigate to the MultiQC directory, copy over the log files from the Trimmed directory and rerun the multiqc command.</p>
-<pre class="{bash}"><code>cd ../MultiQC
-
-cp ../Trimmed/*log .
-
+<section id="multiqc" class="level3">
+<h3 class="anchored" data-anchor-id="multiqc">MultiQC</h3>
+<p>HISAT2 output data can be incorporated into the MultiQC report. Copy the summary files generated by HISAT2 into the MultiQC directory and re-run multiqc.</p>
+<p>Navigate to the updated report and view it in your browser.</p>
+<pre class="{bash}"><code>cd ~/RNA_seq/MultiQC
+cp ../Mapping/*summary* ./
 multiqc .</code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/MQC2.png" class="img-fluid figure-img"></p>
-<figcaption>Updated MultiQC report</figcaption>
+<p><img src="images/MQC_hisat2.png" class="img-fluid figure-img"></p>
+<figcaption>MultiQC after alignment</figcaption>
 </figure>
 </div>
-<p>We can now see the Cutadapt metrics have been added to the report.</p>
+<p>You might notice that the report labels the summary files as “Bowtie2”. This is because the outputs are identical to those generated by Bowtie2, and MultiQC recognises them as Bowtie2.</p>
+</section>
+</section>
+<section id="read-summarisation" class="level2">
+<h2 class="anchored" data-anchor-id="read-summarisation">Read summarisation</h2>
+<p>Sequencing reads often need to be assigned to genomic features of interest after they are mapped to the reference genome. This process is often called read summarisation or read quantification. Read summarisation is required by a number of downstream analyses such as gene expression analysis and histone modification analysis. The output of read summarisation is a count table, in which the number of reads assigned to each feature in each library is recorded. In our case each feature is an exon. To carry out counting we will use the featureCounts tool from the Subread package.</p>
+<p>Navigate to the RNA_seq directory, create a new directory called Counts and cd into that directory. From there run the featureCounts command which will require five different flags. We will use the -a flag to specify the annotation file, in this case the .gtf file we noticed earlier. The -o flag names the output file (which we will call yeast_counts.txt), while the -T flag specifies the number of threads/CPUs used for mapping. The -t flag is used to control the feature type in the GTF annotation file, we will use exon (which is also the default). Finally, the -g flag specifies the attribute type in the GTF file. We will use the gene_id option (again, the default).</p>
+<pre class="{bash}"><code>cd ~/RNA_seq
+
+mkdir Counts
+
+cd Counts
+
+featureCounts -a ../Genome/Saccharomyces_cerevisiae.R64-1-1.99.gtf -o ./yeast_counts.txt -T 2 -t exon -g gene_id ../Mapping/*sorted.bam</code></pre>
+<p>Update the MultiQC report by copying over the output data in Counts.</p>
+<pre class="{bash}"><code>cd ~/RNA_seq/MultiQC
+
+cp ../Counts/* .
+
+multiqc .</code></pre>
+<p>We have now generated counts! We can now take these through to the next stage of our analysis: preparing to identify differentially expressed genes.</p>
 <footer class="navigation-buttons">
 <a href="./episode_1.html"> <button class="nav-button prev-button">Previous Page</button> </a> <a href="./episode_3.html"> <button class="nav-button next-button">Next Page</button> </a>
 </footer>

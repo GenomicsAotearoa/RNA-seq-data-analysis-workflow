@@ -3,6 +3,8 @@ title: Identify Differentially Expressed Genes
 code-overflow: wrap
 ---
 
+![](theme_images/r_logos.png)
+
 Are those two groups *significantly different* from one another is a challenging question to answer. We can start by specifically asking our question as a statistical question: Are the differences we *observe* between the two groups **greater than the differences** we would *expect* to see by chance?
 
 ## T-tests and p-values

@@ -98,6 +98,9 @@ ul.task-list li input[type="checkbox"] {
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">RNA-seq data analysis workflow</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/GenomicsAotearoa/RNA-seq-data-analysis-workflow" title="Github" class="quarto-navigation-tool px-1" aria-label="Github"><i class="bi bi-github"></i></a>
+</div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -221,6 +224,11 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="theme_images/alignment.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
 <p>In order to draw conclusions about gene expression from our reads, we need to first identify which region of the genome reads originated from and then quantify the number of reads from that region. There are many tools available to carry out quantification, and we will not cover the arguments for and against each tool. We encourage you to carry out a literature search, and discuss with experienced individuals in your field, before committing to a particular quantification procedure. Here we will give a brief overview of two approaches with considerably different underlying methodology, give an example tool for each, and then demonstrate one tool for the purpose of progressing to the next stage of our workflow.</p>
 <p>The first approach to read quantification involves aligning reads to the genome and then counting the number of reads that are aligned to certain genomic features (<em>e.g.,</em> exons).</p>
 <p>The second approach we will introduce involves creating ‘pseudocounts’. In this method, reads are <em>not</em> aligned to the genome. Instead, they are pseudoaligned to kmers within the transcriptome and their abundance is estimated.</p>

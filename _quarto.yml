@@ -25,6 +25,10 @@ website:
           - episode_5.qmd
           - episode_6.qmd
 
+    tools:
+      - icon: github
+        text: Github
+        href: https://github.com/GenomicsAotearoa/RNA-seq-data-analysis-workflow
 
 format:
   html:

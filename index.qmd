@@ -1,6 +1,5 @@
 ---
 title: RNA-seq data analysis workflow
-    
 ---
 
 ![](theme_images/main_image.png){width=60% fig-align="center"}

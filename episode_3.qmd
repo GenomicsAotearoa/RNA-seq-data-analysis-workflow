@@ -3,6 +3,10 @@ title: Exploratory Analysis
 code-overflow: wrap
 ---
 
+
+![](theme_images/exploratory-analysis.png){width=80% fig-align="center"}
+
+
 Exploratory analysis is will cover basic visualisations and characterisations of the data as well as any initial transformations (*e.g.,* library size) required before we move on to identifying differentially expressed genes. 
 
 ## What is exploratory analysis and why is it necessary?

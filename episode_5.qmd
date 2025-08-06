@@ -6,8 +6,15 @@ editor:
     wrap: sentence
 ---
 
-Functional analysis is the process of taking a list of genes which we cannot meaningfully interact with and distilling information that we as researchers can then interpret.
-Generally, this involves grouping genes based on functions or processes, and determining which processes or functions appear to be different between your experimental groups.
+::: {.grid}
+::: {.g-col-6}
+![](theme_images/over-rep_theme.png){width=70%}
+:::
+::: {.g-col-6 .d-flex .align-items-center}
+*Functional analysis is the process of taking a list of genes which we cannot meaningfully interact with and distilling information that we as researchers can then interpret. Generally, this involves grouping genes based on functions or processes, and determining which processes or functions appear to be different between your experimental groups.*  
+:::
+:::
+
 
 There are different approaches to functional analysis *e.g.,*:
 

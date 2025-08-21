@@ -11,7 +11,7 @@ website:
       - text: "Home"
         href: index.qmd
       - text: "Background"
-        href: Overview.qmd
+        href: background.qmd
       - section: "Day One"  
         href: day_1_overview.qmd
         contents:

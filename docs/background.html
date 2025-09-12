@@ -40,7 +40,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c6bb7273373c097b27b844e2ff5a3201.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6ab36fa8575e9346e64d0d1e9a0cfa9f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -270,8 +270,24 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="introduction-to-the-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="introduction-to-the-dataset">Introduction to the dataset</h2>
-<p>The example data in this workshop are from <a href="https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1000299">Lee et al.,</a> and include a set of six <em>Saccharomyces cerevisiae</em> samples in two groups: three wild-type samples and three RNA-degradation mutants. Note that these particular mutants are signifcantly different from the wildtype and we expect large differences between our two sample groups.</p>
+<p>The example data in this workshop are from <a href="https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1000299">Lee et al.,</a> and include a set of six <em>Saccharomyces cerevisiae</em> samples in two groups: three wild-type samples and three RNA-degradation mutants. Note that these particular mutants are significantly different from the wildtype and we expect large differences between our two sample groups.</p>
 <p>The data is a subset of an RNA-sequencing experiment which used single end sequencing.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Extra for experts
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>These data come from a 2008 study, sequenced on the Illumina Genome Analyzer, using an EST strategy (expressed sequenced tags). This is an older approach; ESTs were generally shorter reads (36-100bp) than what we typically would sequence now for Illumina transcriptomes (100bp-150bp). While there are some limitations to this approach (mainly in the depth of information you can retrieve, e.g., no strandedness information, less or no isoform resolution), for the purpose of this workshop (i.e., showing the workflow and what tools you can use), these data “work” much the same as more modern sequence data. These data can be found on NCBI’s Sequence Read Archive under <a href="https://www.ncbi.nlm.nih.gov/bioproject/PRJNA109083">BioProject: PRJNA109083</a>.</p>
+</div>
+</div>
+</div>
 <footer class="navigation-buttons">
 <a href="./index.html"> <button class="nav-button prev-button">Previous Page</button> </a> <a href="./episode_1.html"> <button class="nav-button next-button">Next Page</button> </a>
 </footer>

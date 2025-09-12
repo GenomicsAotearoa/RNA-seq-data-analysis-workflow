@@ -75,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c6bb7273373c097b27b844e2ff5a3201.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6ab36fa8575e9346e64d0d1e9a0cfa9f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -340,7 +340,7 @@ odds ratio
 <h3 class="anchored" data-anchor-id="goseq">GOseq</h3>
 <p>We will begin with a method called GOseq, which was developed as part of one of the publications initially identifying the gene length bias. An illustration from the <a href="https://genomebiology.biomedcentral.com/articles/10.1186/gb-2010-11-2-r14">full paper</a> is below, demonstrating the relationship between differential gene expression and gene length and between differential expression and number of reads. <img src="images/GOseq_bias.png" class="img-fluid" alt="Young et al., (2010) demonstrates bias due to gene length and expression"></p>
 <p>There is a strong positive correlation between differential gene expression and both total gene length and number of reads. Unless corrected for, gene length will bias your over-representation analysis.</p>
-<p>Load the goseq package, the dplyr package (if you haven’t already), and use the supportedOrganisms() function to check whether your organism of interest is supported. The code for <em>Saccharomyces cerevisiae</em> is sacCer.</p>
+<p>Load the goseq package, the dplyr package (if you haven’t already), and use the <code>supportedOrganisms()</code> function to check whether your organism of interest is supported. The code for <em>Saccharomyces cerevisiae</em> is sacCer.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BiocManager::install("goseq")</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -349,7 +349,7 @@ odds ratio
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">supportedOrganisms</span>() <span class="sc">%&gt;%</span> <span class="fu">View</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We need to create an object that will pass GOseq a list of all our genes, with the differentially expressed genes highlighted. To do this, we will use an ifelse() statement which will check every gene in our experiment and ask test if it has an adjusted p-value of less than 0.05. If adj-p-value is &lt; 0.05, return a “1” and if greater than (or equal to) 0.05, return a “0”. After that, add the gene names to this vector of 1s and 0s.</p>
+<p>We need to create an object that will pass GOseq a list of all our genes, with the differentially expressed genes highlighted. To do this, we will use an <code>ifelse()</code> statement which will check every gene in our experiment and ask test if it has an adjusted p-value of less than 0.05. If adj-p-value is &lt; 0.05, return a “1” and if greater than (or equal to) 0.05, return a “0”. After that, add the gene names to this vector of 1s and 0s.</p>
 <p>Note #1: at the end of the previous exercise we also applied a logFC threshold for defining differentially expressed. We won’t use that here and will just use adjusted p-values for simplicity.</p>
 <p>Note #2: the tt object was created when we used limma to identify differentially expressed genes. tt is 7,127 rows, and has genes stored as row names, includes the logFC, and adj.P.Val columns.</p>
 <div class="cell">
@@ -370,7 +370,7 @@ odds ratio
       0       0       0       0       0       0 </code></pre>
 </div>
 </div>
-<p>Note #3: because tt is ordered (that is, all the genes with low p values are at the top), it’s worth using tail to check the bottom of the new genes object looks different to the top. Another useful check is to use the table() function to ask how many genes fall into each category.</p>
+<p>Note #3: because tt is ordered (that is, all the genes with low p values are at the top), it’s worth using tail to check the bottom of the new genes object looks different to the top. Another useful check is to use the <code>table()</code> function to ask how many genes fall into each category.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(genes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -447,7 +447,7 @@ YOL120C       0       563 0.6975162</code></pre>
 </div>
 </div>
 <p>We have a large number of genes which have low/no bias, and a correspondingly high number of genes with the max pwf weighting. A smaller number of genes have a greater bias and are given lower weighting.</p>
-<p>We can now carry out our Fishers Exact test using the pwf value instead of the raw counts. We will use the goseq() function to perform this test, and output the over-representation data into an object.</p>
+<p>We can now carry out our Fishers Exact test using the pwf value instead of the raw counts. We will use the <code>goseq()</code> function to perform this test, and output the over-representation data into an object.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BiocManager::install("org.Sc.sgd.db")</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># BiocManager::install("AnnotationDbi")</span></span>
@@ -515,8 +515,8 @@ Attaching package: 'AnnotationDbi'</code></pre>
 </div>
 </div>
 <p>We will want to filter for only those categories with an adjusted p-value &lt; 0.05, and save that information to a new object for easy browsing.</p>
-<p>You might have noticed that the GO.wall object doesn’t automatically perform an adjustment for multiple testing, so we will use the p.adjust() function to generate corrected p-values.</p>
-<p>We will then use the adjusted p-values as a filtering criteria, and include the columns that correspond to category, term, and ontology (using the colnames() function, we can see that these are columns 1, 6 and 7).</p>
+<p>You might have noticed that the GO.wall object doesn’t automatically perform an adjustment for multiple testing, so we will use the <code>p.adjust()</code> function to generate corrected p-values.</p>
+<p>We will then use the adjusted p-values as a filtering criteria, and include the columns that correspond to category, term, and ontology (using the <code>colnames()</code> function, we can see that these are columns 1, 6 and 7).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>GO.wall.padj <span class="ot">=</span> <span class="fu">p.adjust</span>(GO.wall<span class="sc">$</span>over_represented_pvalue, <span class="at">method=</span><span class="st">"fdr"</span>)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -589,7 +589,7 @@ Secondary: GO:0007046</code></pre>
 <section id="gene-set-enrichment-analysis-and-clusterprofiler" class="level2">
 <h2 class="anchored" data-anchor-id="gene-set-enrichment-analysis-and-clusterprofiler">Gene set enrichment analysis and clusterProfiler</h2>
 <p>We will not complete a full demonstration of gene set enrichment analysis (GSEA) and clusterProfiler, but we will give an overview of these techniques and tools.</p>
-<p>In particular we strongly recommend The Carpentries workshop <a href="https://carpentries-incubator.github.io/bioc-rnaseq/instructor/07-gene-set-analysis.html#ora-with-clusterprofiler">RNA-sq analysis with Bioconductor</a> section on GSEA.</p>
+<p>In particular we strongly recommend The Carpentries workshop <a href="https://carpentries-incubator.github.io/bioc-rnaseq/instructor/07-gene-set-analysis.html#ora-with-clusterprofiler">RNA-seq analysis with Bioconductor</a> section on GSEA.</p>
 <section id="gsea" class="level3">
 <h3 class="anchored" data-anchor-id="gsea">GSEA</h3>
 <p>GSEA takes an alternative approach to the previous section in that it does not take as input a list of differentially expressed genes. GSEA moves away from the binary “differentially expressed or not” approach and considers the state, or position, of all genes in the list.</p>

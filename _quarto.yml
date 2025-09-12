@@ -32,6 +32,9 @@ website:
 
 format:
   html:
+    mainfont: "Mukta"
+    monofont: "monospace"
+    fontsize: 20px
     theme: zephyr
     css: styles.css
     navigation: true

@@ -75,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c6bb7273373c097b27b844e2ff5a3201.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6ab36fa8575e9346e64d0d1e9a0cfa9f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -269,7 +269,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="exploratory-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="exploratory-analysis">Exploratory analysis</h2>
-<p>Use the import data set or read.delim() function to import the file yeast_counts_all_chr, and name the object fcData. Also, load the dplyr library. We will look at some of the basic stats and features of our data object with View(), dim(), and names()</p>
+<p>Use the import data set or <code>read.delim()</code> function to import the file yeast_counts_all_chr, and name the object fcData. Also, load the dplyr library. We will look at some of the basic stats and features of our data object with <code>View()</code>, <code>dim()</code>, and <code>names()</code></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -286,7 +286,7 @@ Attaching package: 'dplyr'</code></pre>
 
     intersect, setdiff, setequal, union</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you are completing this workshop on the NeSI OpenOnDemand platform, run the code below to load the file. </span></span>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you are completing this workshop on the REANNZ OpenOnDemand platform, run the code below to load the file. </span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># fcData &lt;- read.delim("~/RNA_seq/yeast_counts_all_chr.txt", comment.char="#")</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="do">## I'm loading from my own local machine, so my filepath is different:</span></span>
@@ -366,13 +366,28 @@ YDL244W     6   6   5  20  30  19</code></pre>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(counts, <span class="at">file =</span> <span class="st">"counts.RData"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This is a very basic, very ‘clean’ R object. We can see our sample names, gene names and counts easily. It is entirely possible to use this object for the rest of our analysis - and that’s what we will do today, for the sake of simplicity. This object is easy to interact with and is easy to mentally visualise and conceptualise.</p>
-<p>However, it’s worth noting that many newer R packages and workflows will require (or at least strongly encourage) you to use a “summarised experiment object”. If a vector is a one-dimensional data storage object, and a matrix is a two-dimensional data storage object, you can think of a summarised experiment object as a three-dimensional way of storing data. In a summarised experiment object where you have the genes on the y axis and the samples on the x axis with counts as the observations, the z axis could be a second matrix storing different observations. Summarised experiment objects can stack multiple data types in this way and build up a complex (but tidy) array of data. Summarised experiment objects are powerful but can be harder to mentally conceptualise and require more complex code to interact with the data they store.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Summarised experiment objects - a special complex object type in R for biologists
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>It’s worth noting that many newer R packages and workflows will require (or at least strongly encourage) you to use a “summarised experiment object”. If a vector is a one-dimensional data storage object, and a matrix is a two-dimensional data storage object, you can think of a summarised experiment object as a three-dimensional way of storing data. In a summarised experiment object where you have the genes on the y axis and the samples on the x axis with counts as the observations, the z axis could be a second matrix storing different observations. Summarised experiment objects can stack multiple data types in this way and build up a complex (but tidy) array of data. Summarised experiment objects are powerful but can be harder to mentally conceptualise and require more complex code to interact with the data they store.</p>
 <p><a href="https://carpentries-incubator.github.io/bioc-intro/60-next-steps.html#next-steps">Summarised experiment objects</a> are covered in the Carpentries Introduction to Data Analysis with R workshop.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/carpentriesSummarisedExperiment.svg" class="img-fluid figure-img"></p>
 <figcaption>The summarised experiment object, image from the Carpentries Incubator Introduction to Data Analysis with R workshop.</figcaption>
 </figure>
+</div>
+</div>
+</div>
 </div>
 </section>
 <section id="remove-non-expressed-genes-optional" class="level2">
@@ -406,9 +421,9 @@ YDL244W     6   6   5  20  30  19</code></pre>
 </div>
 </div>
 <p>This figure indicates we should consider logging our data (for the purpose of visualisations).</p>
-<p>Log transform the data, adding 0.5 to avoid log(0) errors.</p>
+<p>Log transform the data, adding 1 to avoid log(0) errors.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>logCounts <span class="ot">=</span> <span class="fu">log2</span>(<span class="fu">as.matrix</span>(counts) <span class="sc">+</span> <span class="fl">0.5</span>)</span>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>logCounts <span class="ot">=</span> <span class="fu">log2</span>(<span class="fu">as.matrix</span>(counts) <span class="sc">+</span> <span class="dv">1</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">as.matrix</span>(logCounts) <span class="sc">~</span> <span class="fu">col</span>(counts), </span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Counts"</span>, </span>
@@ -461,14 +476,29 @@ YDL244W     6   6   5  20  30  19</code></pre>
 </section>
 <section id="heteroskedasticity" class="level2">
 <h2 class="anchored" data-anchor-id="heteroskedasticity">Heteroskedasticity</h2>
-<p>Heteroskedasticity is “heterogeneity of variance”. If the variance we observe is non-uniform across a range of values, we can describe the dataset as heteroskedastic. In RNA-seq, this means that variance depends on the mean expression of the gene. Wikipedia has a useful example:</p>
+<p><a href="https://en.wikipedia.org/wiki/Homoscedasticity_and_heteroscedasticity">Heteroskedasticity</a> is “heterogeneity of variance”. If the variance we observe is non-uniform across a range of values, we can describe the dataset as heteroskedastic. In RNA-seq, this means that variance depends on the mean expression of the gene. Wikipedia has a useful example:</p>
 <p>“A classic example of heteroscedasticity is that of income versus expenditure on meals. A wealthy person may eat inexpensive food sometimes and expensive food at other times. A poor person will almost always eat inexpensive food. Therefore, people with higher incomes exhibit greater variability in expenditures on food.”</p>
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/Homoscedasticity_and_heteroscedasticity">Heteroskedasticity</a></li>
-</ul>
-<p><strong>Exercise:</strong> Given the above example, do you expect genes with higher expression to have higher or lower variance than genes with low expression? That is, which will have higher variance - genes with high average expression or genes with low average expression?</p>
+<section id="exercise" class="level4">
+<h4 class="anchored" data-anchor-id="exercise"><strong>Exercise:</strong></h4>
+<p>Given the above example, do you expect genes with higher expression to have higher or lower variance than genes with low expression? That is, which will have higher variance - genes with high average expression or genes with low average expression?</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>This can be a surprisingly complex question to answer, and depends on how we think about variance. If a gene has a high mean expression (<em>e.g.,</em> say 1000), then we can expect that the standard deviation will be a reasonably high number (<em>e.g.,</em> let’s say 20). If a gene has low mean expression (e.g., 10), then the standard deviation will be small (<em>e.g.,</em> 2). So, it is true to say that for genes with higher average expression, the standard deviation is greater.</p>
-<p>However, we also need to think about magnitude of variance, which we can do using the numbers from our above imaginary examples. For the gene with a mean expression of 1000 and sd of 20, going from 1000 to 1020 is not a big change. For the gene with the low mean expression, going from 10 to 12 <em>is</em> a large change.</p>
+<p>However, we also need to think about magnitude of variance, which we can do using the numbers from our above imaginary examples. For the gene with a mean expression of 1000 and sd of 20, going from 1000 to 1020 is not a big change (i.e., 1.02 fold change). For the gene with the low mean expression, going from 10 to 12 <em>is</em> a large change (i.e., 1.2 fold change).</p>
+<p>Our assumption then is that a large fold change, regardless of the actual read count change for that gene, has a meaningful biological effect.</p>
+</div>
+</div>
+</div>
 <p>This <a href="https://github.com/friedue/Notes/blob/master/RNA_heteroskedasticity.md">write-up</a> gives an in-depth explanation of heteroskedasticity and how we can think about it.</p>
 <p>We will look more at heteroskedasticity when we begin to identify differentially expressed genes, but for now it is important to be aware of the concept.</p>
 <footer class="navigation-buttons">
@@ -476,6 +506,7 @@ YDL244W     6   6   5  20  30  19</code></pre>
 </footer>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

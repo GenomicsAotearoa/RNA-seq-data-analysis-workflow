@@ -113,7 +113,7 @@ An illustration from the [full paper](https://genomebiology.biomedcentral.com/ar
 There is a strong positive correlation between differential gene expression and both total gene length and number of reads.
 Unless corrected for, gene length will bias your over-representation analysis.
 
-Load the goseq package, the dplyr package (if you haven't already), and use the supportedOrganisms() function to check whether your organism of interest is supported.
+Load the goseq package, the dplyr package (if you haven't already), and use the `supportedOrganisms()` function to check whether your organism of interest is supported.
 The code for *Saccharomyces cerevisiae* is sacCer.
 
 ```{r, message=FALSE}
@@ -127,7 +127,7 @@ supportedOrganisms() %>% View()
 ```
 
 We need to create an object that will pass GOseq a list of all our genes, with the differentially expressed genes highlighted.
-To do this, we will use an ifelse() statement which will check every gene in our experiment and ask test if it has an adjusted p-value of less than 0.05.
+To do this, we will use an `ifelse()` statement which will check every gene in our experiment and ask test if it has an adjusted p-value of less than 0.05.
 If adj-p-value is \< 0.05, return a "1" and if greater than (or equal to) 0.05, return a "0".
 After that, add the gene names to this vector of 1s and 0s.
 
@@ -150,7 +150,7 @@ tail(genes)
 ```
 
 Note #3: because tt is ordered (that is, all the genes with low p values are at the top), it's worth using tail to check the bottom of the new genes object looks different to the top.
-Another useful check is to use the table() function to ask how many genes fall into each category.
+Another useful check is to use the `table()` function to ask how many genes fall into each category.
 
 ```{r}
 table(genes)
@@ -208,7 +208,7 @@ We have a large number of genes which have low/no bias, and a correspondingly hi
 A smaller number of genes have a greater bias and are given lower weighting.
 
 We can now carry out our Fishers Exact test using the pwf value instead of the raw counts.
-We will use the goseq() function to perform this test, and output the over-representation data into an object.
+We will use the `goseq()` function to perform this test, and output the over-representation data into an object.
 
 ```{r}
 
@@ -223,9 +223,9 @@ GO.wall %>% head()
 
 We will want to filter for only those categories with an adjusted p-value \< 0.05, and save that information to a new object for easy browsing.
 
-You might have noticed that the GO.wall object doesn't automatically perform an adjustment for multiple testing, so we will use the p.adjust() function to generate corrected p-values.
+You might have noticed that the GO.wall object doesn't automatically perform an adjustment for multiple testing, so we will use the `p.adjust()` function to generate corrected p-values.
 
-We will then use the adjusted p-values as a filtering criteria, and include the columns that correspond to category, term, and ontology (using the colnames() function, we can see that these are columns 1, 6 and 7).
+We will then use the adjusted p-values as a filtering criteria, and include the columns that correspond to category, term, and ontology (using the `colnames()` function, we can see that these are columns 1, 6 and 7).
 
 ```{r}
 GO.wall.padj = p.adjust(GO.wall$over_represented_pvalue, method="fdr")
@@ -272,7 +272,7 @@ GOSeq is a powerful tool that corrects for an important bias in RNA-seq data. Th
 
 We will not complete a full demonstration of gene set enrichment analysis (GSEA) and clusterProfiler, but we will give an overview of these techniques and tools. 
 
-In particular we strongly recommend The Carpentries workshop [RNA-sq analysis with Bioconductor](https://carpentries-incubator.github.io/bioc-rnaseq/instructor/07-gene-set-analysis.html#ora-with-clusterprofiler) section on GSEA. 
+In particular we strongly recommend The Carpentries workshop [RNA-seq analysis with Bioconductor](https://carpentries-incubator.github.io/bioc-rnaseq/instructor/07-gene-set-analysis.html#ora-with-clusterprofiler) section on GSEA. 
 
 
 ### GSEA

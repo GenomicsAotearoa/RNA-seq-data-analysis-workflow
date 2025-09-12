@@ -1,8 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@400;700&display=swap');
+
+
 /* General page styling */
 body {
     background-color: #f7f9fc;  /* Very light blue background for a soft feel */
-    color: #4a4a4a;  /* Dark gray text color for good readability */
-    font-family: Arial, sans-serif;  /* Font family for a clean, modern look */
+    color: #333;                /* Dark text for readability */
+    font-family: 'Mukta', Helvetica Neue, Arial, sans-serif;  /* Font family for a clean, modern look */
     line-height: 1.6;
     margin: 0;
     padding: 0;
@@ -19,13 +22,22 @@ body {
   }
   
   /* Heading styles with background highlight */
-  h1, h2, h3 {
-    color: #3b5998;  /* Soft blue for headings */
-    padding: 5px;
-    background-color: #eaf1fb;  /* Very light blue background for heading highlights */
+h1, h2, h3 {
+    color: #444444;  /* Lighter medium grey for headers */
+    padding: 12px 8px 12px 12px; /* top right bottom left */
+    background-color: #e6f2e6;  /* Soft green background for heading highlights */
     border-radius: 5px;
-  }
-  
+    margin-top: 24px; /* Optional: adds space above headings */
+    margin-bottom: 12px; /* Optional: adds space below headings */
+}
+
+.quarto-content, .content, .main {
+    max-width: 1800px; /* Increase from default (often 800px or 900px) */
+    width: 100%;        /* Allow it to expand with the window */
+    margin: 0 auto;    /* Center the content */
+}
+
+
   /* Link styles */
   a {
     color: #3b5998;  /* Muted yellow color for links */
@@ -39,20 +51,20 @@ body {
   
   /* Button styles with gradient and shadow */
   button {
-    background: linear-gradient(to bottom, #f4d03f, #e2be33);  /* Gradient yellow for buttons */
-    color: #3b5998;  /* Soft blue text for contrast */
+    background: linear-gradient(to bottom, #e6f2e6, #c8e6c9);  /* Soft green gradient for buttons */
+    color: #215732;  /* Dark green text for contrast */
     border: none;
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 5px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);  /* Shadow for depth */
+    box-shadow: 0px 2px 4px rgba(33, 87, 50, 0.08);  /* Subtle green shadow for depth */
     transition: background 0.3s, transform 0.2s;
-  }
+}
   
   button:hover {
-    background: linear-gradient(to bottom, #f5e26f, #d1a920);  /* Lighter yellow on hover */
+    background: linear-gradient(to bottom, #c8e6c9, #b2d8b2);  /* Slightly darker green on hover */
     transform: translateY(-2px);  /* Slight lift effect on hover */
-  }
+}
   
   /* Callout block styles */
   .callout-note {
@@ -118,32 +130,31 @@ body {
     display: flex;
     justify-content: space-between;
     margin-top: 30px;
-  }
-  
-  .navigation-buttons a {
-    text-decoration: none;
-  }
-  
-  .nav-button {
-    background: linear-gradient(to bottom, #f4d03f, #e2be33);  /* Gradient yellow for buttons */
-    color: #3b5998;  /* Soft blue text for contrast */
+    background-color: #eaf1fb; /* Light blue background around the buttons */
+    padding: 8px 16px; /* Increased left/right padding to move buttons inward */
+    border-radius: 8px;
+}
+
+.nav-button {
+    background: linear-gradient(to bottom, #305080, #3b5998);  /* Dark blue gradient for buttons */
+    color: #fff;  /* White text for contrast */
     border: none;
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 5px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);  /* Shadow for depth */
+    box-shadow: 0px 2px 4px rgba(33, 87, 50, 0.08);  /* Subtle shadow */
     transition: background 0.3s, transform 0.2s;
-  }
-  
-  .nav-button:hover {
-    background: linear-gradient(to bottom, #f5e26f, #d1a920);  /* Lighter yellow on hover */
-    transform: translateY(-2px);  /* Slight lift effect on hover */
-  }
-  
-  .prev-button {
-    margin-right: auto;  /* Aligns the Previous button to the left */
-  }
-  
-  .next-button {
-    margin-left: auto;  /* Aligns the Next button to the right */
-  }
+}
+
+.nav-button:hover {
+    background: linear-gradient(to bottom, #3b5998, #305080);  /* Reverse dark blue gradient on hover */
+    transform: translateY(-2px);
+}
+
+.prev-button {
+    margin-right: auto;
+}
+
+.next-button {
+    margin-left: auto;
+}

@@ -63,9 +63,14 @@ However, gene length does need to be taken into account when we carry out over-r
 
 ## Introduction to the dataset
 
-The example data in this workshop are from [Lee et al.,](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1000299) and include a set of six *Saccharomyces cerevisiae* samples in two groups: three wild-type samples and three RNA-degradation mutants. Note that these particular mutants are signifcantly different from the wildtype and we expect large differences between our two sample groups. 
+The example data in this workshop are from [Lee et al.,](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1000299) and include a set of six *Saccharomyces cerevisiae* samples in two groups: three wild-type samples and three RNA-degradation mutants. Note that these particular mutants are significantly different from the wildtype and we expect large differences between our two sample groups. 
 
 The data is a subset of an RNA-sequencing experiment which used single end sequencing. 
+
+::: {.callout-important collapse="true"}
+## Extra for experts
+These data come from a 2008 study, sequenced on the Illumina Genome Analyzer, using an EST strategy (expressed sequenced tags). This is an older approach; ESTs were generally shorter reads (36-100bp) than what we typically would sequence now for Illumina transcriptomes (100bp-150bp). While there are some limitations to this approach (mainly in the depth of information you can retrieve, e.g., no strandedness information, less or no isoform resolution), for the purpose of this workshop (i.e., showing the workflow and what tools you can use), these data "work" much the same as more modern sequence data. These data can be found on NCBI's Sequence Read Archive under [BioProject: PRJNA109083](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA109083). 
+:::
 
 <footer class="navigation-buttons">
   <a href="index.qmd">

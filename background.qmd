@@ -3,11 +3,11 @@ title: The RNA-seq workflow
 code-overflow: wrap
 ---
 
-What are the key steps in an RNA-seq data analysis workflow? 
+- What are the key steps in an RNA-seq data analysis workflow? 
 
-What are the peculiar features of RNA-seq data, and how do we address these features to make sure our analysis is unbiased and accurate? 
+- What are the peculiar features of RNA-seq data, and how do we address these features to make sure our analysis is unbiased and accurate? 
 
-What methods are available to handle RNA-seq data analysis?
+- What methods are available to handle RNA-seq data analysis?
 
 
 
@@ -18,15 +18,11 @@ We will assume that the aim of our RNA-seq experiment is to identify a set of ge
 Assuming this is the case, there are many methods that can be applied to this type of analysis and this can be overwhelming. Here we will look at what we call the core workflow - the major steps that you will take to go from the raw FASTA files (the output from an RNA-seq experiment) to an informative list of differentially expressed genes. 
 
 ### Core steps in a common workflow:
-Quality assessment of the raw data
-
-Adapter removal and cleanup
-
-Quantification of gene expression
-
-Identifying differentially expressed genes
-
-Over-representation analysis
+1. Quality assessment of the raw data
+2. Adapter removal and cleanup
+3. Quantification of gene expression
+4. Identifying differentially expressed genes
+5. Over-representation analysis
 
 
 As you will see, for some steps there are multiple tools that take a functionally similar approach (*e.g.,* quality assessment and adapter removal). For other steps, especially for quantification and identification of differentially expressed genes, there are different methodologies available. These methodologies take different routes to address complex biological, computational and statistical questions. A key takeaway from this workshop is that it is not always possible to identify a "best" tool - *you must be willing and able to identify the strengths and weaknesses of available tools and decide, based on your question and experiment, which tool is most appropriate for you*. 

@@ -75,13 +75,26 @@ h1, h2, h3 {
   }
   
   /* Footer styling */
-  footer {
-    background-color: #3b5998;  /* Soft blue footer background */
-    color: #ffffff;  /* White text color */
-    padding: 10px;
-    text-align: center;
-    margin-top: 20px;
-  }
+/* Bottom banner container */
+.bottom-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between; /* Space between left and right */
+  align-items: center;
+  background-color: #e6f2e6;  /* Soft green background */
+  color: black;
+  padding: 8px 20px;
+  font-size: 0.9em;
+  z-index: 1000;
+}
+
+.banner-right {
+  font-style: italic;
+  text-align: right;
+}
   
   /* Table styles with improved visual interest */
   table {

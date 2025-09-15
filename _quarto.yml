@@ -4,7 +4,7 @@ project:
 
 website:
   title: "RNA-seq data analysis workflow"
-  favicon: figures/socialImage.png
+  open-graph: true # https://quarto.org/docs/websites/website-tools.html#open-graph
   sidebar:
     style: "docked"
     contents:
@@ -35,10 +35,13 @@ format:
     mainfont: "Mukta"
     monofont: "monospace"
     fontsize: 20px
-    theme: zephyr
+    include-after-body: footer.html
     css: styles.css
     navigation: true
     toc: true
     toc-location: right
     toc-depth: 3
     toc-title: "Contents"
+    code-copy: true
+    code-block-bg: true
+

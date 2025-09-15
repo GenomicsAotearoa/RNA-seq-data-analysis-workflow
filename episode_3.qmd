@@ -17,7 +17,7 @@ If your data set was a physical problem (like a squeaky wheel or a well wrapped 
 
 ## Exploratory analysis
 
-Use the import data set or `read.delim()` function to import the file yeast_counts_all_chr, and name the object fcData. Also, load the dplyr library. We will look at some of the basic stats and features of our data object with `View()`, `dim()`, and `names()`
+From here and for the rest of the workshop, we will be working within R. Use the import data set or `read.delim()` function to import the file yeast_counts_all_chr, and name the object fcData. Also, load the dplyr library. We will look at some of the basic stats and features of our data object with `View()`, `dim()`, and `names()`
 
 
 ```{r}

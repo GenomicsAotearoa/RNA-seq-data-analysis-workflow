@@ -65,7 +65,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./figures/socialImage.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -75,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6ab36fa8575e9346e64d0d1e9a0cfa9f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-2b26f57d8318b6eba2cd7cd1feee4645.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -106,6 +105,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="Exploratory Analysis – RNA-seq data analysis workflow">
+<meta property="og:description" content="">
+<meta property="og:image" content="theme_images/exploratory-analysis.png">
+<meta property="og:site_name" content="RNA-seq data analysis workflow">
 </head>
 
 <body class="nav-sidebar docked quarto-light">
@@ -269,7 +272,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="exploratory-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="exploratory-analysis">Exploratory analysis</h2>
-<p>Use the import data set or <code>read.delim()</code> function to import the file yeast_counts_all_chr, and name the object fcData. Also, load the dplyr library. We will look at some of the basic stats and features of our data object with <code>View()</code>, <code>dim()</code>, and <code>names()</code></p>
+<p>From here and for the rest of the workshop, we will be working within R. Use the import data set or <code>read.delim()</code> function to import the file yeast_counts_all_chr, and name the object fcData. Also, load the dplyr library. We will look at some of the basic stats and features of our data object with <code>View()</code>, <code>dim()</code>, and <code>names()</code></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -510,6 +513,15 @@ Solution
 </section>
 
 </main> <!-- /main -->
+<div class="bottom-banner">
+  <div class="banner-left">
+    <img src="theme_images/GA-Logo-Bioinformatics-Training-black.png" alt="GA traininglogo" class="banner-logo" style="height:45px; width:auto;">
+  </div>
+  <div class="banner-right">
+    Made with <span class="heart">❤️</span> and 
+    <a href="https://genomicsaotearoa.github.io/reproducibility_with_git_and_quarto/quarto_overview.html" target="_blank" style="color: #486c91; text-decoration: underline;">Quarto</a>
+  </div>
+</div>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

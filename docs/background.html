@@ -261,12 +261,12 @@ ul.task-list li input[type="checkbox"] {
 <section id="library-sizes-and-composition" class="level3">
 <h3 class="anchored" data-anchor-id="library-sizes-and-composition">Library sizes and composition</h3>
 <p>Due to myriad biological and technical effects, each sample will have differing numbers of total reads (different library sizes). When we attempt to compare gene expression across samples, these different library sizes can cause genes to be over- or under-expressed. Before we can compare samples we must correct for library size differences.</p>
-<p>Additionally, we need to be aware of library composition. If a library has one (or a few) genes that are very highly expressed, they can be thought of as ‘taking up’ a high proportion of the total library of reads. If we compare this skewed library with another library, some genes may look down-regulated in the skewed library.</p>
+<p>Additionally, we need to be aware of library composition. If a library has one (or a few) genes that are very highly expressed, they can be thought of as ‘taking up’ a high proportion of the total library of reads. If we compare this skewed library with another library, some genes may look down-regulated in the skewed library. Here is a great resource on <a href="https://hbctraining.github.io/Intro-to-DGE/lessons/02_DGE_count_normalization.html">different ways to normalise counts</a>, which can account for library size and/or composition, produced by the <a href="https://github.com/hbctraining/Intro-to-DGE">Harvard Chan Bioinformatics Core.</a></p>
 </section>
 <section id="heteroskedasticity" class="level3">
 <h3 class="anchored" data-anchor-id="heteroskedasticity">Heteroskedasticity</h3>
 <p>Heteroskedasticity describes a situation where variance changes with the mean. In RNA-seq data the level of variance associated with each gene is somewhat dependent on the mean expression level of the gene. This is an issue since some statistical approaches (specifically, the Poisson distribution) assume homoskedasticity (that is, that variance is not associated with the mean).</p>
-<p>Two approaches to dealing with heteroskedasticity are common in the literature: transform the data to reduce (or remove) the mean-variance association or use a method that is robust to the mean-variance association (DESeq2 with the Negative Binomial distribution).</p>
+<p>Two approaches to dealing with heteroskedasticity are common in the literature: transform the data to reduce (or remove) the mean-variance association or use a method that is robust to the mean-variance association (<a href="https://doi.org/10.1186/s13059-014-0550-8">DESeq2</a> with the Negative Binomial distribution).</p>
 </section>
 <section id="gene-length" class="level3">
 <h3 class="anchored" data-anchor-id="gene-length">Gene length</h3>

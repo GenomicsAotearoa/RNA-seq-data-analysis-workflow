@@ -41,13 +41,13 @@ There are two major approaches to measure gene expression from reads: in the fir
 
 Due to myriad biological and technical effects, each sample will have differing numbers of total reads (different library sizes). When we attempt to compare gene expression across samples, these different library sizes can cause genes to be over- or under-expressed. Before we can compare samples we must correct for library size differences. 
 
-Additionally, we need to be aware of library composition. If a library has one (or a few) genes that are very highly expressed, they can be thought of as 'taking up' a high proportion of the total library of reads. If we compare this skewed library with another library, some genes may look down-regulated in the skewed library. 
+Additionally, we need to be aware of library composition. If a library has one (or a few) genes that are very highly expressed, they can be thought of as 'taking up' a high proportion of the total library of reads. If we compare this skewed library with another library, some genes may look down-regulated in the skewed library. Here is a great resource on [different ways to normalise counts](https://hbctraining.github.io/Intro-to-DGE/lessons/02_DGE_count_normalization.html), which can account for  library size and/or composition, produced by the [Harvard Chan Bioinformatics Core.](https://github.com/hbctraining/Intro-to-DGE)
 
 ### Heteroskedasticity
 
 Heteroskedasticity describes a situation where variance changes with the mean. In RNA-seq data the level of variance associated with each gene is somewhat dependent on the mean expression level of the gene. This is an issue since some statistical approaches (specifically, the Poisson distribution) assume homoskedasticity (that is, that variance is not associated with the mean). 
 
-Two approaches to dealing with heteroskedasticity are common in the literature: transform the data to reduce (or remove) the mean-variance association or use a method that is robust to the mean-variance association (DESeq2 with the Negative Binomial distribution). 
+Two approaches to dealing with heteroskedasticity are common in the literature: transform the data to reduce (or remove) the mean-variance association or use a method that is robust to the mean-variance association ([DESeq2](https://doi.org/10.1186/s13059-014-0550-8) with the Negative Binomial distribution). 
 
 
 ### Gene length

@@ -4,11 +4,11 @@ A workflow for analysing RNA-seq data, aimed at new users who want to understand
 
  ## Workshop timings
 
-DAY 1 
+DAY 1  
 **Start time: 9:00am**  
 **Finish time: 1:00pm**  
 
-DAY 2 
+DAY 2  
 **Start time: 9:00am**  
 **Finish time: 1:00pm**  
 

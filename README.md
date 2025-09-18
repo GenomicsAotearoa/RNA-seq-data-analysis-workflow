@@ -23,9 +23,9 @@ DAY 2
 | Sequence quality       | 55 mins    | 9:45–10:10   |
 | **BREAK**              | 10 mins    | 10:10–10:20  |
 | Sequence quality       |            | 10:20–10:40  |
-| Quantifying gene expn  | 1 hour     | 10:40–11:10  |
+| Quantifying gene expression  | 1 hour     | 10:40–11:10  |
 | **BREAK**              | 10 mins    | 11:10–11:20  |
-| Quantifying gene expn  |            | 11:20–11:50  |
+| Quantifying gene expression  |            | 11:20–11:50  |
 | Exploratory analysis   | 1 hour     | 11:50–12:20  |
 | **BREAK**              | 10 mins    | 12:20–12:30  |
 | Exploratory analysis   |            | 12:30–END    |

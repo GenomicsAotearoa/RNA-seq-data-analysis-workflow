@@ -36,11 +36,11 @@ DAY 2
 | Episode                  | Duration   | Approx Time  |
 |---------------------------|------------|--------------|
 | Identify DE genes         |            |              |
-| t-tests and P-values      | 30 mins    | 9:00–9:30    |
-| Identify DE w limma       | 50 mins    | 9:30–10:00   |
+| *t-tests and P-values*      | 30 mins    | 9:00–9:30    |
+| *Identify DE w limma*       | 50 mins    | 9:30–10:00   |
 | **BREAK**                 | 10 mins    | 10:00–10:10  |
-| Identify DE w limma       |            | 10:10–10:30  |
-| Identify DE w DESeq2      | 30 mins    | 10:30–11:00  |
+| *Identify DE w limma*       |            | 10:10–10:30  |
+| *Identify DE w DESeq2*      | 30 mins    | 10:30–11:00  |
 | **BREAK**                 | 15 mins    | 11:00–11:15  |
 | Functional analysis       | 1 hour     | 11:15–12:15  |
 | **BREAK**                 | 5 mins     | 12:15–12:20  |

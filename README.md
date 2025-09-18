@@ -35,7 +35,7 @@ DAY 2
 ### Day 2
 | Episode                  | Duration   | Approx Time  |
 |---------------------------|------------|--------------|
-| Identify DE genes         |            |              |
+| Identify differentially expressed genes         |            |              |
 | *t-tests and P-values*      | 30 mins    | 9:00–9:30    |
 | *Identify DE w limma*       | 50 mins    | 9:30–10:00   |
 | **BREAK**                 | 10 mins    | 10:00–10:10  |

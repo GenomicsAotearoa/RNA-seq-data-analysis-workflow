@@ -49,6 +49,12 @@ However, if you'd found 25% (or 0%!) THEN you might have something significant.
 
 Over-representation analysis is the use of a hypergeometric distribution to determine whether or not a sample group is undergoing coordinated gene expression changes.
 Statistically, it is asking what is the probability of getting 10 apoptosis genes in my list of 100 differentially expressed genes, given the number of apoptosis genes in the whole genome.
+
+::: {.callout-warning collapse="true"}
+# A word of warning about defining your background gene list
+Here we use the whole genome to generate our background gene list. This approach may not always be appropriate, and it is up to you to decide what is the most biologically appropriate gene list to use as the background. For example, if you are comparing gene expression across samples from a tissue type that is known to be naturally high in apoptotic procesess, then using the whole genome as a background gene list may 'drown out' the signal. Instead, you may want to use all of the genes that are generally known to be expressed in that tissue as your background (e.g., this could be by using a set of control samples, or by using all genes detected as differentially expressed in all your samples together).
+:::
+
 We can use the Fisher's Exact test and the hypergeometric distribution to ask whether being involved in apoptosis is independent of being significantly differentially expressed.
 
 What does this look like in practice?
@@ -180,7 +186,7 @@ GOSeq will calculate a value for each gene which will offset this artificial wei
 In other words, if our 2 x 2 table would have 10 genes in the top left square, and some of those genes are very long, GOSeq will treat the number as something slightly less than 10.
 By treating the value as less than 10, we have taken into account the fact that there shouldn't *really* have been 10 genes in there in the first place if not for gene length bias.
 
-Calculate the weighting that should be assigned to each gene with the Probability Weighting Function (the nullp() function).
+Calculate the weighting that should be assigned to each gene with the Probability Weighting Function (the `nullp()` function).
 Specify the object "gene" which is our list of all genes and whether they are differentially expressed or not, as well as the genome ("sacCer1" for our yeast genome), and the gene ID type.
 This will create a plot in which genes are placed into "bins" based on length, and then gene length vs proportion of differentially expressed is plotted.
 We can then inspect the pwf object.
@@ -266,6 +272,7 @@ GOTERM[[GO.wall.sig$category[1]]]
 ### Closing thoughts on GOseq
 
 GOSeq is a powerful tool that corrects for an important bias in RNA-seq data. There are other options when it comes to over-representation analysis, and functional analysis in general. Some of these tools might help with generating better visualisations, or claim to have more up-to-date databases. 
+
 
 
 ## Gene set enrichment analysis and clusterProfiler

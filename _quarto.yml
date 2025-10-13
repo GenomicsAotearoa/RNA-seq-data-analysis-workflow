@@ -35,9 +35,9 @@ format:
     mainfont: "Mukta"
     monofont: "monospace"
     fontsize: 20px
-    include-after-body: footer.html
     css: styles.css
     navigation: true
+    page-navigation: true
     toc: true
     toc-location: right
     toc-depth: 3

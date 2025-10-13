@@ -183,11 +183,4 @@ multiqc .
 
 We can now see the Cutadapt metrics have been added to the report. 
 
-<footer class="navigation-buttons">
-  <a href="background.qmd">
-    <button class="nav-button prev-button">Previous Page</button>
-  </a>
-  <a href="episode_2.qmd">
-    <button class="nav-button next-button">Next Page</button>
-  </a>
-</footer>
+

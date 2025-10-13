@@ -68,11 +68,4 @@ The data is a subset of an RNA-sequencing experiment which used single end seque
 These data come from a 2008 study, sequenced on the Illumina Genome Analyzer, using an EST strategy (expressed sequenced tags). This is an older approach; ESTs were generally shorter reads (36-100bp) than what we typically would sequence now for Illumina transcriptomes (100bp-150bp). While there are some limitations to this approach (mainly in the depth of information you can retrieve, e.g., no strandedness information, less or no isoform resolution), for the purpose of this workshop (i.e., showing the workflow and what tools you can use), these data "work" much the same as more modern sequence data. These data can be found on NCBI's Sequence Read Archive under [BioProject: PRJNA109083](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA109083). 
 :::
 
-<footer class="navigation-buttons">
-  <a href="index.qmd">
-    <button class="nav-button prev-button">Previous Page</button>
-  </a>
-  <a href="episode_1.qmd">
-    <button class="nav-button next-button">Next Page</button>
-  </a>
-</footer>
+

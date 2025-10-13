@@ -183,15 +183,3 @@ multiqc .
 
 We have now generated counts! We can now take these through to the next stage of our analysis: preparing to identify differentially expressed genes. 
 
-
-
-
-
-<footer class="navigation-buttons">
-  <a href="episode_1.qmd">
-    <button class="nav-button prev-button">Previous Page</button>
-  </a>
-  <a href="episode_3.qmd">
-    <button class="nav-button next-button">Next Page</button>
-  </a>
-</footer>

@@ -47,8 +47,17 @@ During the workshop, code will be run in real-time to demonstrate the analysis. 
 
 This workshop is an updated version on an existing version of [RNA-seq data analysis by Genomics Aotearoa and REANNZ (formerly NeSI)](https://genomicsaotearoa.github.io/RNA-seq-workshop-on-demand/). It incorporates, and takes inspiration from, various training materials produced by the [Harvard Bioinformatics Core](https://github.com/hbctraining) and from The Carpentries, specifically their [RNA-seq analysis with Bioconductor workshop](https://carpentries-incubator.github.io/bioc-rnaseq/index.html). 
 
-<footer class="navigation-buttons">
-  <a href="background.qmd">
-    <button class="nav-button next-button">Next Page</button>
-  </a>
-</footer>
+
+::: {style="background: #e6f2e6; text-align:center; padding: 1.5rem; border-radius: 8px;"}
+
+# {style="background: #e6f2e6; text-align:center;"}
+
+[![](theme_images/GA-Logo-Bioinformatics-Training-black.png){width=80%}](https://genomicsaotearoa.github.io/BioinformaticsTrainingProgramme/)
+
+Made with ❤️ and [Quarto](https://genomicsaotearoa.github.io/reproducibility_with_git_and_quarto/quarto_overview.html)
+
+:::
+
+
+
+

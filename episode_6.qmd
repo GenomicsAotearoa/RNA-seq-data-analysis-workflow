@@ -10,8 +10,3 @@ We strongly recommend that analyses should be repeated with different tools or o
 
 Finally, the most useful thing you can do is to connect with other people carrying out similar analyses or people in your area (physically, or field of research) who are knowledgeable. 
 
-<footer class="navigation-buttons">
-  <a href="episode_5.qmd">
-    <button class="nav-button prev-button">Previous Page</button>
-  </a>
-</footer>

@@ -365,11 +365,3 @@ For simplicity, we will take the list of genes identified by limma. We will save
 save(sigGenesLimma, file = 'topTable.RData')
 ```
 
-<footer class="navigation-buttons">
-  <a href="episode_3.qmd">
-    <button class="nav-button prev-button">Previous Page</button>
-  </a>
-  <a href="episode_5.qmd">
-    <button class="nav-button next-button">Next Page</button>
-  </a>
-</footer>

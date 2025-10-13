@@ -302,14 +302,3 @@ In any situation where there are multiple tools, methods, or decision points (*e
 GO.nobias=goseq(pwf, "sacCer1", "ensGene", method="Hypergeometric")
 ```
 
-
-
-
-<footer class="navigation-buttons">
-  <a href="episode_4.qmd">
-    <button class="nav-button prev-button">Previous Page</button>
-  </a>
-  <a href="episode_6.qmd">
-    <button class="nav-button next-button">Next Page</button>
-  </a>
-</footer>

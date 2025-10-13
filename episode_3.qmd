@@ -162,11 +162,3 @@ This [write-up](https://github.com/friedue/Notes/blob/master/RNA_heteroskedastic
 
 We will look more at heteroskedasticity when we begin to identify differentially expressed genes, but for now it is important to be aware of the concept.
 
-<footer class="navigation-buttons">
-  <a href="episode_2.qmd">
-    <button class="nav-button prev-button">Previous Page</button>
-  </a>
-  <a href="episode_4.qmd">
-    <button class="nav-button next-button">Next Page</button>
-  </a>
-</footer>

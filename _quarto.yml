@@ -4,6 +4,7 @@ project:
 
 website:
   title: "RNA-seq data analysis workflow"
+  favicon: theme_images/GA-image-black-favicon.png
   open-graph: true # https://quarto.org/docs/websites/website-tools.html#open-graph
   sidebar:
     style: "docked"

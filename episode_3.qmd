@@ -1,8 +1,9 @@
 ---
-title: Exploratory Analysis
+title: ""
 code-overflow: wrap
 ---
 
+# Exploratory Analysis
 
 ![](theme_images/exploratory-analysis.png){width=80% fig-align="center"}
 
@@ -103,6 +104,28 @@ boxplot(as.matrix(counts) ~ col(counts),
         ylab = "Counts", xlab = "Samples", names = colnames(counts))
 ```
 
+::: {.callout-note collapse="true"}
+# ggplot boxplot version:
+
+```{r}
+library(ggplot2)
+
+# Convert counts data to long format for ggplot
+counts_long <- counts %>%
+  as.data.frame() %>%
+  tibble::rownames_to_column("Gene") %>%
+  tidyr::pivot_longer(cols = -Gene, names_to = "Sample", values_to = "Counts")
+
+# Create boxplot with ggplot2
+ggplot(counts_long, aes(x = Sample, y = Counts)) +
+  geom_boxplot() +
+  labs(x = "Samples", y = "Counts") +
+  theme_minimal()
+
+```
+
+:::
+
 This figure indicates we should consider logging our data (for the purpose of visualisations).
 
 Log transform the data, adding 1 to avoid log(0) errors.
@@ -117,6 +140,27 @@ boxplot(as.matrix(logCounts) ~ col(counts),
         main = "Log counts of samples")
 ```
 
+::: {.callout-note collapse="true"}
+# ggplot logged boxplot version:
+
+```{r}
+logCounts <- log2(as.matrix(counts) + 1)
+
+# Convert log-transformed counts to long format for ggplot
+logCounts_long <- logCounts %>%
+  as.data.frame() %>%
+  tibble::rownames_to_column("Gene") %>%
+  tidyr::pivot_longer(cols = -Gene, names_to = "Sample", values_to = "LogCounts")
+
+# Create log counts boxplot with ggplot2
+ggplot(logCounts_long, aes(x = Sample, y = LogCounts)) +
+  geom_boxplot() +
+  labs(x = "Samples", y = "Log Counts", title = "Log counts of samples") +
+  theme_minimal()
+
+```
+
+:::
 
 
 The log count boxplots reveal a difference between our wt and mutant samples. As a reminder, these two strains of yeast are very different and we would not normally expect this level of difference (although that might vary depending on your experiment).
@@ -129,9 +173,28 @@ lineColour
 
 plot(density(logCounts[,1]), ylim=c(0,0.3), col=lineColour[1], xlab = "log Counts", main = "Density plot")
 for(i in 2:ncol(logCounts)) lines(density(logCounts[,i]), col=lineColour[i])
+
 ```
 
+::: {.callout-note collapse="true"}
+# ggplot density plot version:
 
+```{r}
+
+ggplot(logCounts_long, aes(x = LogCounts, colour = Sample)) +
+  geom_density() +
+  scale_colour_manual(values = c(
+    "WT1" = "blue", "WT2" = "blue", "WT3" = "blue",
+    "MT1" = "red",  "MT2" = "red",  "MT3" = "red"
+  )) +
+  ylim(0, 0.3) +
+  xlim(-1, 15) +
+  labs(x = "log Counts", title = "Density plot") +
+  theme_classic()
+
+```
+
+:::
 
 A common question to ask at this point is, are the differences we can see between our two sample groups a true biological effect, or is this an experimental artifact? Often, we will not know the answer to this question. For now, it is enough to be aware of these differences and to keep them in mind moving forward.
 
@@ -143,6 +206,24 @@ Library size refers to the total number of reads for the entire sample. If two s
 colSums(counts) %>% barplot(., ylab = "Reads mapped per sample", xlab = "Sample", main = "Library size")
 ```
 
+::: {.callout-note collapse="true"}
+# ggplot barplot version:
+
+```{r}
+colSums(counts) %>%
+  as.data.frame() %>%
+  tibble::rownames_to_column("sample") %>%
+  rename(reads = ".") %>%
+  mutate(group = ifelse(startsWith(sample, "WT"), "WT", "MT")) %>%
+  ggplot(aes(x = sample, y = reads, fill = group)) +
+  geom_col(colour = "black", fill = "grey") +
+  labs(y = "Reads mapped per sample", x = "Sample", title = "Library size") +
+  theme_classic()
+
+```
+
+:::
+
 
 Library sizes are approximately equal across the samples. They are slightly lower in the mutants compared to the wt, but the difference is low (*i.e.,* mean \~ 4.6 million and 4.8 million reads in mutant and wt respectively).
 
@@ -152,7 +233,7 @@ If we needed to correct for library size, we would use a two-step method. In the
 
 [Heteroskedasticity](https://en.wikipedia.org/wiki/Homoscedasticity_and_heteroscedasticity) is "heterogeneity of variance". If the variance we observe is non-uniform across a range of values, we can describe the dataset as heteroskedastic. In RNA-seq, this means that variance depends on the mean expression of the gene. Wikipedia has a useful example:
 
-"A classic example of heteroscedasticity is that of income versus expenditure on meals. A wealthy person may eat inexpensive food sometimes and expensive food at other times. A poor person will almost always eat inexpensive food. Therefore, people with higher incomes exhibit greater variability in expenditures on food." 
+*"A classic example of heteroscedasticity is that of income versus expenditure on meals. A wealthy person may eat inexpensive food sometimes and expensive food at other times. A poor person will almost always eat inexpensive food. Therefore, people with higher incomes exhibit greater variability in expenditures on food."* 
 
 
 

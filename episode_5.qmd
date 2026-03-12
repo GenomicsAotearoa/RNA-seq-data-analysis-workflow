@@ -1,16 +1,18 @@
 ---
-title: Functional analysis
+title: ""
 code-overflow: wrap
 editor: 
   markdown: 
     wrap: sentence
 ---
 
+# Functional analysis
+
 ::: {.grid}
-::: {.g-col-6}
-![](theme_images/over-rep_theme.png){width=70%}
+::: {.g-col-4}
+![](theme_images/over-rep_theme.png){width=100%}
 :::
-::: {.g-col-6 .d-flex .align-items-center}
+::: {.g-col-8 .d-flex .align-items-center}
 *Functional analysis is the process of taking a list of genes which we cannot meaningfully interact with and distilling information that we as researchers can then interpret. Generally, this involves grouping genes based on functions or processes, and determining which processes or functions appear to be different between your experimental groups.*  
 :::
 :::
@@ -24,7 +26,7 @@ There are different approaches to functional analysis *e.g.,*:
 
 -   **Pathway topology**: Pathway topology analysis takes a higher level approach, compiling information on up- and down-regulation at the level of the pathway rather than the level of the gene.
 
-Today we will cover Over-representation analysis and functional class scoring.
+Today we will cover **over-representation analysis** and functional class scoring.
 Links to pathway topology workflows are provided.
 
 ## Annotation
@@ -35,6 +37,9 @@ This first requires that our genes are annotated - we must be able to associate 
 There are now many databases that maintain information and annotation on genes, including proposed and confirmed functions, pathways, processes *etc.,*.
 Annotation and databases is an entire area in itself, and not something we can cover today.
 For now, we will retrieve annotation information from different sources and attach the annotation to genes.
+
+The annotations that we are going to be using today are called **Gene Ontologies** or GO terms. There are three major classes of GO -- **Molecular Function (MF)**, **Cellular Component (CC)**, and **Biological Process (BP)**. GO terms are hierarchical, and each child term is more specialised than the parent term. Check out the [documentation here on gene ontologies.](https://geneontology.org/docs/ontology-documentation/) 
+
 
 ## Over-representation Analysis
 

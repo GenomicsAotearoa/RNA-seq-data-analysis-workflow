@@ -1,8 +1,9 @@
 ---
-title: Sequence Quality - FastQC, MultiQC and Cutadapt
+title: ""
 code-overflow: wrap
 ---
 
+# Sequence Quality - FastQC, MultiQC and Cutadapt
 <div style="display: flex; gap: 20px;">
   <img src="theme_images/qc_image_whiteleftborder.png" alt="QC" style="width:45%">
   <img src="theme_images/cleaning_reads.png" alt="Clean reads" style="width:45%">

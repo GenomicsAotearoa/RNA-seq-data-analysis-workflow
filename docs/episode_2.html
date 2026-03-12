@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Quantifying Gene Expression – RNA-seq data analysis workflow</title>
+<title>episode_2 – RNA-seq data analysis workflow</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -108,7 +108,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="Quantifying Gene Expression – RNA-seq data analysis workflow">
+<meta property="og:title" content="– RNA-seq data analysis workflow">
 <meta property="og:description" content="">
 <meta property="og:image" content="theme_images/alignment.png">
 <meta property="og:site_name" content="RNA-seq data analysis workflow">
@@ -123,7 +123,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./day_1_overview.html">Day One</a></li><li class="breadcrumb-item"><a href="./episode_2.html">Quantifying Gene Expression</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./episode_1.html">Day One</a></li><li class="breadcrumb-item"><a href="./episode_2.html">Quantifying Gene Expression</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -165,7 +165,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./day_1_overview.html" class="sidebar-item-text sidebar-link">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Day One</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -194,7 +194,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./day_2_overview.html" class="sidebar-item-text sidebar-link">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Day Two</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -231,7 +231,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Contents</h2>
    
   <ul>
-  <li><a href="#alignment-with-hisat2" id="toc-alignment-with-hisat2" class="nav-link active" data-scroll-target="#alignment-with-hisat2">Alignment with HISAT2</a>
+  <li><a href="#quantifying-gene-expression" id="toc-quantifying-gene-expression" class="nav-link active" data-scroll-target="#quantifying-gene-expression">Quantifying Gene Expression</a>
+  <ul class="collapse">
+  <li><a href="#alignment-with-hisat2" id="toc-alignment-with-hisat2" class="nav-link" data-scroll-target="#alignment-with-hisat2">Alignment with HISAT2</a>
   <ul class="collapse">
   <li><a href="#preparation-of-the-genome" id="toc-preparation-of-the-genome" class="nav-link" data-scroll-target="#preparation-of-the-genome">Preparation of the genome</a></li>
   <li><a href="#alignment-on-the-genome" id="toc-alignment-on-the-genome" class="nav-link" data-scroll-target="#alignment-on-the-genome">Alignment on the genome</a></li>
@@ -240,31 +242,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#multiqc" id="toc-multiqc" class="nav-link" data-scroll-target="#multiqc">MultiQC</a></li>
   </ul></li>
   <li><a href="#read-summarisation" id="toc-read-summarisation" class="nav-link" data-scroll-target="#read-summarisation">Read summarisation</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./day_1_overview.html">Day One</a></li><li class="breadcrumb-item"><a href="./episode_2.html">Quantifying Gene Expression</a></li></ol></nav>
-<div class="quarto-title">
-<h1 class="title">Quantifying Gene Expression</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./episode_1.html">Day One</a></li><li class="breadcrumb-item"><a href="./episode_2.html">Quantifying Gene Expression</a></li></ol></nav></header>
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
+<section id="quantifying-gene-expression" class="level1">
+<h1>Quantifying Gene Expression</h1>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="theme_images/alignment.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
@@ -392,6 +381,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We have now generated counts! We can now take these through to the next stage of our analysis: preparing to identify differentially expressed genes.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

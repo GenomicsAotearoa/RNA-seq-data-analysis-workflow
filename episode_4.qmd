@@ -1,7 +1,9 @@
 ---
-title: Identify Differentially Expressed Genes
+title: ""
 code-overflow: wrap
 ---
+
+# Identify Differentially Expressed Genes
 
 ![](theme_images/r_logos.png)
 

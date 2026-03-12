@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Functional analysis – RNA-seq data analysis workflow</title>
+<title>episode_5 – RNA-seq data analysis workflow</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -108,7 +108,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="Functional analysis – RNA-seq data analysis workflow">
+<meta property="og:title" content="– RNA-seq data analysis workflow">
 <meta property="og:description" content="">
 <meta property="og:image" content="theme_images/over-rep_theme.png">
 <meta property="og:site_name" content="RNA-seq data analysis workflow">
@@ -123,7 +123,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./day_2_overview.html">Day Two</a></li><li class="breadcrumb-item"><a href="./episode_5.html">Functional analysis</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./episode_4.html">Day Two</a></li><li class="breadcrumb-item"><a href="./episode_5.html">Functional analysis</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -165,7 +165,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./day_1_overview.html" class="sidebar-item-text sidebar-link">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Day One</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -194,7 +194,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./day_2_overview.html" class="sidebar-item-text sidebar-link">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Day Two</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -231,7 +231,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Contents</h2>
    
   <ul>
-  <li><a href="#annotation" id="toc-annotation" class="nav-link active" data-scroll-target="#annotation">Annotation</a></li>
+  <li><a href="#functional-analysis" id="toc-functional-analysis" class="nav-link active" data-scroll-target="#functional-analysis">Functional analysis</a>
+  <ul class="collapse">
+  <li><a href="#annotation" id="toc-annotation" class="nav-link" data-scroll-target="#annotation">Annotation</a></li>
   <li><a href="#over-representation-analysis" id="toc-over-representation-analysis" class="nav-link" data-scroll-target="#over-representation-analysis">Over-representation Analysis</a>
   <ul class="collapse">
   <li><a href="#the-hypergeometric-distribution" id="toc-the-hypergeometric-distribution" class="nav-link" data-scroll-target="#the-hypergeometric-distribution">The hypergeometric distribution</a></li>
@@ -245,36 +247,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#clusterprofiler" id="toc-clusterprofiler" class="nav-link" data-scroll-target="#clusterprofiler">ClusterProfiler</a></li>
   <li><a href="#gsea-clusterprofiler-and-length-correction" id="toc-gsea-clusterprofiler-and-length-correction" class="nav-link" data-scroll-target="#gsea-clusterprofiler-and-length-correction">GSEA, clusterProfiler and length correction</a></li>
   </ul></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./day_2_overview.html">Day Two</a></li><li class="breadcrumb-item"><a href="./episode_5.html">Functional analysis</a></li></ol></nav>
-<div class="quarto-title">
-<h1 class="title">Functional analysis</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./episode_4.html">Day Two</a></li><li class="breadcrumb-item"><a href="./episode_5.html">Functional analysis</a></li></ol></nav></header>
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
+<section id="functional-analysis" class="level1">
+<h1>Functional analysis</h1>
 <div class="grid">
-<div class="g-col-6">
-<p><img src="theme_images/over-rep_theme.png" class="img-fluid" style="width:70.0%"></p>
+<div class="g-col-4">
+<p><img src="theme_images/over-rep_theme.png" class="img-fluid" style="width:100.0%"></p>
 </div>
-<div class="g-col-6 d-flex align-items-center">
+<div class="g-col-8 d-flex align-items-center">
 <p><em>Functional analysis is the process of taking a list of genes which we cannot meaningfully interact with and distilling information that we as researchers can then interpret. Generally, this involves grouping genes based on functions or processes, and determining which processes or functions appear to be different between your experimental groups.</em></p>
 </div>
 </div>
@@ -284,11 +273,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><strong>Functional class scoring (Gene Set Enrichment Analysis (GSEA))</strong>: Rather than taking a list of differentially expressed genes (which are themselves based on thresholds and cutoffs defined by a user), GSEA takes the ranked position of all genes to see how pathways and processes are perturbed.</p></li>
 <li><p><strong>Pathway topology</strong>: Pathway topology analysis takes a higher level approach, compiling information on up- and down-regulation at the level of the pathway rather than the level of the gene.</p></li>
 </ul>
-<p>Today we will cover Over-representation analysis and functional class scoring. Links to pathway topology workflows are provided.</p>
+<p>Today we will cover <strong>over-representation analysis</strong> and functional class scoring. Links to pathway topology workflows are provided.</p>
 <section id="annotation" class="level2">
 <h2 class="anchored" data-anchor-id="annotation">Annotation</h2>
 <p>The basis of this stage of the analysis is to take individual genes, associate them with a function, and then to identify whether there are common themes of function in genes which have undergone changes in gene expression.</p>
 <p>This first requires that our genes are annotated - we must be able to associate some type of function or process with a given gene. There are now many databases that maintain information and annotation on genes, including proposed and confirmed functions, pathways, processes <em>etc.,</em>. Annotation and databases is an entire area in itself, and not something we can cover today. For now, we will retrieve annotation information from different sources and attach the annotation to genes.</p>
+<p>The annotations that we are going to be using today are called <strong>Gene Ontologies</strong> or GO terms. There are three major classes of GO – <strong>Molecular Function (MF)</strong>, <strong>Cellular Component (CC)</strong>, and <strong>Biological Process (BP)</strong>. GO terms are hierarchical, and each child term is more specialised than the parent term. Check out the <a href="https://geneontology.org/docs/ontology-documentation/">documentation here on gene ontologies.</a></p>
 </section>
 <section id="over-representation-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="over-representation-analysis">Over-representation Analysis</h2>
@@ -736,6 +726,7 @@ Secondary: GO:0007046</code></pre>
 </div>
 
 
+</section>
 </section>
 </section>
 

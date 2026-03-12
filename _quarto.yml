@@ -14,13 +14,11 @@ website:
       - text: "Background"
         href: background.qmd
       - section: "Day One"  
-        href: day_1_overview.qmd
         contents:
           - episode_1.qmd
           - episode_2.qmd
           - episode_3.qmd
       - section: "Day Two" 
-        href: day_2_overview.qmd 
         contents:
           - episode_4.qmd
           - episode_5.qmd

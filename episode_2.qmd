@@ -1,8 +1,9 @@
 ---
-title: Quantifying Gene Expression
+title: ""
 code-overflow: wrap
 ---
 
+# Quantifying Gene Expression
 
 ![](theme_images/alignment.png){width=80% fig-align="center"}
 

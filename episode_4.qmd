@@ -21,7 +21,7 @@ Here we are taking the difference between the means of the two groups and then d
 
 If the difference in means is **LARGE** relative to the variance, the test statistic will be large (indicating significance). If the difference between the means is **small** relative to the variance, the test statistic will be small, indicating the difference is probably not significant (*i.e.,* the difference we observe is in-line with the variance we observe).
 
-#### **Exercise:** With the above formula in mind, what impact would heteroskedasticity have when you are attempting to identify differentially expressed genes?
+#### **Exercise:** With the above formula in mind, what impact would heteroscedasticity have when you are attempting to identify differentially expressed genes?
 
 Once we have a test statistic we will calculate a p-value. The p-value is an indication of how likely we were to observe the given difference in means (or a more extreme difference) *if there is truly no difference between the means*. That is, how likely are we to see this difference due to random chance?
 
@@ -59,11 +59,12 @@ Since this issue is caused by an artificially low standard error due to low samp
 
 Limma involves data transformation and log scales to account for the data being in a non-normal distribution.
 
-Limma will create one of the special objects mentioned earlier in this workshop to store data. For Limma, this will be called a Digital Gene Expression object (DGE object). We will use the edgeR package to create this DGE object.
+Limma will create one of the special objects mentioned earlier in this workshop to store data. For Limma, this will be called a Digital Gene Expression object (DGE object). We will use the edgeR package to create this DGE object using three functions from the `edgeR` package -- `DGEList()`, `calcNormFactors()` and `cpm()`.
 
 Load the libraries required for running limma, create a dge object where we specify counts (here you specify the matrix that contains your counts, in our case our object is already called counts). Then calculate normalisation factors, which will be used to adjust for library size differences, and calculate the log CPM. logCPM is, for each gene, how many counts there were per million reads. Because we are taking the log of this value, we will use the prior.counts=3 argument to add 3 to all read counts. This prevents any errors due to attempting to take the log of 0.
 
 ```{r}
+#| message: false
 # BiocManager::install("limma")
 # BiocManager::install("edgeR")
 # BiocManager::install("DESeq2")
@@ -72,10 +73,25 @@ library(limma)
 library(edgeR)
 library(dplyr)
 load("counts.RData")
+```
 
-dge = DGEList(counts=counts)
-dge = calcNormFactors(dge)
-logCPM = cpm(dge, log=TRUE, prior.count=3)
+`DGEList()` creates a Digital Gene Expression object from your count matrix. This is edgeR's core data structure and stores your counts along with sample and gene information.
+```{r}
+dge <- DGEList(counts=counts)
+```
+
+`calcNormFactors()` calculates TMM (Trimmed Mean of M-values) normalisation factors for each sample. These account for differences in library size and composition between samples, ensuring counts are comparable across samples. TMM is the default method used in calcNormFactors() and you can specify different methods (try `?calcNormFactors()`), but TMM is good for pairwise comparisons between two groups of samples (most RNAseq experiments). See here a general guide on understanding [count normalisation from HBC training](https://hbctraining.github.io/Intro-to-DGE/lessons/02_DGE_count_normalization.html). 
+
+
+
+```{r}
+dge <- calcNormFactors(dge)
+```
+
+Here we take a peek at the transformed counts using `cpm()`. This converts raw counts to log counts per million (log-CPM). The `prior.count=3` argument adds 3 to all counts before log transformation — this prevents errors from taking the log of zero, and also reduces the influence of very lowly expressed genes. Soon we will use the `voom()` function to address heteroscedasticity -- but we will use our `dge`{style="color:black"} object, as voom will perform its own log-CPM transformation internally, and additionally estimate precision weights for each gene (to account for heteroscedasticity). 
+
+```{r}
+logCPM <- cpm(dge, log=TRUE, prior.count=3)
 
 head(logCPM, 3)
 ```
@@ -85,24 +101,27 @@ head(logCPM, 3)
 We use the design matrix to specify our different groups. Initially we will just look at a simple design, where we will specify wt and mutant. However, you can also include other information *e.g.,* if your two sample groups were comprised of male and females and you had reason to suspect there might be sex-dependent factors involved.
 
 ```{r}
-conds = c("WT","WT","WT","MT","MT","MT")
+conds <- c("WT","WT","WT","MT","MT","MT")
 
-design = model.matrix(~conds)
+design <- model.matrix(~conds)
 
 design
 ```
 
-### Addressing heteroskedasticity with Limma
+If you have your metadata in a dataframe (see note in DESeq2 section on coldata files and design matrix), you can alternatively specify your design as such: `design <- model.matrix(~conds, data = metadata_df)`.  
 
-Limma has a function called voom which we can use to address heteroskedasticity (a case where mean and variance are not independent). Voom will estimate the strength of the relationship between mean and variance and calculate "precision weights" for each gene. These are then used to normalise the data during the identification of differentially expressed genes.
 
-Create an object, v, by calling the voom function on the Digital Gene Expression (dge) object. The v object will be used in later analyses. We will add information about our experimental setup by specifying the design object, and we will also call `plot = TRUE` to generate a plot showing the heteroskedasticity.
+### Addressing heteroscedasticity with Limma
+
+Limma has a function called voom which we can use to address heteroscedasticity (a case where mean and variance are not independent). Voom will estimate the strength of the relationship between mean and variance and calculate "precision weights" for each gene. These are then used to normalise the data during the identification of differentially expressed genes.
+
+Create an object, `v`{style="color:black"}, by calling the voom function on the Digital Gene Expression (dge) object. The v object will be used in later analyses. We will add information about our experimental setup by specifying the design object, and we will also call `plot = TRUE` to generate a plot showing the heteroscedasticity.
 
 ```{r}
-v = voom(dge, design, plot = TRUE)
+v <- voom(dge, design, plot = TRUE)
 ```
 
-This plot highlights an earlier point about heteroskedasticity. For genes with low expression, the variance (here the square root of the standard deviation) is highly variable. Because the variance is dependent on the mean, we describe this data as heteroskedastic. Our v (voom) object contains information relating to the curve line (red) and makes an adjustment factor, so that the data will have a uniform relationship between the mean and variance.
+This plot highlights an earlier point about heteroscedasticity. For genes with low expression, the variance (here the square root of the standard deviation) is highly variable. Because the variance is dependent on the mean, we describe this data as heteroscedastic. Our v (voom) object contains information relating to the curve line (red) and makes an adjustment factor, so that the data will have a uniform relationship between the mean and variance.
 
 Importantly, other than changing the mean-variance relationship, voom does not cause significant changes to the underlying data.
 
@@ -121,29 +140,29 @@ lineColour <- ifelse(conds=="MT", "red", "blue")
 lineColour
 
 plot(density(v$E[,1]), ylim=c(0,0.3), col=lineColour[1])
-for(i in 2:ncol(logCPM)) lines(density(v$E[,i]), col=lineColour[i])
+for(i in 2:ncol(v$E)) lines(density(v$E[,i]), col=lineColour[i])
 ```
 
 We can see that voom has not removed the differences between our sample groups.
 
 What if we wanted to remove these differences? Remember, we (probably) cannot be certain as to whether these differences are biological or technical. In cases like this it can be good to run your analysis multiple ways - first without removing the differences, and then after removing the differences. If a decision like this causes your results to change drastically then you need to be aware of the impact your choices are having so that you can make an informed decision about how to investigate further.
 
-We have included a supplementary page on quantile normalisation, which is one method you can use to remove differences between sample groups. Note that quantile normalisation is a drastic intervention and should not be undertaken without a real need.
+Quantile normalisation is one method you can use to remove differences between sample groups, but note that quantile normalisation is a drastic intervention and should not be undertaken without a real need.
 
 ### Detecting differentially expressed genes
 
 Now that we have reached this point in the analysis, identifying differentially expressed genes is relatively simple in terms of the code we run. We will use the `lmFit()` command to fit a linear model for every gene using our v (voom) object and the design matrix, then use the `eBayes()` function on the linear model to perform Empirical Bayes shrinkage estimation and return moderated test statistics.
 
 ```{r}
-fit = lmFit(v, design)
+fit <- lmFit(v, design)
 
-fit = (eBayes(fit))
+fit <- (eBayes(fit))
 ```
 
 The fit object is complex to look at. We will use the topTable function to retrieve the useful information (gene name, logFC, adjusted p values), and then filter for significant genes only. We will also save the topTable object (tt) for use in the next episode.
 
 ```{r}
-tt = topTable(fit, coef=ncol(design), n=nrow(counts))
+tt <- topTable(fit, coef=ncol(design), n=nrow(counts))
 
 head(tt)
 
@@ -199,7 +218,9 @@ plot_data$category <- ifelse(plot_data$adj.P.Val <= pval_threshold,
                                     ifelse(plot_data$logFC <= -fc_threshold, "Downregulated", "Passes P-value cut off")),
                              "Not Significant")
 
+```
 
+```{r}
 # Create the volcano plot using ggplot2
 ggplot(plot_data, aes(x = logFC, y = negLogPval, color = category)) +
   geom_point(alpha = 0.6, size = 1.5) +
@@ -219,7 +240,9 @@ ggplot(plot_data, aes(x = logFC, y = negLogPval, color = category)) +
     plot.title = element_text(hjust = 0.5, size = 16),
     plot.subtitle = element_text(hjust = 0.5, size = 12)
   )
+```
 
+```{r}
 # Save the plot (optional)
 ggsave("volcano_plot.png", width = 10, height = 8, dpi = 300)
 ```
@@ -246,7 +269,9 @@ p <- ggplot(plot_data, aes(x = logFC, y = negLogPval, color = category, text = I
     plot.title = element_text(hjust = 0.5, size = 16),
     plot.subtitle = element_text(hjust = 0.5, size = 12)
   )
+```
 
+```{r}
 # Convert ggplot to an interactive plotly object
 interactive_plot <- ggplotly(p, tooltip = c("text", "x", "y", "color"))
 
@@ -265,7 +290,7 @@ interactive_plot
 Let's make an object to store all the information for our list of significantly differentially expressed genes. We will use a threshold of an adjusted p-value \< 0.05 and a logFC \> 1. We will return to this object later, but for now we will move on and identify differentially expressed genes using a different method.
 
 ```{r}
-sigGenesLimma = which(tt$adj.P.Val <= 0.05 & (abs(tt$logFC) > log2(2)))
+sigGenesLimma <- which(tt$adj.P.Val <= 0.05 & (abs(tt$logFC) > 1))
 length(sigGenesLimma)
 # 1891
 
@@ -288,31 +313,80 @@ library(DESeq2)
 ```
 
 ```{r}
-dds = DESeqDataSetFromMatrix(countData = as.matrix(counts), 
+dds <- DESeqDataSetFromMatrix(countData = counts, 
                               colData = data.frame(conds=factor(conds)), 
                               design = formula(~conds))
 
+```
+ 
+
+::: {.callout-note collapse="true" appearance="simple"}
+# A note on formatting the coldata and design matrix  
+In this example, we have turned our conditions we created earlier during limma analysis into a long format dataframe. In practise, you should set up your metadata in a sample metadata table (e.g., start in excel and save as either a csv or tsv file before importing into RStudio), with one row per sample and one column for each metadata variable. This way, you can have a single dataframe in R that contains all possible metadata you may have for your samples (e.g., sex, age, tissue, treatments) and can use whichever parameters are required for your design comparison when you create your dds object. It is best this file also lists your sample types, in the same order as the columns in your counts file, to avoid accidentally matching the wrong metadata to the wrong sample. See below for how you would format this for these samples:
+
+```{r}
+#| echo: false
+
+metadata_df <- data.frame(
+  sample_id = c("SRR014335", "SRR014336", "SRR014337", "SRR014339", "SRR014340", "SRR014341"),
+  conds = c("WT", "WT", "WT", "MT", "MT", "MT"),
+  rep = c(1, 2, 3, 1, 2, 3 ),
+  species = rep("Saccharomyces cerevisiae",6)
+)
+
+metadata_df
+
+```
+(Note the 1-6 row numbers are an output here from R - you should not number your rows in your table).
+
+The design matrix can be pulled directly from the data provided to the `colData` argument. You may need to factorise the columns first, but otherwise you may get a warning from `DESeqDataSetFromMatrix()` saying some variables are characters, converting to factors. Numeric columns will likely error and must be first factorised.  
+
+For example, if we used the data frame above, we could first factorise our `conds` column as so:
+
+```{r}
+metadata_df <- metadata_df %>%
+  mutate(conds = factor(conds))
+```
+
+Then re-write the dds code as:
+
+```{r}
+dds <- DESeqDataSetFromMatrix(countData = counts, 
+                              colData = metadata_df, 
+                              design = ~conds)
+
+```
+
+
+
+Alternatively, use `design = ~1` to fit an intercept-only model (no condition effect), useful for normalisation or transformation steps where group comparisons aren't needed.  
+
+:::
+
+Raw counts can be retrieved from our `dds` object using the function `counts()` from the DESeq2 package. 
+
+```{r}
 counts(dds) %>% head()
 ```
 
 Now fit the DESeq2 generalised linear model to the data.
 
 ```{r}
-dds = DESeq(dds)
+dds <- DESeq(dds)
 ```
 
 Note the outputs from running this function. What are these outputs?
 
 -   Estimating size factors: assesses library size and calculates factors to adjust for differences between samples. This also adjusts for compositional differences (*e.g.,* if gene X in sample 1 takes up a very large proportion of all available reads, other genes will have correspondingly fewer genes. If this effect is not uniform across samples, it can be corrected for during this stage).
 
--   Dispersion: adjusting for heteroskedasticity. DESeq2 makes use of variability estimates from not just one gene, but from all genes to make estimates about overall levels of variance. By bringing in (or "borrowing") information from other genes, DESeq2 compensates for a small number of samples (which can lead to artificially small variance estimates otherwise).
+-   Dispersion: adjusting for heteroscedasticity. DESeq2 makes use of variability estimates from not just one gene, but from all genes to make estimates about overall levels of variance. By bringing in (or "borrowing") information from other genes, DESeq2 compensates for a small number of samples (which can lead to artificially small variance estimates otherwise).
 
 -   Fitting model and testing: fitting the GLM and identifying differentially expressed genes.
 
 We will now create a new object, res, to store the results in. We can access those results using either the head function or the summary function, which will give us slightly different information - both are valid and useful ways of familiarising yourself with the data.
 
 ```{r}
-res = DESeq2::results(dds)
+res <- DESeq2::results(dds)
 
 res %>% head()
 
@@ -329,12 +403,12 @@ res <- na.omit(res)
 # Keep all rows in the res object if the adjusted p-value < 0.05
 resPadj <- res[res$padj <= 0.05 , ]
 
-resPadjLogFC <- res[res$padj <= 0.05 & abs(res$log2FoldChange) > log2(2),]
+resPadjLogFC <- res[res$padj <= 0.05 & abs(res$log2FoldChange) > 1,]
 
 # Get dimensions
-resPadj %>% dim()
-resPadjLogFC %>% dim()
-# 1830 x 6
+resPadj %>% dim() # should be 4811 x 6
+resPadjLogFC %>% dim() # should be 1830 x 6
+
 ```
 
 #### **Exercise:** Identify method for multiple testing corrections

@@ -31,6 +31,11 @@ h1, h2, h3 {
     margin-bottom: 12px; /* Optional: adds space below headings */
 }
 
+h4 {
+    margin-top: 12px;
+    margin-bottom: 8px;
+}
+
 .quarto-content, .content, .main {
     max-width: 1800px; /* Increase from default (often 800px or 900px) */
     width: 100%;        /* Allow it to expand with the window */

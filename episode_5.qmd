@@ -127,7 +127,8 @@ Unless corrected for, gene length will bias your over-representation analysis.
 Load the goseq package, the dplyr package (if you haven't already), and use the `supportedOrganisms()` function to check whether your organism of interest is supported.
 The code for *Saccharomyces cerevisiae* is sacCer.
 
-```{r, message=FALSE}
+```{r}
+#| message: false
 #| output: false
 # BiocManager::install("goseq")
 
@@ -170,15 +171,20 @@ table(genes)
 This is a useful reminder about the conditions of this experiment: of the 7,127 genes in the tt object, 5,140 are differentially expressed.
 Most experiments will not have this level of differential expression.
 
-IF you did want to include the logFC cutoff, you can use the code below.
-This gives a more modest 1,891 differentially expressed genes.
-For the purposes of today's workflow, we will continue with the larger gene list.
+::: {.callout-note collapse="true"}
+# IF you did want to include the logFC cutoff, you can use the code below...
 
 ```{r}
 genes2 <- ifelse(tt$adj.P.Val <= 0.05 & (abs(tt$logFC) > log2(2)), 1, 0)
 names(genes2) <- rownames(tt)
 table(genes2)
 ```
+
+This gives a more modest 1,891 differentially expressed genes.
+For the purposes of today's workflow, we will continue with the larger gene list.
+
+:::
+
 
 #### Methodology
 
@@ -191,13 +197,20 @@ GOSeq will calculate a value for each gene which will offset this artificial wei
 In other words, if our 2 x 2 table would have 10 genes in the top left square, and some of those genes are very long, GOSeq will treat the number as something slightly less than 10.
 By treating the value as less than 10, we have taken into account the fact that there shouldn't *really* have been 10 genes in there in the first place if not for gene length bias.
 
-Calculate the weighting that should be assigned to each gene with the Probability Weighting Function (the `nullp()` function).
-Specify the object "gene" which is our list of all genes and whether they are differentially expressed or not, as well as the genome ("sacCer1" for our yeast genome), and the gene ID type.
+Calculate the weighting that should be assigned to each gene with the Probability Weighting Function (the `nullp()` function).  
+
+- Specify the object "gene" which is our list of all genes and whether they are differentially expressed or not, as a binary named vector  
+- Specify the genome ("sacCer1" for our yeast genome)  
+- Specify the gene ID type (in this case, we are using ensembl Gene IDs)  
+
 This will create a plot in which genes are placed into "bins" based on length, and then gene length vs proportion of differentially expressed is plotted.
 We can then inspect the pwf object.
 
+Note: you will frequently get a *Warning in pcls(G): initial point very close to some inequality constraints* message when running `nullp()`. You can ignore this.  
+
+
 ```{r}
-pwf = nullp(genes, "sacCer1", "ensGene")
+pwf <- nullp(genes, "sacCer1", "ensGene")
 
 pwf %>% head()
 

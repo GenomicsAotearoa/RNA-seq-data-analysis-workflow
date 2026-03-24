@@ -238,8 +238,10 @@ module load HISAT2/2.2.0-gimkl-2020a
 
 
 # Index genome
-hisat2-build -p 2 -f ref_genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa \
-                     ref_genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel
+hisat2-build \
+-p 2 \
+-f ref_genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa \
+ref_genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel
 
 # Align to indexed genome
 for filename in trimmed_reads/*.fastq
@@ -248,15 +250,19 @@ do
       base=$(basename ${filename} .fastq)
 
       # Align to the reference genome
-      hisat2 -p 2 -x ref_genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel -U $filename \
-      -S results/sam/${base}.sam --summary-file results/sam/${base}.summary.txt
+      hisat2 \
+      -p 2 \
+      -x ref_genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel \
+      -U $filename \
+      -S results/sam/${base}.sam \
+      --summary-file results/sam/${base}.summary.txt
 
 done
 
 
 ```
 
-This script only includes indexing and aligning, but you could include every step in the workflow in one script if you wish. 
+This script only includes indexing and aligning, but you could include every step in the workflow in one script if you wish. Note that you can use a backslash (\\) to separate options/flags in your code across multiple lines to improve readability. 
 
 To submit the script, from your working directory you can type:
 

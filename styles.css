@@ -70,6 +70,14 @@ h4 {
     background: linear-gradient(to bottom, #c8e6c9, #b2d8b2);  /* Slightly darker green on hover */
     transform: translateY(-2px);  /* Slight lift effect on hover */
 }
+
+/* Code block copy button - smaller but keeps your styling */
+div.sourceCode button.code-copy-button {
+    padding: 4px 10px;
+    font-size: 0.75em;
+    top: 4px;
+    right: 4px;
+}
   
   /* Callout block styles */
   .callout-note {
@@ -175,4 +183,14 @@ h4 {
 
 .next-button {
     margin-left: auto;
+}
+
+/* Code wrapping */
+div.sourceCode pre {
+    padding-right: 40px;
+}
+
+div.sourceCode pre code {
+    white-space: pre-wrap;
+    word-break: break-all;
 }

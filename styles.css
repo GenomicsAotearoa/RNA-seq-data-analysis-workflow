@@ -78,14 +78,7 @@ div.sourceCode button.code-copy-button {
     top: 4px;
     right: 4px;
 }
-  
-  /* Callout block styles */
-  .callout-note {
-    background-color: #eaf1fb;  /* Very light blue for callout background */
-    border-left: 5px solid #3b5998;  /* Soft blue border to highlight the callout */
-    padding: 15px;
-    margin: 20px 0;
-  }
+
   
   /* Footer styling */
 /* Bottom banner container */

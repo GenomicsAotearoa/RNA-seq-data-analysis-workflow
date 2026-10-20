@@ -137,19 +137,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_1.html" class="sidebar-item-text sidebar-link">
+  <a href="./01_sequence-quality.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Sequence Quality - FastQC, MultiQC and Cutadapt</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_2.html" class="sidebar-item-text sidebar-link">
+  <a href="./02_index-align-quantify.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Quantifying Gene Expression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_3.html" class="sidebar-item-text sidebar-link">
+  <a href="./03_exploratory.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Exploratory Analysis</span></a>
   </div>
 </li>
@@ -166,20 +166,20 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_4.html" class="sidebar-item-text sidebar-link">
+  <a href="./04_dge.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Identify Differentially Expressed Genes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_5.html" class="sidebar-item-text sidebar-link">
+  <a href="./05_functional-analysis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Functional analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./episode_6.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Conclusions</span></a>
+  <a href="./06_conclusion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conclusions and resources</span></a>
   </div>
 </li>
       </ul>
@@ -304,6 +304,11 @@ ul.task-list li input[type="checkbox"] {
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
         }
       }
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {

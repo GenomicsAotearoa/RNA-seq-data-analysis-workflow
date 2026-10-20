@@ -19,29 +19,23 @@ The workshop includes a small example Illumina short read dataset which will be 
 This workflow assumes you are familiar with transcriptomic and biological concepts. In particular, it assumes you are familar with the concept of sequencing libraries and with the data format (i.e., FASTA and FASTQ files). For more information on these topics, see the [Data Carpentry lesson](https://datacarpentry.github.io/wrangling-genomics/index.html) which describes the FASTQ format (i.e., files that contain reads and quality scores for the bases in each read) and [NGS basics by Illumina](https://sapac.illumina.com/science/technology/next-generation-sequencing/beginners.html), which describes the full process of sample to data, and further details on chosing an [NGS RNA library preparation method](https://sapac.illumina.com/techniques/sequencing/ngs-library-prep/rna.html), which describes different Illumina kits for prepping your RNA sample into a sequenceable library. 
 
 
-## Workshop timeline
+## What's covered in this workshop
 
-This workshop runs over two mornings, from 9am - 1pm. We will take 10 min breaks approximately once every hour.
+- Full RNAseq workflow of a model species (*Saccharomyces cerevisiae*) using both bash and R tools.  
+- Illumina short-read quality assessment and pre-processing.  
+- Aligning single-end reads to a publically available genome.  
+- Identifying differentially expressed genes with limma and DEseq2. 
+- Functional annotation using GOseq and Bioconductor to investigate trends in expression.    
 
-### Day 1
+## What's not covered in this workshop
 
-#### [An overview of RNA-seq data analysis workflows](background.qmd)  
-#### [Quality assessment](episode_1.qmd#quality-assessment-with-fastqc)  
-#### [Adaptor trimming and filtering](episode_1.qmd#cleaning-reads)  
-#### [Mapping and counting methods](episode_2.qmd)  
-#### [Exploratory analysis](episode_3.qmd)
-
-### Day 2
-
-#### [Concepts for identifying differentially expressed genes](episode_4.qmd)  
-#### [Limma for differentially expressed genes](episode_4.qmd#identifying-differentially-expressed-genes-using-limma)  
-#### [DESeq2 for differentially expressed genes](episode_4.qmd#identifying-differentially-expressed-genes-using-deseq2)  
-#### [Over-representation analysis](episode_5.qmd)  
+- Submitting and optimising HPC scheduled jobs (see [Bash scripting and HPC Job Scheduler](https://genomicsaotearoa.github.io/BioinformaticsTrainingProgramme/portfolio.html#bash-script-hpc-job) workshop)
+- Extensive data manipulation and plotting in R, beyond the basics.  
 
 
 ## Setup
 
-During the workshop, code will be run in real-time to demonstrate the analysis. This will be run on the REANNZ OpenOnDemand platform which already has all the required software and R packages installed. 
+During the workshop, code will be run in real-time to demonstrate the analysis. This will be run on the REANNZ Open OnDemand platform which already has all the required software and R packages installed. 
 
 
 

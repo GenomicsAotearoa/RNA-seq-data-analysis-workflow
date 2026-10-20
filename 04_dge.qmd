@@ -1,0 +1,673 @@
+---
+title: ""
+code-overflow: wrap
+---
+
+# Identify Differentially Expressed Genes
+
+![](theme_images/r_logos.png)
+
+Are those two groups *significantly different* from one another is a challenging question to answer. We can start by specifically asking our question as a statistical question: Are the differences we *observe* between the two groups **greater than the differences** we would *expect* to see by chance?
+
+## T-tests and p-values
+
+The statistical approach to this question is to begin with the null hypothesis (that there is no difference between the two groups) and test whether or not you can reject the null.
+
+To test whether or not we can reject the null hypothesis we can calculate a test statistic:
+
+![Test statistic formula](images/tTest.png)
+
+Here we are taking the difference between the means of the two groups and then dividing that difference by some measure of variability - in this case, dividing by the standard error.
+
+If the difference in means is **LARGE** relative to the variance, the test statistic will be large (indicating significance). If the difference between the means is **small** relative to the variance, the test statistic will be small, indicating the difference is probably not significant (*i.e.,* the difference we observe is in-line with the variance we observe).
+
+#### **Exercise:** With the above formula in mind, what impact would heteroscedasticity have when you are attempting to identify differentially expressed genes?
+
+Once we have a test statistic we will calculate a p-value. The p-value is an indication of how likely we were to observe the given difference in means (or a more extreme difference) *if there is truly no difference between the means*. That is, how likely are we to see this difference due to random chance?
+
+### Interpreting p-values
+
+How do we interpret the p-value? We will specify a threshold (usually 0.05), and say that if a p-value is less than this threshold we will consider it a significant result. If the p-value is lower than the threshold we set, we will reject the null hypothesis (that the groups are identical) and accept the alternative (that there is a difference between the groups). The threshold we set is our level of "risk" that this event happened by chance alone.
+
+When we declare that a result with a p-value of less than 0.05 is significant, we are saying that *we believe the difference to be true* since, if there was truly **no** difference, **such a result would happen less than 5% of the time**.
+
+A useful mental analogy is to consider flipping a coin. We know that for a fair coin, the odds of getting heads is 50:50. Still, if we get four heads in a row it doesn't worry us - it's entirely plausible given the variation we expect. But if we get 50 heads in a row, while we know it's statistically *possible*, we know it's very unlikely to see such an extreme result. If we got to 100 heads in a row, we might instead start to question the fairness of the coin - we would reject the null hypothesis that the odds of heads and tails is identical.
+
+### Types of errors
+
+It's important to think about the two possible ways in which we could be wrong when testing a hypothesis like this: we could generate a false positive or a false negative.
+
+-   A false positive or Type I error is when we *reject* the null hypothesis when there is **truly no significant difference**.
+
+-   A false negative or Type II error is when we *fail to reject* the null hypothesis when there **truly is a significant difference**.
+
+When we select a p-value threshold of 0.05, we are accepting the fact that 5% of the time that the null hypothesis is true, we will reject it. This becomes hugely problematic when you are testing thousands of genes! In order to avoid a large number of false positives we must correct for multiple testing. The more tests we are doing, the more stringent we need to be. We will not cover multiple testing corrections in depth but will briefly mention two types:
+
+-   Family-wise Error Rate (FWER), also called the Bonferroni and Holm corrections, is a highly stringent procedure. This approach will give the minimal possible number of false positives, but will miss some true positives. Good if false positives are particularly costly (*e.g.,* if you are providing someone with a severe medical diagnosis).
+
+-   False Discovery Rate control (FDR), also called the Benjamini and Hochberg correction, is less conservative than FWER. This approach will identify more significant events, but expect a greater number of false positives. Use this approach if you are more concerned about missing something valuable and can afford a few false positives.
+
+#### **Exercise:** Note down some key features of your experiment. Are you more inclined to use FWER or FDR? Which is more appropriate for your data and your experimental situation?
+
+### Modifying the t-test for RNA-seq
+
+Many biological experiments struggle with getting enough samples for statistical significance. In RNA-seq experiments it is common to see groups of three samples or replicates. This is especially problematic when using the t-test (or similar procedures that involve variance). When testing for differences in gene expression it is possible to encounter genes with a small difference in the mean between the two groups and, due to the small sample size, a *very* small level of variation (a small standard error). A small difference in the means divided by a *very small* standard error translates to a large test statistic, which is then translated to a small p-value and what **looks** like a highly significant result.
+
+Since this issue is caused by an artificially low standard error due to low sample numbers, a number of methods have proposed artificially increasing the standard error in some way. One way to implement this is through Shrinkage Estimation, which involves using Empirical Bayes methods to adjust individual test statistics based on the overall distribution of variances. During shrinkage estimation, small standard errors are made larger while large standard errors are made smaller.
+
+## Identifying differentially expressed genes using LIMMA
+
+Limma involves data transformation and log scales to account for the data being in a non-normal distribution.
+
+Limma will create one of the special objects mentioned earlier in this workshop to store data. For Limma, this will be called a Digital Gene Expression object (DGE object). We will use the edgeR package to create this DGE object using three functions from the `edgeR` package -- `DGEList()`, `normLibSizes()` and `cpm()`.
+
+Load the libraries required for running limma, create a dge object where we specify counts (here you specify the matrix that contains your counts, in our case our object is already called counts). Then calculate normalisation factors, which will be used to adjust for library size differences, and calculate the log CPM. logCPM is, for each gene, how many counts there were per million reads. Because we are taking the log of this value, we will use the prior.counts=3 argument to add 3 to all read counts. This prevents any errors due to attempting to take the log of 0.
+
+::: {.callout-note collapse="true"}
+# Need to load in the data again?
+
+
+```{r}
+#| eval: false
+
+# Load in original counts file and process to remove unnecessary columns
+fcData <- read.delim("https://raw.githubusercontent.com/GenomicsAotearoa/RNA-seq-data-analysis-workflow/main/data/yeast_counts_all_chr.txt", comment.char="#")
+names(fcData)[7:12] <- c("WT1", "WT2", "WT3", "MT1", "MT2", "MT3")
+counts <- fcData[,7:12]
+rownames(counts) <- fcData$Geneid
+
+```
+:::
+
+```{r}
+#| message: false
+# BiocManager::install("limma")
+# BiocManager::install("edgeR")
+# BiocManager::install("DESeq2")
+
+library(limma)
+library(edgeR)
+library(dplyr)
+load("counts.RData")
+```
+
+`DGEList()` creates a Digital Gene Expression object from your count matrix. This is edgeR's core data structure and stores your counts along with sample and gene information.
+```{r}
+dge <- DGEList(counts=counts)
+```
+
+`normLibSizes()` calculates TMM (Trimmed Mean of M-values) normalisation factors for each sample. These account for differences in library size and composition between samples, ensuring counts are comparable across samples. TMM is the default method used in normLibSizes() and you can specify different methods (try `?normLibSizes()`), but TMM is good for pairwise comparisons between two groups of samples (most RNAseq experiments). See here a general guide on understanding [count normalisation from HBC training](https://hbctraining.github.io/Intro-to-DGE/lessons/02_DGE_count_normalization.html). 
+
+
+
+```{r}
+dge <- normLibSizes(dge)
+```
+
+Here we take a peek at the transformed counts using `cpm()`. This converts raw counts to log counts per million (log-CPM). The `prior.count=3` argument adds 3 to all counts before log transformation — this prevents errors from taking the log of zero, and also reduces the influence of very lowly expressed genes. Soon we will use the `voom()` function to address heteroscedasticity -- but we will use our `dge`{style="color:black"} object, as voom will perform its own log-CPM transformation internally, and additionally estimate precision weights for each gene (to account for heteroscedasticity). 
+
+```{r}
+logCPM <- cpm(dge, log=TRUE, prior.count=3)
+
+head(logCPM, 3)
+```
+
+### The design matrix
+
+We use the design matrix to specify our different groups. Initially we will just look at a simple design, where we will specify wt and mutant. However, you can also include other information *e.g.,* if your two sample groups were comprised of male and females and you had reason to suspect there might be sex-dependent factors involved. You can include many variables as covariates in your design matrix to account for their effects, but today we’ll do just the condition.
+
+We'll first create a dataframe called coldata that contains information about our samples. You will probably first create this in Excel, as you record your metadata for your samples during your experiment. We recommend exporting this data as a csv or tsv file and then importing it into RStudio. 
+
+```{r}
+coldata <- data.frame(
+  sample = c("WT1" ,"WT2", "WT3", "MT1" ,"MT2" ,"MT3"), 
+  condition = c("WT","WT","WT","MT", "MT", "MT"),
+  description = c("wildtype","wildtype","wildtype","RNA degradation","RNA degradation","RNA degradation"),
+  SRA_ID = c("SRR014335","SRR014336","SRR014337","SRR014339","SRR014340","SRR014341"),
+  species = c("S. cerevisiae","S. cerevisiae","S. cerevisiae","S. cerevisiae","S. cerevisiae","S. cerevisiae")
+  )
+
+coldata
+```
+
+
+
+::: {.callout-caution appearance="default" collapse="true"}
+# Important! The counts and coldata sample names must match and be in the same order 
+
+First make sure the sample names in coldata and counts match each other and are in the same order. If they don’t match or are not in the same order, the dge object and design matrix won’t match and the result will be the wrong metadata being attributed to the wrong sample.
+
+Run this code to force the coldata sample column match the same order as the coldata column names. Check that they are identical (should return TRUE, then you are good to continue if so). If not, check your coldata and counts objects to see what is different.
+
+```{r}
+coldata <- coldata[match(colnames(counts), coldata$sample), ]
+identical(colnames(counts), coldata$sample)
+```
+
+:::
+
+
+Now we are ready to create our design matrix.
+
+
+```{r}
+design <- model.matrix(~0 + condition, data = coldata)
+
+design
+```
+
+
+
+
+### Addressing heteroscedasticity with Limma
+
+Limma has a function called voom which we can use to address heteroscedasticity (a case where mean and variance are not independent). Voom will estimate the strength of the relationship between mean and variance and calculate "precision weights" for each gene. These are then used to normalise the data during the identification of differentially expressed genes.
+
+Create an object, `v`{style="color:black"}, by calling the voom function on the Digital Gene Expression (dge) object. The v object will be used in later analyses. We will add information about our experimental setup by specifying the design object, and we will also call `plot = TRUE` to generate a plot showing the heteroscedasticity.
+
+```{r}
+v <- voom(dge, design, plot = TRUE)
+```
+
+This plot highlights an earlier point about heteroscedasticity. For genes with low expression, the variance (here the square root of the standard deviation) is highly variable. Because the variance is dependent on the mean, we describe this data as heteroscedastic. Our v (voom) object contains information relating to the curve line (red) and makes an adjustment factor, so that the data will have a uniform relationship between the mean and variance.
+
+Importantly, other than changing the mean-variance relationship, voom does not cause significant changes to the underlying data.
+
+#### The impacts of voom (demo only)
+
+
+Original counts (before voom):
+
+```{r}
+boxplot(as.matrix(log2(counts +1)) ~ col(counts), 
+        ylab = "Counts", 
+        xlab = "Samples", 
+        names = colnames(counts), 
+        main = "Log counts of samples (original)")
+```
+
+After voom:
+
+```{r}
+boxplot(v$E ~ col(v$E), ylab = "Counts", xlab = "Samples", main = "Log counts after voom")
+```
+
+We can see that log counts in the voom object (that is, counts after voom has been applied to create a stable mean-variance relationship) have not drastically changed from when we plotted them earlier.
+
+Voom should stabilise mean-variance without removing differences between sample groups.
+
+What if we wanted to remove these differences? Remember, we (probably) cannot be certain as to whether these differences are biological or technical. In cases like this it can be good to run your analysis multiple ways - first without removing the differences, and then after removing the differences. If a decision like this causes your results to change drastically then you need to be aware of the impact your choices are having so that you can make an informed decision about how to investigate further.
+
+Quantile normalisation is one method you can use to remove differences between sample groups, but note that quantile normalisation is a drastic intervention and should not be undertaken without a real need.
+
+### Detecting differentially expressed genes
+
+We will use the `lmFit()` command to fit a linear model for every gene using our v (voom) object and the design matrix, then fit out contrasts with `contrasts.fit()`, and then finally use the `eBayes()` function on the linear model to perform Empirical Bayes shrinkage estimation and return moderated test statistics. The `topTable()` function will then be used to extract the results of the analysis.
+
+```{r}
+
+fit <- lmFit(v, design)
+```
+
+
+Now we need to define the contrasts. This is where you will have to do some editting for your own samples. For each comparison that you want to test, you will need to define a contrast. In this example, we have two conditions we want to compare (MT and WT). We will define 1 contrast: MT vs WT. It does not matter which order you define the contrast, but it is important to be consistent with your definition of the contrast when interpreting the results. For example, if you define MT vs WT as `conditionMT - conditionWT`, then a positive log fold change (logFC) value will indicate that the gene is upregulated in MT relative to WT, while a negative logFC value will indicate that the gene is downregulated in MT relative to WT. 
+
+The names on the left can be anything you want (*e.g.,* "MT_vs_WT" could be "Mutant_vs_Wildtype", just don't use a hyphen), but the names on the right must match the column names of your design matrix exactly (*e.g.,* "conditionMT", "conditionWT"). You can check the column names of your design matrix by running `colnames(design)`.
+
+
+```{r}
+contrasts.matrix <- makeContrasts(
+  MT_vs_WT = conditionMT - conditionWT,
+  levels=colnames(design)
+)
+``` 
+
+Now that we have defined contrasts we can fit the contrasts to our linear model and then use the `eBayes()` function to perform Empirical Bayes shrinkage estimation and return moderated test statistics. 
+
+```{r}
+fitC <- contrasts.fit(fit, contrasts = contrasts.matrix)
+fitC <- eBayes(fitC)
+```
+
+The fitC object is complex to look at. We will use the topTable function to retrieve the useful information (gene name, logFC, adjusted p values), and then filter for significant genes only. We will also save the topTable object (tt) for use in the next episode. Here you can set your `coef` argument to the contrast you want to extract results for, which could be multiple. In this case we have one contrast and we will extract the results for MT vs WT. You can also set the `n` argument to the number of genes you want to retrieve. Here we will set it to the total number of genes in our dataset (`nrow(counts)` will evaluate to a number) so that we can filter for significant genes later.
+
+
+
+```{r}
+tt <- topTable(fitC, coef="MT_vs_WT", n=nrow(counts))
+
+head(tt)
+
+sum(tt$adj.P.Val < 0.05)
+```
+
+`r paste(sum(tt$adj.P.Val < 0.05))`  genes with an adjusted p-value less than 0.05. 
+
+<!--- limma/edgeR can give slighty different DEG counts with different versions, alwayse use inline code for gene numbers! --->
+
+```{r}
+sum(tt$adj.P.Val < 0.01)
+```
+
+`r paste(sum(tt$adj.P.Val < 0.01))` genes with an adjusted p-value less than 0.01.
+
+```{r}
+save(tt, file="tt.RData")
+```
+
+#### **Exercise**
+
+Our output includes an adjusted p-value. Use the help function (type a ? in front of any function name) to learn what method was used to adjust for multiple testing. Using information from the help menu, change the correction method to something different. How does this impact your results?
+
+::: {.callout-tip collapse="true"}
+# SOLUTION
+
+`?topTable` shows that the `adjust.method` argument controls multiple testing correction, and defaults to `"BH"` (Benjamini-Hochberg / FDR). Other options accepted are those listed in `?p.adjust`, *e.g.,* `"bonferroni"`, `"holm"`, `"hochberg"`, `"BY"`, or `"none"`.
+
+```{r}
+
+tt_bonf <- topTable(fitC, coef="MT_vs_WT", n=nrow(counts), adjust.method="bonferroni")
+
+# bonferroni method
+sum(tt_bonf$adj.P.Val < 0.05)
+
+
+# default BH (FDR) method
+sum(tt$adj.P.Val < 0.05)
+
+```
+
+Switching from the default `"BH"` to the more stringent `"bonferroni"` correction reduces the number of genes considered significant, since Bonferroni controls the family-wise error rate rather than the false discovery rate (see the earlier section on Types of errors).
+
+:::
+
+### Volcano plots
+
+Volcano plots are a useful and commonly used method to visualise differentially expressed genes within your data set.
+
+In the following code we will first produce the volcano plot itself, which shows the distribution of all genes according to p-value and log2 fold change.
+
+Statistical significance is often not the only measure we will use to call genes differentially expressed. It is common to apply an additional threshold of gene expression needing to double or halve to be considered differentially expressed. On the log2FC scale, this is log2(2) (*i.e.,* a value \> 1 or \< -1).
+
+Genes will be coloured based on whether they are up (red) or down (blue) regulated and passing p-value threshold (light grey) or not significant (dark grey).
+
+
+This plot is an important "sanity check". We can logically check that our significant genes (in red) are those with both a p-value \< 0.05 and a log2 fold change greater than 1 (which is equivalent to a doubling or halving of gene expression). If we observe red marked dots in the center or bottom of the plot, we could recognise an error has occurred.
+
+```{r message=FALSE}
+library(dplyr)
+library(limma)
+library(edgeR)
+library(dplyr)
+library(ggplot2)
+library(ggiraph)
+library(plotly)
+
+# Define significance thresholds
+pval_threshold <- 0.05
+fc_threshold <- 1  # log2 fold change threshold
+
+# Create a data frame for plotting
+plot_data <- data.frame(
+  logFC = tt$logFC,
+  negLogPval = -log10(tt$P.Value),
+  adj.P.Val = tt$adj.P.Val,
+  ID = rownames(tt)  # Assuming row names are gene IDs
+)
+
+# Add a column to categorize genes
+plot_data$category <- ifelse(plot_data$adj.P.Val <= pval_threshold,
+                             ifelse(plot_data$logFC >= fc_threshold, "Upregulated",
+                                    ifelse(plot_data$logFC <= -fc_threshold, "Downregulated", "Passes P-value cut off")),
+                             "Not Significant")
+
+```
+
+```{r}
+# Create the volcano plot using ggplot2
+ggplot(plot_data, aes(x = logFC, y = negLogPval, color = category)) +
+  geom_point(alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("Upregulated" = "red", "Downregulated" = "blue", "Not Significant" = "grey20", "Passes P-value cut off" = "grey")) +
+  geom_vline(xintercept = c(-fc_threshold, fc_threshold), linetype = "dashed") +
+  geom_hline(yintercept = -log10(pval_threshold), linetype = "dashed") +
+  labs(
+    title = "Volcano Plot of Differential Gene Expression",
+    subtitle = paste("Thresholds: |log2FC| >", fc_threshold, "and adjusted p-value <", pval_threshold),
+    x = "log2 Fold Change",
+    y = "-log10(p-value)",
+    color = "Differential Expression"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "right",
+    plot.title = element_text(hjust = 0.5, size = 16),
+    plot.subtitle = element_text(hjust = 0.5, size = 12)
+  )
+```
+
+```{r}
+# Save the plot (optional)
+ggsave("volcano_plot.png", width = 10, height = 8, dpi = 300)
+```
+
+We can also produce an interactive volcano plot with the ggigraph package.
+
+```{r}
+# Create the ggplot object
+p <- ggplot(plot_data, aes(x = logFC, y = negLogPval, color = category, text = ID)) +
+  geom_point(alpha = 0.6, size = 2) +
+  scale_color_manual(values = c("Upregulated" = "red", "Downregulated" = "blue", "Not Significant" = "grey20", "Passes P-value cut off" = "grey")) +
+  geom_vline(xintercept = c(-fc_threshold, fc_threshold), linetype = "dashed") +
+  geom_hline(yintercept = -log10(pval_threshold), linetype = "dashed") +
+  labs(
+    title = "Interactive Volcano Plot of Differential Gene Expression",
+    subtitle = paste("Thresholds: |log2FC| >", fc_threshold, "and adjusted p-value <", pval_threshold),
+    x = "log2 Fold Change",
+    y = "-log10(p-value)",
+    color = "Differential Expression"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "right",
+    plot.title = element_text(hjust = 0.5, size = 16),
+    plot.subtitle = element_text(hjust = 0.5, size = 12)
+  )
+```
+
+```{r}
+# Convert ggplot to an interactive plotly object
+interactive_plot <- ggplotly(p, tooltip = c("text", "x", "y", "color"))
+
+# Customize hover text
+interactive_plot <- interactive_plot %>% 
+  layout(hoverlabel = list(bgcolor = "white"),
+         hovermode = "closest")
+
+# Display the interactive plot
+interactive_plot
+
+```
+
+### Differentially expressed genes stored
+
+Let's make an object to store all the information for our list of significantly differentially expressed genes which are *upregulated* in the mutant group. We will use a threshold of an adjusted p-value \< 0.05 and a logFC \> 1. We will return to this object later, but for now we will move on and identify differentially expressed genes using a different method.
+
+```{r}
+sigUpGenesLimma <- which(tt$adj.P.Val <= 0.05 & tt$logFC > 1)
+length(sigUpGenesLimma)
+```
+
+There are `r paste(length(sigUpGenesLimma))` genes that pass the above thresholds. 
+
+
+```{r}
+sigUpGenesLimma <- tt[sigUpGenesLimma, ]
+```
+
+
+
+## Identifying differentially expressed genes using DESeq2
+
+DESeq2 is a highly-regarded R package for analysing RNA-seq data. DESeq2 uses a [negative binomial](https://en.wikipedia.org/wiki/Negative_binomial_distribution) method to model the count data, and combines this with a generalised linear model (GLM) to identify differentially expressed genes. For more about the [DESeq2 package](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0550-8), you can read the original article.
+
+### The DESeq2 object
+
+The DESeq2 package requires a specific data storage object called a "DESeq Data Set" or DDS object. The DDS object contains not just the count data, but also the design matrix we created earlier (which is used to specify groups for comparison). This object can be created using a function from the DESeq2 package and requires that we specify a source of count data (as a matrix), column data (column names, mutant and wildtype), and a design matrix (the same one we used for Limma above). Once we have created the dds object, we can view the data stored within using the counts function.
+
+Note that if your data is stored in another format the DESeq2 function we will use to import data can be modified to work on other data formats *e.g.,* a summarisedExperimentObject.
+
+```{r}
+#| output: false
+library(DESeq2)
+```
+
+```{r}
+
+coldata$condition <- factor(coldata$condition)
+
+dds <- DESeqDataSetFromMatrix(countData = counts, 
+                              colData = coldata, 
+                              design = ~ condition)
+
+```
+ 
+
+::: {.callout-note appearance="simple"}
+# Why factorise?
+
+This is not strictly necessary – the code won't break, as DESeq2 will automatically convert character columns to factors (although numeric columns will likely error and must be factorised first!)
+
+But if you want to set an *order* to your samples, you should do this with `factor()` using the `levels` argument.
+
+For example, if your samples represent a time series you will want this order reflected in our results. The same ordering problem also comes up when using ggplot2, when plotting the x-axis variables in a specific order rather than alphabetically.
+
+:::
+
+
+Raw counts can be retrieved from our `dds` object using the function `counts()` from the DESeq2 package. 
+
+```{r}
+
+counts(dds) %>% head()
+```
+
+Now fit the DESeq2 generalised linear model to the data.
+
+```{r}
+
+dds <- DESeq(dds)
+```
+
+Note the outputs from running this function. What are these outputs?
+
+-   **Estimating size factors:** assesses library size and calculates factors to adjust for differences between samples. This also adjusts for compositional differences (*e.g.,* if gene X in sample 1 takes up a very large proportion of all available reads, other genes will have correspondingly fewer genes. If this effect is not uniform across samples, it can be corrected for during this stage).
+
+-   **Dispersion:** adjusting for heteroscedasticity. DESeq2 makes use of variability estimates from not just one gene, but from all genes to make estimates about overall levels of variance. By bringing in (or "borrowing") information from other genes, DESeq2 compensates for a small number of samples (which can lead to artificially small variance estimates otherwise).
+
+-   **Fitting model and testing:** fitting the GLM and identifying differentially expressed genes.
+
+We will now create a new object, res, to store the results in. We can access those results using either the head function or the summary function, which will give us slightly different information - both are valid and useful ways of familiarising yourself with the data.
+
+```{r}
+
+res <- DESeq2::results(dds)
+
+res %>% head()
+```
+
+
+#####  **DISCUSSION** 🧐 
+
+In the results table above, the first gene we can see is YDL248W with a log2FC of -0.23. 
+
+Is this gene downregulated in the mutant group or in the wildtype group? 
+
+
+::: {.callout-tip collapse="true" appearance="minimal"}
+# SOLUTION
+ 
+ It is downregulated in the wildtype group. The very first line indicates our comparison is **condition WT vs MT**. The order of the groups matters. A negative log2FC indicates that the gene is downregulated in the first group (WT) relative to the second group (MT). A positive log2FC indicates that the gene is upregulated in the first group (WT) relative to the second group (MT).
+
+ This means that you can flip the sign on the log2FC value and read the comparison the opposite way, which is just as valid. *i.e.,* YDL248W is *upregulated* in the mutant group with a log2FC of 0.23 
+
+
+:::
+
+
+Why do we always use log2 instead of log10, or natural log? Any thoughts before we look at the solution?
+
+
+::: {.callout-tip collapse="true" appearance="minimal"}
+# SOLUTION
+
+For RNAseq data, we always use log2 fold change (log2FC) rather than log10 or natural log transformations. You may remember we used log2 to transform our raw counts too for plotting in the [Exploratory Analysis section](03_exploratory.qmd). This is because the log2 scale is easier to intuitively interpret up- and down-regulation. A log2FC of 1 means the gene is expressed twice as much in one condition compared to another, while a log2FC of -1 means it is expressed half as much.   
+
+To visualise this further, take this example:
+
+| Count | log2(count) | log10(count) |
+|------:|------------:|--------------:|
+| 2     | 1        | 0.301          |
+| 4     | 2       | 0.602          |
+| 8     | 3       | 0.903          |
+| 100   | 6.644        | 2          |
+| 200   | 7.644        | 2.301          |
+
+Each doubling in count is represented by an increase in 1 on the log2 scale, while on the log10 scale, each doubling is represented by an increase of only 0.3. 
+
+Note that log2FC is the *difference* in log2(count) between two conditions, rather than the log2 of a single count. This naturally extends to negative log2FC values too: for example, a log2FC of -2 means the gene is expressed a quarter as much in one condition compared to another.
+
+| Comparison (count) | Fold change | log2FC | log10FC |
+|:-----------|------------:|-------:|--------:|
+| 100 → 200  | 2×          | 1  | 0.301   |
+| 100 → 400  | 4×          | 2  | 0.602   |
+| 100 → 50   | 0.5×        | −1 | −0.301  |
+| 100 → 25   | 0.25×       | −2 | −0.602  |
+
+:::
+
+#### Final summary and write file
+```{r}
+res %>% summary()
+```
+
+
+::: {.callout-tip}
+# Handy tip!
+
+Want to save and output your full results now as a nice human readable table? Convert the res object to a dataframe, and then read out the table as a tsv file:
+
+```{r}
+#| eval: false
+
+res_df <- res |> as.data.frame()
+
+write.table(res_df,  file = "deseq2-results.tsv", sep = "\t", quote = FALSE, row.names = TRUE)
+```
+
+:::
+
+The res object contains information for all genes tested. It is practical to create a new object that contains only the genes we consider differentially expressed based on the thresholds (p-value, logFC) and methods (e.g., multiple testing adjustment) that suit our situation.
+
+Specifically, we want to grab the equivalent genes list that we extracted from the Limma results above. We are interested in all genes significantly *upregulated* in the mutant group. But our comparison currently reads that any gene with a positive log2FC is upregulated in the wildtype group. To get the equivalent list of genes upregulated in the mutant group, we will need to filter for genes with a negative log2FC value. Tricky to get your head around!
+
+
+We will remove any rows that have NAs in the results object, then pull out only those with an adjusted p-value less than 0.05 and a logFC less than -1. 
+
+```{r}
+
+res <- na.omit(res)
+
+sigUpGenesDESeq <- res[res$padj <= 0.05 & res$log2FoldChange < -1,]
+
+# Get dimensions
+sigUpGenesDESeq %>% dim()
+
+```
+
+<!---  sigUpGenesDESeq  %>% dim()  should be 1038    6 --->
+
+
+::: {.callout-caution appearance="minimal" collapse="true"}
+# SANITY CHECK 🧐
+
+Did we capture the right list of genes? Let's use the original counts as a sanity check.
+
+Our intention was to get a list of all genes *upregulated* in the mutant group. Look at the genes in our captured list:
+
+```{r}
+as.data.frame(sigUpGenesDESeq) |> head()
+```
+
+Grab the first gene and check what the original raw counts are across samples:
+
+```{r}
+counts["YDL244W",]
+```
+
+The counts are much higher in the mutant group. This is good! At a glance, it makes sense from the raw data that this gene is detected as being significantly upregulated in the mutant group. 
+
+:::
+
+
+#### **Exercise:** Identify method for multiple testing corrections
+
+Bioinformatics can often be something of a "black box" - we execute a function by feeding in some data, and get new data as output. It's *very* easy to fall into the trap of believing your data without asking all the necessary questions. For example, we've just used an adjusted p-value for our threshold for significance. Did you question which method was used to adjust for multiple testing? See if you can identify, using the help menu as we've done above, which method was used here. Try and specify a different method for multiple testing corrections and note how this alters your output.
+
+
+
+::: {.callout-tip collapse="true"}
+# SOLUTION
+
+The `?results` help info will show the default p adjustment method is `pAdjustMethod = "BH"`. Further reading will show that options for this come from `?p.adjust`, which lists the following options:
+
+` "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"`
+
+The default BH method is Benjamini & Hochberg (or the FDR method), which is described [here in the R documentation](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/p.adjust). 
+
+:::
+
+## Differentially expressed gene lists 
+
+To recap, we've now produced two lists of differentially expressed genes - one produced with the Limma method (called sigUpGenesLimma), one with DESeq2 (called sigUpGenesDESeq). In both cases we used the same threshold for statistical significance (adjusted p-value \< 0.05, using the FDR correction) and biological significance (logFC more than 1 or less than negative 1, which is equivalent to a doubling or halving gene expression). 
+
+```{r}
+#| echo: false
+
+# Hello future instructors! Use inline code when describing how many genes were DE (as I've done below). Limma/edgeR in particular gives slightly different numbers when versions are updated so any "hardcoded" gene numbers in text will likely be wrong with the next version. 
+
+n_limma_total <- nrow(sigUpGenesLimma)
+n_deseq_total <- nrow(sigUpGenesDESeq)
+
+```
+
+In our run-through, Limma identified `r n_limma_total ` upregulated differentially expressed genes, while DESeq2 identified `r n_deseq_total` genes.
+
+These numbers are very similar, but what's the actual overlap between these two groups? A venn diagram is an easy way to visualise the relationship between the two groups. First, load the gplots library which we will use for making venn diagrams. Create an object, which we will call setlist, that lists the two gene sets (in our case, this will be the rownames of the objects we created with Limma and DESeq2). Finally, use the `venn()` function to create a venn diagram.
+
+```{r, message=FALSE}
+
+# BiocManager::install("gplots")
+library(gplots)
+
+setlist <- list(Limma = rownames(sigUpGenesLimma), 
+                DESeq2 = rownames(sigUpGenesDESeq))
+
+venn(setlist)
+```
+
+```{r}
+#| echo: false
+
+# Pull out counts for inline use below
+intersect_list <- attr(venn(setlist, show.plot = FALSE), "intersections")
+n_overlap <- length(intersect_list[["Limma:DESeq2"]])
+n_limma_only <- length(intersect_list[["Limma"]])
+n_deseq2_only <- length(intersect_list[["DESeq2"]])
+n_total <- n_overlap + n_limma_only + n_deseq2_only
+```
+
+This is a strong concordance between our two methods and gives us high confidence in our approach. At this point you could take the overlap (n = `r n_overlap` genes) only, take all genes (`r n_overlap` + `r n_limma_only` + `r n_deseq2_only` = `r n_total`), or take genes from just one method (more relevant if one method was conservative compared to the other). Exactly how you resolve this step will depend on the exact shape of your venn diagram and your context.
+
+For simplicity, we will take the list of all genes identified by Limma and see in the next episode how we can derive meaningful biological information from this long list of genes.
+
+::: {.callout-tip collapse="true" }
+# How to pull out venn intersection gene lists 
+
+```{r}
+# Convert venn data to list object
+intersect_list <- attr(venn(setlist, show.plot = FALSE), "intersections")
+intersect_list  |> str()
+```
+
+```{r}
+# Create vectors of the three gene lists 
+Limma_only_genes <- intersect_list$Limma
+DEseq2_only_genes <- intersect_list$DESeq2
+Both_genes <- intersect_list$`Limma:DESeq2`
+```
+
+:::
+
+
+
+

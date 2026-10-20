@@ -15,14 +15,14 @@ website:
         href: background.qmd
       - section: "Day One"  
         contents:
-          - episode_1.qmd
-          - episode_2.qmd
-          - episode_3.qmd
+          - 01_sequence-quality.qmd 
+          - 02_index-align-quantify.qmd
+          - 03_exploratory.qmd 
       - section: "Day Two" 
         contents:
-          - episode_4.qmd
-          - episode_5.qmd
-          - episode_6.qmd
+          - 04_dge.qmd
+          - 05_functional-analysis.qmd
+          - 06_conclusion.qmd
 
     tools:
       - icon: github
@@ -43,4 +43,6 @@ format:
     toc-title: "Contents"
     code-copy: true
     code-block-bg: true
+    link-external-newwindow: true
+
 
